@@ -1,4 +1,4 @@
-import { PageHomeView } from "@/ui/view/home";
+import { PageHomeView } from "@/src/ui/view/home";
 
 const PageHome = function PageHome() {
   return <PageHomeView />;
