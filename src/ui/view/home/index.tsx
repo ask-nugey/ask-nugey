@@ -1,3 +1,4 @@
+import { css } from "../../../../lib/styled-system/css";
 import {
   Button,
   DatePicker,
@@ -24,13 +25,25 @@ export const PageHomeView = () => {
           marginBottom: 40,
         }}
       >
+        <h1
+          className={css({
+            fontSize: 20,
+            fontWeight: "bold",
+            mdDown: {
+              fontSize: "xl",
+              color: "blue.300",
+            },
+          })}
+        >
+          Hello 🐼!
+        </h1>
         <Space align="start">
           <Image
             width={200}
             alt=""
             src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
           />
-          <Title level={2} style={{ marginBottom: 0 }}>
+          <Title level={2} className={css({ marginBottom: 0 })}>
             Ant Design × Next.js (app router)
           </Title>
         </Space>

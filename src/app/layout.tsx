@@ -1,10 +1,10 @@
 import "./globals.css";
 import React, { PropsWithChildren } from "react";
 import { Inter } from "next/font/google";
-import { AntdRegistry } from "@ant-design/nextjs-registry";
-import { ThemeProvider } from "@/styles/AntdThemeProvider";
-import { BaseLayout } from "@/ui/components/layout/BaseLayout";
-import MergeProvider from "@/utils/MergeProvider";
+import { ThemeProvider } from "@/src/styles/AntdThemeProvider";
+import { BaseLayout } from "@/src/ui/components/layout/BaseLayout";
+import MergeProvider from "@/src/utils/MergeProvider";
+import { AntdRegistry } from "@/lib/nextjs-registry/es";
 
 const inter = Inter({ subsets: ["latin"] });
 
