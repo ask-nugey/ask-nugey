@@ -12,9 +12,40 @@ export default defineConfig({
 
   // Useful for theme customization
   theme: {
-    extend: {},
+    extend: {
+      semanticTokens: {
+        colors: {
+          primary: {
+            50: { value: "{colors.amber.50}" },
+            100: { value: "{colors.amber.100}" },
+            200: { value: "{colors.amber.200}" },
+            300: { value: "{colors.amber.300}" },
+            400: { value: "{colors.amber.400}" },
+            500: { value: "{colors.amber.500}" },
+            600: { value: "{colors.amber.600}" },
+            700: { value: "{colors.amber.700}" },
+            800: { value: "{colors.amber.800}" },
+            900: { value: "{colors.amber.900}" },
+            950: { value: "{colors.amber.950}" },
+          },
+          secondary: {
+            50: { value: "{colors.indigo.50}" },
+            100: { value: "{colors.indigo.100}" },
+            200: { value: "{colors.indigo.200}" },
+            300: { value: "{colors.indigo.300}" },
+            400: { value: "{colors.indigo.400}" },
+            500: { value: "{colors.indigo.500}" },
+            600: { value: "{colors.indigo.600}" },
+            700: { value: "{colors.indigo.700}" },
+            800: { value: "{colors.indigo.800}" },
+            900: { value: "{colors.indigo.900}" },
+            950: { value: "{colors.indigo.950}" },
+          },
+        },
+      },
+    },
   },
 
   // The output directory for your css system
-  outdir: "styled-system",
+  outdir: "lib/styled-system",
 });

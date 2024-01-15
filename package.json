@@ -16,6 +16,7 @@
     "react-dom": "^18"
   },
   "devDependencies": {
+    "@ant-design/icons": "^5.2.6",
     "@pandacss/dev": "^0.26.1",
     "@types/node": "^20",
     "@types/react": "^18",
