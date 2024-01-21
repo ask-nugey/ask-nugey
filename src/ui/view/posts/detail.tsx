@@ -8,7 +8,6 @@ import { useMDXComponent } from "next-contentlayer/hooks";
 import Link from "next/link";
 import { format, parseISO } from "date-fns";
 import { notFound, useParams } from "next/navigation";
-import Item from "antd/es/list/Item";
 
 export const generateStaticParams = async () => {
   return allPosts.map((post) => ({
@@ -19,8 +18,6 @@ export const generateStaticParams = async () => {
 const mdxComponents: MDXComponents = {
   a: ({ href, children }) => <Link href={href as string}>{children}</Link>,
   hr: () => <Divider />,
-  // ul: ({ children }) => <List>{children}</List>,
-  // li: ({ children }) => <Item>{children}</Item>,
 };
 
 export const PagePostsDetailView = () => {
@@ -34,9 +31,18 @@ export const PagePostsDetailView = () => {
   return (
     <Card
       className={css({
+        maxWidth: 1024,
+        width: "calc(100% - 16px)",
+        marginBlock: 4,
+        marginInline: "auto",
+        backgroundColor: "white",
+
         "& > div": {
           display: "grid",
           gap: 2,
+          mdDown: {
+            padding: 4,
+          },
         },
 
         "& h2:not([id='目次'])": {
