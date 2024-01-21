@@ -19,8 +19,8 @@ const IconFont = createFromIconfontCN({
 const MenuItems: MenuItemType[] = [
   {
     key: "/author",
-    label: "ヌギーとは",
-    icon: <SmileTwoTone twoToneColor="#d97706" />,
+    label: "",
+    // icon: <SmileTwoTone twoToneColor="#d97706" />,
   },
 ];
 const SnsItems = [
@@ -49,15 +49,12 @@ export const BaseLayout = ({ children }: PropsWithChildren) => {
         display: "grid",
         gridTemplateRows: "auto 1fr auto",
         width: "100vw",
-        height: "100vh",
+        minHeight: "100vh",
+        overflow: "auto",
       })}
     >
       <Header
         className={css({
-          position: "sticky",
-          top: 0,
-          zIndex: 1,
-
           display: "flex",
           alignItems: "center",
 

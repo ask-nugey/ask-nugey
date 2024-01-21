@@ -1,13 +1,26 @@
 "use client";
 
+import { css } from "@/lib/styled-system/css";
+import { Card, Divider, List, Tag } from "antd";
 import { allPosts } from "contentlayer/generated";
+import type { MDXComponents } from "mdx/types";
 import { useMDXComponent } from "next-contentlayer/hooks";
+import Link from "next/link";
+import { format, parseISO } from "date-fns";
 import { notFound, useParams } from "next/navigation";
+import Item from "antd/es/list/Item";
 
 export const generateStaticParams = async () => {
   return allPosts.map((post) => ({
     slug: post._raw.flattenedPath,
   }));
+};
+
+const mdxComponents: MDXComponents = {
+  a: ({ href, children }) => <Link href={href as string}>{children}</Link>,
+  hr: () => <Divider />,
+  // ul: ({ children }) => <List>{children}</List>,
+  // li: ({ children }) => <Item>{children}</Item>,
 };
 
 export const PagePostsDetailView = () => {
@@ -19,8 +32,115 @@ export const PagePostsDetailView = () => {
   const MDXContent = useMDXComponent(post.body.code);
 
   return (
-    <div>
-      <MDXContent />
-    </div>
+    <Card
+      className={css({
+        "& > div": {
+          display: "grid",
+          gap: 2,
+        },
+
+        "& h2:not([id='目次'])": {
+          marginTop: 6,
+          padding: 4,
+          color: "white",
+          fontSize: "xl",
+          fontWeight: "bold",
+          backgroundColor: "primary.500",
+          borderRadius: "xl",
+          "& a": {
+            color: "inherit",
+          },
+        },
+
+        "& h3": {
+          marginTop: 4,
+          color: "primary.500",
+          fontSize: "2xl",
+          fontWeight: "bold",
+          "& a": {
+            color: "inherit",
+          },
+        },
+
+        "& h4": {
+          marginTop: 4,
+          color: "#333",
+          fontSize: "xl",
+          fontWeight: "bold",
+          "& a": {
+            color: "inherit",
+          },
+        },
+
+        "& h2[id='目次'] a": {
+          color: "#333",
+          fontSize: "xl",
+          textDecoration: "none",
+        },
+        "& h2[id='目次'] + ul": {
+          listStyleType: "disc",
+          margin: 0,
+          paddingLeft: "1.5em",
+        },
+        "& h2[id='目次'] + ul ul": {
+          paddingLeft: "1.1em",
+        },
+        "& h2[id='目次'] li": {
+          padding: "5px 0",
+          listStyleType: "disc",
+        },
+        "& h2[id='目次'] + ul ul li": {
+          listStyleType: "disc",
+        },
+        "& h2[id='目次'] + ul li a": {
+          color: "#333",
+          textDecoration: "none",
+          lineHeight: 1.8,
+          "&:hover": {
+            textDecoration: "underline",
+          },
+        },
+        "& pre": {
+          borderRadius: "xl",
+        },
+        "& ul": {
+          paddingLeft: "1.5em",
+        },
+        "& li": {
+          listStyleType: "disc",
+        },
+      })}
+    >
+      <time
+        dateTime={post.createdAt}
+        className={css({
+          display: "block",
+          color: "gray.400",
+        })}
+      >
+        {format(parseISO(post.createdAt), "yyyy/MM/d")}
+      </time>
+      <h1
+        className={css({
+          fontSize: "3xl",
+          fontWeight: "bold",
+        })}
+      >
+        {post.title}
+      </h1>
+      <div
+        className={css({
+          display: "flex",
+          flexWrap: "wrap",
+        })}
+      >
+        {post.tags.map((tag) => (
+          <Tag key={tag} color="gold">
+            # {tag}
+          </Tag>
+        ))}
+      </div>
+      <MDXContent components={mdxComponents} />
+    </Card>
   );
 };
