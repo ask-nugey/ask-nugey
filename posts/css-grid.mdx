@@ -1,0 +1,301 @@
+---
+title: CSS Grid の具体的な使い方（実践的）
+description: CSS Gridで均等配置する具体的な方法などを解説
+createdAt: 2023-01-18
+# updatedAt:
+tags: [CSS, grid]
+---
+
+# 目次
+
+# 横に均等配置
+
+```html
+<!-- html -->
+<div class="grid-container">
+  <div>要素1</div>
+  <div>要素2</div>
+  <div>要素3</div>
+  <div>要素4</div>
+  <div>要素5</div>
+</div>
+```
+
+```css
+/* css */
+display: grid;
+grid-template-columns: 1fr 1fr 1fr; /* 3列で均等に分割 */
+gap: 4px
+```
+
+　↓
+
+```plain
+| 要素1 | 要素2 | 要素3 |
+| 要素4 | 要素5 | ・・・
+```
+
+- **※`fr`とは**
+  - 「fraction（比率）」の略
+  - 子要素の指定した比率で分割
+
+- **※`gap`とは**
+  - 要素間で隙間を空けられる
+  - `gap: 4px // 上下左右の隙間`
+  - `gap: 4px 8px // 上下4px, 左右8pxの隙間`
+
+---
+
+```html
+<!-- html -->
+<div class="grid-container">
+  <div>要素1</div>
+  <div>要素2</div>
+  <div>要素3</div>
+  <div>要素4</div>
+  <div>要素5</div>
+</div>
+```
+
+```css
+/* css */
+display: grid;
+grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+```
+
+　or
+
+```css
+/* css */
+display: grid;
+grid-template-columns: repeat(5, 1fr);
+```
+
+　↓
+
+```plain
+| 要素1 | 要素2 | 要素3 | 要素4 | 要素5 |
+```
+
+- **※`repeat()`関数とは**
+  - repeat(繰り返す回数, 各列のサイズ)
+  - `repeat(5, 1fr)`ならば、1frで5列表示するという意味
+
+- **活用例**
+  - ギャラリーの写真を均等な幅で表示する場合。
+  - ナビゲーションバー内のリンクを等間隔で配置する場合。
+
+# 不均等な配置
+```html
+<!-- html -->
+<div class="grid-container">
+  <div>要素1</div>
+  <div>要素2</div>
+  <div>要素3</div>
+</div>
+```
+
+```css
+/* css */
+display: grid;
+grid-template-columns: 1fr 2fr 1fr; /* 中央の列を他の列の2倍の幅に設定 */
+gap: 4px
+```
+
+　↓
+
+```plain
+| 要素1 |     要素2     | 要素3 |
+```
+
+- **活用例**
+  - サイドバー : メインコンテンツ : サイドバー
+
+# 固定幅とフレキシブル幅の組合わせ
+```html
+<!-- html -->
+<div class="grid-container">
+  <div>サイドバー</div>
+  <div>メインコンテンツ</div>
+</div>
+```
+
+```css
+/* css */
+display: grid;
+grid-template-columns: 200px 1fr; /* １列目を200px、2列を残りの空間で埋める */
+```
+
+　↓
+
+```plain
+| サイドバー |      メインコンテンツ      |
+```
+
+# `auto`とフレキシブル幅の組合わせ
+
+- **`auto`とは**
+  - 要素の幅（高さ）に応じて自動的に調整される
+
+```html
+<!-- html -->
+<div class="grid-container">
+  <div>要素1</div>
+  <div>要素2</div>
+</div>
+```
+
+```css
+/* css */
+.grid-container {
+  display: grid;
+  grid-template-columns: auto 1fr;
+}
+```
+
+- 1列目は要素によって自動的にサイズを調整され、
+- 2列目は残りの利用可能なスペースが確保される
+
+## `auto`の活用例
+
+### 横2列のブログカード
+```plain
+| サムネ | 記事タイトルと要約............... |
+|       | .............................. |
+```
+
+　↓
+
+```html
+<!-- html -->
+<div class="news-article">
+  <div class="thumbnail">サムネ</div>
+  <div class="content">記事タイトルと要約...</div>
+</div>
+```
+
+```css
+/* css */
+.news-article {
+  display: grid;
+  grid-template-columns: auto 1fr;
+}
+
+.thumbnail {
+  /* サムネイルのスタイル設定 */
+}
+
+.content {
+  /* 記事内容のスタイル設定 */
+}
+```
+
+- 1列目はサムネイルのサイズに合わせて自動調整され、
+- 2列目の記事詳細は残りのスペースで表示される
+
+
+###  プロフィールカード:
+```plain
+| 画像 | 名前: ユーザー名      |
+|      | 職業: 職業名        |
+|      | 趣味: 趣味の説明... |
+```
+
+　↓
+
+```html
+<!-- html -->
+<div class="profile-card">
+  <div class="image">画像</div>
+  <div class="details">
+    <p>名前: ユーザー名</p>
+    <p>職業: 職業名</p>
+    <p>趣味: 趣味の説明...</p>
+  </div>
+</div>
+```
+
+```css
+/* css */
+.profile-card {
+  display: grid;
+  grid-template-columns: auto 1fr;
+}
+
+.image {
+  /* プロフィール画像のスタイル設定 */
+}
+
+.details {
+  /* 詳細情報のスタイル設定 */
+}
+```
+
+- 1列目にはユーザーのプロフィール画像を表示し、
+- 2列目にはユーザーの名前や詳細情報を表示する。
+- プロフィール画像のサイズに合わせて左側の列幅が自動的に調整される
+
+# 縦の配置
+```plain
+| ヘッダー                             |
+| サイドバー |      メインコンテンツ      |
+| フッター                             |
+```
+
+　↓
+
+```html
+<!-- html -->
+<div class="grid-container">
+  <header>ヘッダー</header>
+  <aside>サイドバー</aside>
+  <main>メインコンテンツ</main>
+  <footer>フッター</footer>
+</div>
+```
+
+```css
+/* css */
+.grid-container {
+  display: grid;
+  grid-template-columns: 200px 1fr; /* 横2列 */
+  grid-template-rows: auto 1fr auto; /* 縦3列 */
+  min-height: "100vh" /* フッターを必ず最下部で表示するために設定 */
+}
+
+.grid-container > header {
+  grid-column: span 2; /* ヘッダーを横2列分の幅で表示 */
+}
+
+.grid-container > footer {
+  grid-column: span 2; /* フッターを横2列分の幅で表示 */
+}
+```
+
+- **`grid-column: span 2;`の`span`とは**
+  - gridの子要素で指定できる
+  - `span 1`で1マス分を意味する
+
+したがって、以下の設定を書かないと、
+```css
+/* css */
+.grid-container > header {
+  grid-column: span 2; /* ヘッダーを横2列分の幅で表示 */
+}
+
+.grid-container > footer {
+  grid-column: span 2; /* フッターを横2列分の幅で表示 */
+}
+```
+
+　↓ (以下のようになってしまう)
+
+```plain
+| ヘッダー        |   サイドバー  |
+| メインコンテンツ |   フッター    |
+```
+
+# flexよりgridが便利な点
+- **子要素の大きさをそれぞれ設定するとき、**
+  - **⭕️：girdでは親要素で一括で指定できる。**
+  - **✖️：flexでは子要素それぞれで設定する必要がある。**
