@@ -16,30 +16,81 @@ export const PageHomeView = () => {
           display: "grid",
           justifyContent: "center",
           paddingRight: 8,
-          overflow: "hidden",
           mdDown: {
             margin: 4,
             paddingRight: 0,
           },
         })}
       >
-        <Image
-          alt="ヌギー(nugey)"
-          src="/logo.png"
-          width={400}
-          height={400}
+        <div
           className={css({
-            marginBottom: "-4vw",
-            marginLeft: "auto",
-            mdDown: {
-              width: "60vw",
-              height: "60vw",
-              marginBottom: "-10vw",
+            position: "relative",
+            zIndex: 0,
+
+            "& span": {
+              position: "absolute",
+              top: 0,
+              right: 0,
+              zIndex: -1,
+              display: "block",
+              width: 400,
+              height: 400,
+              backgroundColor: "white",
+              borderRadius: "100%",
+              mdDown: {
+                width: "60vw",
+                height: "60vw",
+              },
             },
           })}
-        />
+        >
+          <Image
+            alt="ヌギー(nugey)"
+            src="/logo.png"
+            width={400}
+            height={400}
+            className={css({
+              marginBottom: "-4vw",
+              marginLeft: "auto",
+              mdDown: {
+                width: "60vw",
+                height: "60vw",
+                marginBottom: "-10vw",
+              },
+            })}
+          />
+          <span
+            className={css({
+              opacity: 0.9,
+              transform: "scale(0.9) translate(39%, 1%)",
+              mdDown: {
+                transform: "scale(0.9) translate(39%, 1%)",
+              },
+            })}
+          />
+          <span
+            className={css({
+              opacity: 1,
+              transform: "scale(0.7) translate(-49%, 12%)",
+              mdDown: {
+                transform: "scale(0.7) translate(-43%, 7%)",
+              },
+            })}
+          />
+          <span
+            className={css({
+              opacity: 0.9,
+              transform: "scale(0.97) translate(-2%, 1%)",
+              mdDown: {
+                transform: "scale(0.97) translate(-2%, 1%)",
+              },
+            })}
+          />
+        </div>
         <p
           className={css({
+            position: "relative",
+            zIndex: 0,
             color: "gray.300",
             fontSize: "1.5vw",
             fontWeight: "bold",
@@ -60,6 +111,8 @@ export const PageHomeView = () => {
         </p>
         <p
           className={css({
+            position: "relative",
+            zIndex: 0,
             display: "flex",
             flexWrap: "wrap",
             columnGap: 4,
@@ -105,6 +158,11 @@ export const PageHomeView = () => {
           gap: 4,
           marginTop: 16,
           marginInline: 4,
+
+          "& div": {
+            maxWidth: "100%",
+            width: 320,
+          },
         })}
       >
         {posts.map((post, idx) => (

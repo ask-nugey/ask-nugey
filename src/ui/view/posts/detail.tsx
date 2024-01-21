@@ -33,8 +33,7 @@ export const PagePostsDetailView = () => {
       className={css({
         maxWidth: 1024,
         width: "calc(100% - 16px)",
-        marginBlock: 4,
-        marginInline: "auto",
+        margin: " 1rem auto",
         backgroundColor: "white",
 
         "& > div": {
