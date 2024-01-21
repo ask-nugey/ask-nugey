@@ -1,84 +1,116 @@
-import {
-  Button,
-  DatePicker,
-  Divider,
-  Form,
-  Image,
-  InputNumber,
-  Rate,
-  Select,
-  Slider,
-  Space,
-  Switch,
-} from "antd";
-import FormItem from "antd/es/form/FormItem";
-import Title from "antd/es/typography/Title";
+import { PostCard } from "@/src/ui/components/PostCard";
+import { compareDesc } from "date-fns";
+import { allPosts } from "contentlayer/generated";
+import { css } from "@/lib/styled-system/css";
+import Image from "next/image";
 
 export const PageHomeView = () => {
+  const posts = allPosts.sort((a, b) =>
+    compareDesc(new Date(a.createdAt), new Date(b.createdAt))
+  );
+
   return (
     <>
-      <section
-        style={{
-          textAlign: "center",
-          marginTop: 24,
-          marginBottom: 40,
-        }}
+      <div
+        className={css({
+          display: "grid",
+          justifyContent: "center",
+          paddingRight: 8,
+          overflow: "hidden",
+          mdDown: {
+            margin: 4,
+            paddingRight: 0,
+          },
+        })}
       >
-        <Space align="start">
-          <Image
-            width={200}
-            alt=""
-            src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
+        <Image
+          alt="ヌギー(nugey)"
+          src="/logo.png"
+          width={400}
+          height={400}
+          className={css({
+            marginBottom: "-4vw",
+            marginLeft: "auto",
+            mdDown: {
+              width: "60vw",
+              height: "60vw",
+              marginBottom: "-10vw",
+            },
+          })}
+        />
+        <p
+          className={css({
+            color: "gray.300",
+            fontSize: "1.5vw",
+            fontWeight: "bold",
+            mdDown: {
+              fontSize: "3.6vw",
+            },
+          })}
+        >
+          ヌギーにきいて！
+          <br
+            className={css({
+              md: {
+                display: "none",
+              },
+            })}
           />
-          <Title level={2} style={{ marginBottom: 0 }}>
-            Ant Design × Next.js (app router)
-          </Title>
-        </Space>
-      </section>
-      <Divider style={{ marginBottom: 32 }}>Form</Divider>
-      <Form labelCol={{ span: 6 }} wrapperCol={{ span: 16 }}>
-        <FormItem label="数値入力">
-          <InputNumber min={1} max={10} defaultValue={3} />
-        </FormItem>
-        <FormItem label="スイッチ">
-          <Switch />
-        </FormItem>
-        <FormItem label="スライダー">
-          <Slider defaultValue={70} />
-        </FormItem>
-        <FormItem label="セレクタ">
-          <Select
-            defaultValue="lucy"
-            style={{ width: 120 }}
-            options={[
-              { value: "jack", label: "Jack" },
-              { value: "lucy", label: "Lucy" },
-              { value: "Yiminghe", label: "yiminghe" },
-              { value: "disabled", label: "Disabled", disabled: true },
-            ]}
+          (なんでもは知らないけど)
+        </p>
+        <p
+          className={css({
+            display: "flex",
+            flexWrap: "wrap",
+            columnGap: 4,
+            alignItems: "baseline",
+            color: "primary.500",
+            fontWeight: "bold",
+          })}
+        >
+          <span
+            className={css({
+              display: "inline-block",
+              color: "inherit",
+              fontSize: "8vw",
+              lineHeight: 1.2,
+              mdDown: {
+                marginTop: 2,
+                fontSize: "12vw",
+              },
+            })}
+          >
+            Ask Nugey!
+          </span>
+          <span
+            className={css({
+              display: "inline-block",
+              color: "inherit",
+              fontSize: "2vw",
+              mdDown: {
+                fontSize: "5vw",
+              },
+            })}
+          >
+            (But it doesn&apos;t know everything)
+          </span>
+        </p>
+      </div>
 
-            // use clientのときにしか使えない↓
-            // onChange={handleChange}
-          />
-        </FormItem>
-        <FormItem label="日付選択">
-          <DatePicker />
-        </FormItem>
-        <FormItem label="評価">
-          <Rate defaultValue={5} />
-        </FormItem>
-        <FormItem wrapperCol={{ span: 8, offset: 8 }}>
-          <Space>
-            <Button type="primary" htmlType="submit">
-              Submit
-            </Button>
-            <Button>Cancel</Button>
-            <Button ghost href="/">
-              Without Sub Components
-            </Button>
-          </Space>
-        </FormItem>
-      </Form>
+      <div
+        className={css({
+          display: "flex",
+          flexWrap: "wrap",
+          justifyContent: "center",
+          gap: 4,
+          marginTop: 16,
+          marginInline: 4,
+        })}
+      >
+        {posts.map((post, idx) => (
+          <PostCard key={idx} {...post} />
+        ))}
+      </div>
     </>
   );
 };
