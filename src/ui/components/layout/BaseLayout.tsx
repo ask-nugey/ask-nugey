@@ -56,8 +56,10 @@ export const BaseLayout = ({ children }: PropsWithChildren) => {
       <Header
         className={css({
           width: "100%",
-          boxShadow:
-            "0 1px 2px 0 rgba(0, 0, 0, 0.03), 0 1px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px 0 rgba(0, 0, 0, 0.02)",
+          // boxShadow:
+          //   `0 1px 2px 0 rgba(0, 0, 0, 0.03), 0 1px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px 0 rgba(0, 0, 0, 0.02)`,
+          borderBottom: "1px solid",
+          borderColor: "gray.200",
 
           smDown: {
             padding: "0 8px",
@@ -92,10 +94,10 @@ export const BaseLayout = ({ children }: PropsWithChildren) => {
           </Link>
           <Menu
             mode="horizontal"
-            onClick={(e) => {
-              setCurrent(e.key);
-              router.push(e.key);
-            }}
+            // onClick={(e) => {
+            //   setCurrent(e.key);
+            //   router.push(e.key);
+            // }}
             selectedKeys={[current]}
             items={MenuItems}
             className={css({
@@ -124,6 +126,7 @@ export const BaseLayout = ({ children }: PropsWithChildren) => {
                 target="_blank"
                 className={css({
                   padding: 2,
+                  fontSize: "lg",
                   transition: "all 0.1s ease",
                   _hover: {
                     transform: "scale(1.2)",

@@ -105,6 +105,16 @@ export const PageHomeView = () => {
           gap: 4,
           marginTop: 16,
           marginInline: 4,
+
+          "& div": {
+            md: {
+              maxWidth: "100%",
+              width: 320,
+            },
+            mdDown: {
+              width: "calc(100% - 16px)",
+            },
+          },
         })}
       >
         {posts.map((post, idx) => (
