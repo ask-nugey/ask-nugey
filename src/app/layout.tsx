@@ -7,10 +7,37 @@ import MergeProvider from "@/src/utils/MergeProvider";
 import { AntdRegistry } from "@/lib/nextjs-registry/es";
 
 const inter = Inter({ subsets: ["latin"] });
+const siteName = "Ask Nugey!（ヌギーにきいて!）";
+const description = "Ask Nugey! → プログラミング、デザイン、AI、CSS...etc";
+const url = "https://ask-nugey.com";
 
 export const metadata = {
-  title: "Ask Nugey",
-  description: "",
+  title: {
+    default: siteName,
+    template: `%s | ${siteName}`,
+  },
+  description,
+  openGraph: {
+    title: siteName,
+    description,
+    url,
+    siteName,
+    locale: "ja_JP",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: siteName,
+    description,
+    site: "@ask_nugey",
+    creator: "@ask_nugey",
+  },
+  // verification: {
+  //   google: "サーチコンソール",
+  // },
+  alternates: {
+    canonical: url,
+  },
 };
 
 const providers = [AntdRegistry, ThemeProvider, BaseLayout];
