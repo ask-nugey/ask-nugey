@@ -1,7 +1,7 @@
 "use client";
 
 import { css } from "@/lib/styled-system/css";
-import { Card, Divider, List, Tag } from "antd";
+import { Divider, Tag } from "antd";
 import { allPosts } from "contentlayer/generated";
 import type { MDXComponents } from "mdx/types";
 import { useMDXComponent } from "next-contentlayer/hooks";
@@ -29,19 +29,22 @@ export const PagePostsDetailView = () => {
   const MDXContent = useMDXComponent(post.body.code);
 
   return (
-    <Card
+    <div
       className={css({
+        display: "grid",
+        gap: 2,
+
         maxWidth: 1024,
         width: "calc(100% - 16px)",
         margin: " 1rem auto",
+        padding: 8,
         backgroundColor: "white",
+        border: "1px solid",
+        borderColor: "gray.200",
+        borderRadius: "xl",
 
-        "& > div": {
-          display: "grid",
-          gap: 2,
-          mdDown: {
-            padding: 4,
-          },
+        mdDown: {
+          padding: 4,
         },
 
         "& h2:not([id='目次'])": {
@@ -105,6 +108,7 @@ export const PagePostsDetailView = () => {
             textDecoration: "underline",
           },
         },
+
         "& pre": {
           borderRadius: "xl",
         },
@@ -137,6 +141,7 @@ export const PagePostsDetailView = () => {
         className={css({
           display: "flex",
           flexWrap: "wrap",
+          marginBottom: 4,
         })}
       >
         {post.tags.map((tag) => (
@@ -146,6 +151,6 @@ export const PagePostsDetailView = () => {
         ))}
       </div>
       <MDXContent components={mdxComponents} />
-    </Card>
+    </div>
   );
 };
