@@ -107,8 +107,13 @@ export const PageHomeView = () => {
           marginInline: 4,
 
           "& div": {
-            maxWidth: "100%",
-            width: 320,
+            md: {
+              maxWidth: "100%",
+              width: 320,
+            },
+            mdDown: {
+              width: "calc(100% - 16px)",
+            },
           },
         })}
       >
