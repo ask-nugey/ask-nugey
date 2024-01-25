@@ -2,7 +2,7 @@
 title: Rustの開発環境の構築（MacOS）
 description: Rustの開発に必要なRustツールチェーンをインストールして使用できるようにするまでの備忘録
 createdAt: 2023-01-25
-# updatedAt:
+updatedAt: 2023-01-26
 tags: [Rust]
 ---
 
@@ -27,7 +27,7 @@ tags: [Rust]
       - Rustのパッケージマネージャー
       - **（Node.jsでいうところのnpm）**
     - **std：**
-      - Rustの標準ライブラリ
+      - Rustの標準（standard）ライブラリ
   - 種類（リリースチャンネル）
     - stable（安定版）
     - beta（ベータ版）
@@ -142,6 +142,137 @@ rustc --version
 rustdoc --version
 # rustup のバージョン確認
 rustup --version
+```
+
+# RustでHello, world!
+
+カレントディレクトリ**直下**にRust プロジェクト作成
+```bash
+# cargo new (プロジェクト名)
+% cargo new hello_rust
+% cd hello_rust
+```
+or
+
+カレントディレクトリ**自体**にRust プロジェクト作成
+```bash
+% mkdir hello_rust
+% cd hello_rust
+% cargo init
+```
+
+コンパイルして実行
+```bash
+% cargo run
+   Compiling hello_rust v0.1.0 (/Users/user/my-space/hello_rust)
+    Finished dev [unoptimized + debuginfo] target(s) in 2.80s
+     Running `target/debug/hello_rust`
+Hello, world!
+```
+
+※ファイル名に2単語以上使う場合は、アンダースコアで区切るのが慣例のよう
+
+## cargoコマンド
+- **cargo new** を使ってプロジェクトを作成できる
+- **cargo build** を使ってプロジェクトをビルドできる
+- **cargo run** を使うとプロジェクトのビルドと実行を1ステップで行える
+- **cargo check** を使うとバイナリを生成せずにプロジェクトをビルドして、エラーがないか確認できる
+- Cargoは、ビルドの成果物をコードと同じディレクトリに保存するのではなく、target/debugディレクトリに格納する
+
+# Rustの開発で役立つツール
+
+## rust-analyzer
+- Rust の Language Server / フォーマッター
+  - [rust-analyzer（vscode）](https://marketplace.visualstudio.com/items?itemName=matklad.rust-analyzer)
+  - [User Manual](https://rust-analyzer.github.io/manual.html#installation)
+  - フォーマットの設定ファイル：rustfmt.toml
+    - [Rustfmt](https://rust-lang.github.io)
+  - 主な機能
+    - コード補完
+    - 定義ジャンプ
+    - ホバー時に型やドキュメントを表示する
+    - インレイヒント
+    - シンタックスハイライト
+
+```plain
+（rustfmt.toml）
+tab_spaces = 2
+max_width = 160
+chain_width = 160
+```
+
+## CodeLLDB
+- [CodeLLDB](https://marketplace.visualstudio.com/items?itemName=vadimcn.vscode-lldb)
+  - デバッグをサポートするための拡張機能
+
+## Rust Test Explorer
+- [Rust Test Explorer](https://marketplace.visualstudio.com/items?itemName=swellaby.vscode-rust-test-adapter)
+  - テストをサイドバーから一覧表示して実行できるようになる。
+
+## Rust Doc Viewer
+- [Rust Doc Viewer](https://marketplace.visualstudio.com/items?itemName=JScearcy.rust-doc-viewer)
+  - cargo docで生成されたドキュメントを VSCode 上で表示できるようになる。
+
+## crates
+- [crates](https://marketplace.visualstudio.com/items?itemName=serayuzgur.crates)
+  - 最新のバージョンを編集画面に表示してくれる
+  - バージョンのとこをホバーすると選択可能なバージョンを表示してくれる
+  - 全てのクレートを一括で最新版にアップデートするコマンドが追加される
+
+## Even Better TOML
+- [Even Better TOML](https://marketplace.visualstudio.com/items?itemName=tamasfe.even-better-toml)
+  - Cargo.tomlで補完が効くようになる。
+
+## cargo-edit
+- [cargo-edit](https://crates.io/crates/cargo-edit)
+  - パッケージの追加/削除サブコマンド追加
+
+```bash
+# インストール
+% cargo install cargo-edit
+```
+
+**cargo-editの使い方**
+```bash
+# パッケージの追加
+% cargo add <パッケージ名>
+% cargo add <パッケージ名>@<バージョン指定>
+
+# パッケージの追加(開発用)
+% cargo add <パッケージ名> --dev
+
+# パッケージのアップグレード
+% cargo upgrade <パッケージ名>
+
+# パッケージの削除
+% cargo rm <パッケージ名>
+```
+
+## cargo-watch
+- [cargo-watch](https://crates.io/crates/cargo-watch)
+  - ファイル変更検知
+
+```bash
+# インストール
+% cargo install cargo-watch
+```
+
+**cargo-watchの使い方**
+```bash
+# cargo check の自動実行
+% cargo watch -x check
+
+# cargo test の自動実行
+% cargo watch -x test
+
+# cargo run の自動実行
+% cargo watch -x run
+
+# check, test, run の連続実行
+% cargo watch -x check -x test -x run
+
+# cargoではないコマンドの自動実行
+% cargo watch -- echo Hello world
 ```
 
 # 参考
