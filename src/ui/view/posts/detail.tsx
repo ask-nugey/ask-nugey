@@ -1,13 +1,14 @@
 "use client";
 
 import { css } from "@/lib/styled-system/css";
-import { Divider, Tag } from "antd";
+import { Button, Divider, Tag } from "antd";
 import { allPosts } from "contentlayer/generated";
 import type { MDXComponents } from "mdx/types";
 import { useMDXComponent } from "next-contentlayer/hooks";
 import Link from "next/link";
 import { format, parseISO } from "date-fns";
 import { notFound, useParams } from "next/navigation";
+import { HomeFilled, QuestionCircleFilled } from "@ant-design/icons";
 
 export const generateStaticParams = async () => {
   return allPosts.map((post) => ({
@@ -151,6 +152,50 @@ export const PagePostsDetailView = () => {
         ))}
       </div>
       <MDXContent components={mdxComponents} />
+      <div
+        className={css({
+          display: "grid",
+          gap: 4,
+          marginTop: 8,
+          marginBottom: 4,
+          marginInline: "auto",
+        })}
+      >
+        <a
+          href="https://marshmallow-qa.com/bw99ezhmow42xg9"
+          target="_blank"
+          rel="noreferrer"
+        >
+          <Button
+            type="primary"
+            icon={<QuestionCircleFilled />}
+            className={css({
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              width: "100%",
+              fontWeight: "bold",
+            })}
+          >
+            Ask Nugey!（マシュマロで質問）
+          </Button>
+        </a>
+        <a href="/">
+          <Button
+            type="primary"
+            icon={<HomeFilled />}
+            className={css({
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              width: "100%",
+              fontWeight: "bold",
+            })}
+          >
+            トップに戻る
+          </Button>
+        </a>
+      </div>
     </div>
   );
 };

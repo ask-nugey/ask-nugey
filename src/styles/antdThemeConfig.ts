@@ -7,7 +7,7 @@ export const themeConfig: ThemeConfig = {
     colorError: "#ff4d4f",
     colorInfo: "#1677ff",
     colorLink: "#1677ff",
-    colorPrimary: "#eab308",
+    colorPrimary: "#f59e0b",
     colorSuccess: "#52c41a",
     colorTextBase: "#333",
     colorWarning: "#faad14",
