@@ -42,7 +42,7 @@ tags: [Go]
 
 ## ディレクトリ構成
 
-```
+```plain
 go-api-server/
 ├── docker-compose.yml # Docker Compose設定ファイル
 ├── api-server
@@ -57,7 +57,7 @@ go-api-server/
 
 # apiサーバーの構築
 
-流れ
+**流れ**
 ```plain
 [ ユーザーのマシン ]
     |
@@ -80,8 +80,8 @@ go-api-server/
     |
     └── レスポンス送信
 ```
-
-ディレクトリ構成
+---
+**ディレクトリ構成**
 ```plain
 api-server/
 │
@@ -89,8 +89,8 @@ api-server/
 ├── go.mod       # Goモジュール定義ファイル
 └── main.go      # アプリケーションのエントリポイント
 ```
-
-Dockerfile（例）
+---
+**Dockerfile（例）**
 ```js
 # 使用するGoのバージョンを指定
 FROM golang:1.18
@@ -114,8 +114,8 @@ EXPOSE 8080
 # アプリケーションの実行
 CMD [ "/api-server" ]
 ```
-
-main.go (基本的なWebサーバー)
+---
+**main.go (基本的なWebサーバー)**
 ```go
 package main
 
@@ -134,7 +134,7 @@ func main() {
 ```
 
 # DBサーバーの構築
-
+**流れ**
 ```plain
 [ ユーザーのマシン ]
     |
@@ -154,14 +154,16 @@ func main() {
     |
     └── データの保存と管理
 ```
-
+---
+**ディレクトリ構成**
 ```plain
 database/
 │
 ├── docker-compose.yml   # Docker Compose設定ファイル
 └── .env                 # 環境変数ファイル（オプション）
 ```
-
+---
+**Dockerfile（例）**
 ```yaml
 version: '3.8'
 services:
@@ -188,8 +190,8 @@ MYSQL_DATABASE=mydatabase
 MYSQL_USER=user
 MYSQL_PASSWORD=password
 ```
-
-- （TODO: 追加予定の内容）
+---
+- **（TODO: 追加予定の内容）**
   - envファイルの説明
     - goでのenv読み込みコード
   - goでDBテーブルに接続コード
@@ -198,7 +200,7 @@ MYSQL_PASSWORD=password
       - データベースの種類ごとに異なる
 
 # APIサーバーとDBサーバーを接続
-
+**構成**
 ```plain
 [ Dockerコンテナ ]──────────┐
 　|                        |
@@ -214,7 +216,8 @@ MYSQL_PASSWORD=password
 　|                        |
 　└────────────────────────┘
 ```
-
+---
+**ディレクトリ構成**
 ```plain
 go-api-server/
 ├── docker-compose.yml
@@ -227,8 +230,8 @@ go-api-server/
     ├── Dockerfile
     └── .env
 ```
-
-docker-compose.yml
+---
+**docker-compose.yml（例）**
 ```yaml
 version: '3.8'
 
@@ -265,8 +268,8 @@ services:
 volumes:
   db-data:
 ```
-
-- （TODO: 追加予定の内容）
+---
+- **（TODO: 追加予定の内容）**
   - DBテーブルの初期化（作成）の説明
     - 方法
       - goのDB操作ライブラリ
