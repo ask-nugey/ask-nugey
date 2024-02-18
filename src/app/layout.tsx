@@ -5,13 +5,14 @@ import { ThemeProvider } from "@/src/styles/AntdThemeProvider";
 import { BaseLayout } from "@/src/ui/components/layout/BaseLayout";
 import MergeProvider from "@/src/utils/MergeProvider";
 import { AntdRegistry } from "@/lib/nextjs-registry/es";
+import { Metadata } from "next";
 
 const inter = Inter({ subsets: ["latin"] });
 const siteName = "Ask Nugey!（ヌギーにきいて!）";
 const description = "Ask Nugey! → プログラミング、デザイン、AI、CSS...etc";
 const url = "https://ask-nugey.com";
 
-export const metadata = {
+export const metadata: Metadata = {
   title: {
     default: siteName,
     template: `%s | ${siteName}`,
