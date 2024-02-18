@@ -13,6 +13,7 @@ const description = "Ask Nugey! → プログラミング、デザイン、AI、
 const url = "https://ask-nugey.com";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://ask-nugey.com/"),
   title: {
     default: siteName,
     template: `%s | ${siteName}`,
