@@ -10,13 +10,13 @@ tags: [Cloudflare, Hono]
 
 # Honoを知る
 - [Hono](https://hono.dev)とは、
-  -  JavaScriptでWebアプリを作るためのフレームワーク
+  -  **JavaScriptでWebアプリを作るためのフレームワーク**
     - [リポジトリ](https://github.com/honojs/hono)
-    - jsでバックエンドの開発するときに便利
+    - **jsでバックエンドの開発**するときに便利
       - 似たフレームワークには・・・
         - [Express.js](https://expressjs.com/ja/)
         - [Koa.js](https://koajs.com)
-      - API開発などで使用できる
+      - **API開発**などで使用できる
    - [Web標準API（Web Standard API）](https://developer.mozilla.org/ja/docs/Web/API)のみを使用している
      - 例えば、
        - [fetchメソッド](https://fetch.spec.whatwg.org/#fetch-method) などが使用できる
@@ -29,7 +29,7 @@ tags: [Cloudflare, Hono]
          ```
      - なので、**Web標準APIに準拠している[jsランタイム](javascript-runtime)でHonoは動作する**
        - 関連記事：[JavaScriptランタイム（実行環境）について（図解）](javascript-runtime)
-    - Hohoの実行環境（jsランタイム）
+    - **Hohoの実行環境（jsランタイム）**
        - [workerd - Cloudflare Workers](https://developers.cloudflare.com/workers/)
        - [Deno](https://deno.com)
        - [Bun](https://bun.sh)
@@ -37,8 +37,8 @@ tags: [Cloudflare, Hono]
        - [AWS Lambda](https://docs.aws.amazon.com/ja_jp/lambda/latest/dg/welcome.html)
        - [Node.js](https://nodejs.jp/docs)
        - [edge-light - Vercel Edge Functions](https://vercel.com/docs/functions)
-  - [Cloudflare](cloudflare-what-is)に勤めている和田裕介さん（[Twitter](https://twitter.com/yusukebe)）が開発
-    - Cloudflareに勤める前から開発している（2021年12月15日〜）
+  - [Cloudflare](cloudflare-what-is)に勤めている**和田裕介さん**（[Twitter](https://twitter.com/yusukebe)）が開発
+    - **Cloudflareに勤める前から開発している（2021年12月15日〜）**
     - 「ただし、HonoはCloudflareのプロダクトではありません。僕が入社したことで、HonoもCloudflareの公式フレームワークに思えるかもしれませんが、そうではないのです。Honoはあくまでも僕を中心としたコントリビューターによるオープンソースのプロダクトです。」（引用：[「Honoはあくまでオープンソースプロダクト」開発者でコントリビューターの私が会社員になった理由」](https://findy-code.io/engineer-lab/yusukebe)）
     - 「[ボケて](https://bokete.jp)」の開発者でもある
       - 2ヶ月で開発されたとのこと（ソース：[「和田裕介（ボケて）×土屋泰洋：前編「ゆーすけべーの作り方」](https://dentsu-ho.com/articles/2006)」）
@@ -57,6 +57,7 @@ TODO: iframe表示
 --- -->
 
 # Honoの具体的なコード（Hono未使用コードと比較）
+<!-- TODO: 以下はChatGPTで生成したので後でコードを実際に確認する -->
 （TODO: 以下はChatGPTで生成したので後でコードを実際に確認する）
 
 ## 1. クエリパラメータを扱う
@@ -85,19 +86,19 @@ app.fire()
 **図解:**
 
 ```plaintext
-  [クライアント]
-        |
-        | (GET /greet?name=John)
-        v
-  [Honoアプリケーション]
-        |
-        | (クエリパラメータ解析)
-        v
-  [レスポンス生成]
-        |
-        | ("Hello, John!")
-        v
-  [クライアント (レスポンス受信)]
+[クライアント]
+  |
+  | (GET /greet?name=John)
+  v
+[Honoアプリケーション]
+  |
+  | (クエリパラメータ解析)
+  v
+[レスポンス生成]
+  |
+  | ("Hello, John!")
+  v
+[クライアント (レスポンス受信)]
 ```
 
 **Honoを未使用（Node.jsのみ）:**
@@ -127,20 +128,20 @@ server.listen(3000);
 **図解:**
 
 ```plaintext
-  [クライアント]
-        |
-        | (GET /greet?name=John)
-        v
-  [Node.js サーバー]
-        |
-        | (URL解析)
-        | (クエリパラメータ解析)
-        v
-  [レスポンス生成]
-        |
-        | ("Hello, John!")
-        v
-  [クライアント (レスポンス受信)]
+[クライアント]
+  |
+  | (GET /greet?name=John)
+  v
+[Node.js サーバー]
+  |
+  | (URL解析)
+  | (クエリパラメータ解析)
+  v
+[レスポンス生成]
+  |
+  | ("Hello, John!")
+  v
+[クライアント (レスポンス受信)]
 ```
 
 ## 2. JSONレスポンスを返すAPIエンドポイント
@@ -169,19 +170,19 @@ app.fire()
 **図解:**
 
 ```plaintext
-  [クライアント]
-        |
-        | (GET /data)
-        v
-  [Honoアプリケーション]
-        |
-        | (JSONレスポンス生成)
-        v
-  [レスポンス送信]
-        |
-        | { "message": "Hello, World!", "numbers": [1, 2, 3] }
-        v
-  [クライアント (レスポンス受信)]
+[クライアント]
+  |
+  | (GET /data)
+  v
+[Honoアプリケーション]
+  |
+  | (JSONレスポンス生成)
+  v
+[レスポンス送信]
+  |
+  | { "message": "Hello, World!", "numbers": [1, 2, 3] }
+  v
+[クライアント (レスポンス受信)]
 ```
 
 **Honoを未使用（Node.jsのみ）:**
@@ -209,19 +210,19 @@ server.listen(3000);
 **図解:**
 
 ```plaintext
-  [クライアント]
-        |
-        | (GET /data)
-        v
-  [Node.js サーバー]
-        |
-        | (JSONレスポンス生成)
-        v
-  [レスポンス送信]
-        |
-        | { "message": "Hello, World!", "numbers": [1, 2, 3] }
-        v
-  [クライアント (レスポンス受信)]
+[クライアント]
+  |
+  | (GET /data)
+  v
+[Node.js サーバー]
+  |
+  | (JSONレスポンス生成)
+  v
+[レスポンス送信]
+  |
+  | { "message": "Hello, World!", "numbers": [1, 2, 3] }
+  v
+[クライアント (レスポンス受信)]
 ```
 
 ## 3. ミドルウェアを活用する
@@ -249,20 +250,20 @@ app.fire()
 **図解:**
 
 ```plaintext
-  [クライアント]
-        |
-        | (GET /protected/secret)
-        v
-  [Honoアプリケーション]
-        |
-        | (認証ミドルウェア)
-        | (認証成功)
-        v
-  [レスポンス生成]
-        |
-        | ("Secret Information")
-        v
-  [クライアント (レスポンス受信)]
+[クライアント]
+  |
+  | (GET /protected/secret)
+  v
+[Honoアプリケーション]
+  |
+  | (認証ミドルウェア)
+  | (認証成功)
+  v
+[レスポンス生成]
+  |
+  | ("Secret Information")
+  v
+[クライアント (レスポンス受信)]
 ```
 
 **Honoを未使用（Node.jsのみ）:**
@@ -296,21 +297,21 @@ server.listen(3000);
 **図解:**
 
 ```plaintext
-  [クライアント]
-        |
-        | (GET /protected/secret)
-        v
-  [Node.js サーバー]
-        |
-        | (認証情報解析)
-        | (認証チェック)
-        | (認証成功)
-        v
-  [レスポンス生成]
-        |
-        | ("Secret Information")
-        v
-  [クライアント (レスポンス受信)]
+[クライアント]
+  |
+  | (GET /protected/secret)
+  v
+[Node.js サーバー]
+  |
+  | (認証情報解析)
+  | (認証チェック)
+  | (認証成功)
+  v
+[レスポンス生成]
+  |
+  | ("Secret Information")
+  v
+[クライアント (レスポンス受信)]
 ```
 
 # Honoに関する外部記事
