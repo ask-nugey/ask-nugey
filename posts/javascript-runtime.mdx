@@ -1,0 +1,348 @@
+---
+title: JavaScriptランタイム（実行環境）について（図解）
+description: ブラウザ、node.js、bunなどのjsを実行する環境について図解
+createdAt: 2024-02-24
+# updatedAt:
+tags: [js]
+---
+
+# 目次
+
+# JavaScriptの実行環境（ランタイム）とは
+- Webブラウザやサーバー上でJavaScriptコードを実行するためのプラットフォーム
+  - 実行エンジン
+    - JavaScriptコードを解釈し、マシンコードに変換して実行する役割を持つ
+      - 代表的な実行エンジンには・・・
+        - V8（Google Chrome, Node.js）
+        - SpiderMonkey（Firefox）
+        - JavaScriptCore（Safari）
+  - 発展の歴史
+    - 初期のJavaScriptは、主にクライアントサイドのスクリプト言語として使用
+      - ページ内の動的な要素の操作やフォームの検証など
+    - Node.jsの登場により、JavaScriptはサーバーサイドプログラミングにも進出
+      - 非同期I/Oを取り入れたイベント駆動型のアプローチが特徴
+
+# JavaScript実行環境の比較
+
+- **ブラウザ**
+  - **実行エンジン**:
+    - V8 (Google Chrome, Opera)
+    - SpiderMonkey (Firefox)
+    - JavaScriptCore (Safari)
+    - Chakra (旧Microsoft Edge)
+  - **APIスタイル**:
+    - Web標準
+  - **セキュリティ**:
+    - サンドボックス
+  - **パッケージ管理**:
+    - 無し（CDNまたはモジュール、ESモジュールのサポートによるnpmパッケージの利用増加）
+  - **用途**:
+    - クライアントサイド
+---
+- **Node.js**
+  - **実行エンジン**:
+    - V8
+  - **APIスタイル**:
+    - Node固有
+  - **セキュリティ**:
+    - ファイルシステムやネットワークへのフルアクセス許可（実行時フラグやポリシーファイルによるアクセス制御可能）
+  - **パッケージ管理**:
+    - npm
+  - **用途**:
+    - サーバーサイド、CLI
+---
+- **Deno**
+  - **実行エンジン**:
+    - V8
+  - **APIスタイル**:
+    - Web標準 + Deno固有
+  - **セキュリティ**:
+    - サンドボックス、明示的な権限
+  - **パッケージ管理**:
+    - URLまたはファイルベース
+  - **用途**:
+    - サーバーサイド、CLI、スクリプティング
+---
+- **Bun**
+  - **実行エンジン**:
+    - JavaScriptCore
+  - **APIスタイル**:
+    - Web標準 + Bun固有
+  - **セキュリティ**:
+    - サンドボックス、明示的な権限（セキュリティメカニズム含む）
+  - **パッケージ管理**:
+    - ビルトインパッケージマネージャ
+  - **用途**:
+    - サーバーサイド、CLI、スクリプティング
+---
+- **Cloudflare Workers**
+  - **実行エンジン**:
+    - V8
+  - **APIスタイル**:
+    - Web標準 + Cloudflare固有
+  - **セキュリティ**:
+    - サンドボックス
+  - **パッケージ管理**:
+    - 無し（単一ファイルまたはモジュール、Wranglerツールによるプロジェクト管理とパッケージングのサポート）
+  - **用途**:
+    - エッジコンピューティング
+
+## ランタイムごとの構成と内部処理の流れ
+
+### ブラウザ(Google Chrome)
+
+**構成：**
+```plain
+[ブラウザ]
+|
+|-- [V8 JavaScriptエンジン]
+|    |
+|    |-- [JavaScriptコードの実行]
+|
+|-- [その他のコンポーネント（例：HTMLレンダリングエンジン、CSS解析器など）]
+```
+
+**流れ：**
+```plain
+[JavaScript コード]
+    ↓
+[ブラウザ]
+    ↓
+[ブラウザのJavaScriptエンジン (V8, etc.)]
+    ↓
+[ DOM API, Web API ]
+    ↓
+[ レンダリングエンジン ]
+```
+
+- **ブラウザ：**
+  - ウェブページを表示し、ユーザーの操作を処理するユーザーインターフェースとシステムの統合をする
+- **V8 JavaScriptエンジン：**
+  - Google Chromeに組み込まれ、JavaScriptコードを解析し実行する実行エンジン
+- **JavaScriptコードの実行：**
+  - V8エンジンにより実行
+  - ウェブページの動的な振る舞いを制御
+    - DOMの操作やイベントの処理を担う
+- **その他のコンポーネント：**
+  - ウェブページ表示のための多様なコンポーネント
+    - ブラウザ：HTMLレンダリングエンジンやCSS解析器を含む
+---
+### Node.js
+
+**構成：**
+```plain
+[Node.js]
+|
+|-- [V8 JavaScriptエンジン]
+|    |
+|    |-- [JavaScriptコードの実行]
+|
+|-- [Node.jsのライブラリ]
+|    |
+|    |-- [ファイルシステムアクセス]
+|    |-- [ネットワーク操作]
+|    |-- [HTTPサーバー機能]
+|    |-- [その他のネイティブ機能]
+|
+|-- [npm (Node Package Manager)]
+```
+
+**流れ：**
+```plain
+[JavaScript コード]
+    ↓
+[Node.jsランタイム]
+    ↓
+[ V8 JavaScriptエンジン ]
+    ↓
+[ Node.js API (fs, http, etc.) ]
+    ↓
+[ オペレーティングシステム ]
+```
+
+- **Node.js**:
+  - サーバーサイドやその他の非ブラウザ環境でJavaScriptを実行するプラットフォーム
+- **V8 JavaScriptエンジン**:
+  - Node.jsは、Google ChromeのV8エンジンを使用し、JavaScriptコードを解析し実行する
+- **JavaScriptコードの実行**:
+  - V8エンジンによって解析・実行される
+  - ブラウザ特有のAPIに代わり、サーバーサイド操作やファイルシステムアクセスなどの機能を提供
+- **Node.jsのライブラリ**:
+  - サーバーサイドアプリケーション開発に必要な機能
+    - ファイルシステムアクセス
+    - ネットワーク操作
+    - HTTPサーバーの構築 を含む
+- **npm (Node Package Manager)**:
+  - JavaScriptのパッケージマネージャ
+    - Node.jsエコシステム内のサードパーティモジュールやライブラリを管理
+---
+### Deno
+
+**構成：**
+```plain
+[Deno]
+|
+|-- [V8 JavaScriptエンジン]
+|    |
+|    |-- [JavaScript/TypeScriptコードの実行]
+|
+|-- [Rustのランタイム]
+|    |
+|    |-- [セキュリティ制御]
+|    |-- [ファイルシステムアクセス]
+|    |-- [ネットワーク操作]
+|    |-- [その他のOSレベル機能]
+|
+|-- [Denoの標準ライブラリ]
+|    |
+|    |-- [HTTPユーティリティ]
+|    |-- [ウェブAPI (Web標準APIのサポート)]
+|    |-- [ウェブアセンブリ]
+|    |-- [テストフレームワーク]
+|    |-- [その他のユーティリティ]
+|
+|-- [Deno Package Manager]
+```
+
+**流れ：**
+```plain
+[JavaScript コード]
+    ↓
+[Denoランタイム]
+    ↓
+[ V8 JavaScriptエンジン + Rust ]
+    ↓
+[ Web API + Deno固有のAPI ]
+    ↓
+[ サンドボックス/セキュリティレイヤー ]
+    ↓
+[ オペレーティングシステム ]
+```
+
+- **Deno**:
+  - サーバーサイドやその他の非ブラウザ環境でJavaScriptおよびTypeScriptを実行するセキュアでモダンなランタイム環境
+- **V8 JavaScriptエンジン**:
+  - Denoは、Google ChromeのV8エンジンを使用し、JavaScriptおよびTypeScriptコードを解析し実行する
+- **JavaScript/TypeScriptコードの実行**:
+  - V8エンジンを使い、JavaScriptとTypeScriptの両方のコードを実行
+    - Denoはこれらの言語をネイティブにサポート
+- **Rustのランタイム**:
+  - OSレベルの機能を提供
+    - セキュリティ制御
+    - ファイルシステムアクセス
+    - ネットワーク操作 など
+  - DenoのランタイムはRust言語で構築
+- **Denoの標準ライブラリ**:
+  - HTTPユーティリティ
+  - ウェブアセンブリサポート
+  - テストフレームワーク を含む豊富な標準ライブラリを提供
+- **Deno Package Manager**:
+  - URLをベースにしたモジュールのインポートと配布をサポート
+  - （従来のnpmのようなパッケージマネージャを使用していない）
+---
+### Bun
+
+**構成：**
+```plain
+[Bun]
+|
+|-- [JavaScriptCore (JSC) エンジン]
+|    |
+|    |-- [JavaScript/TypeScriptコードの実行]
+|
+|-- [Zigランタイム]
+|    |
+|    |-- [セキュリティ制御]
+|    |-- [ファイルシステムアクセス]
+|    |-- [ネットワーク操作]
+|    |-- [その他のOSレベル機能]
+|
+|-- [Bunの標準ライブラリ]
+|    |
+|    |-- [HTTPユーティリティ]
+|    |-- [ウェブAPI (Web標準APIのサポート)]
+|    |-- [その他のユーティリティ]
+|
+|-- [Bun Package Manager]
+```
+
+**流れ：**
+```plain
+[JavaScript コード]
+    ↓
+[Bunランタイム]
+    ↓
+[ JavaScriptCore ]
+    ↓
+[ Web API + Bun固有のAPI ]
+    ↓
+[ オペレーティングシステム ]
+```
+
+- **Bun**:
+  - 新しいランタイム環境で、JavaScriptおよびTypeScriptを高速に実行する
+- **JavaScriptCore (JSC) エンジン**:
+  - Safariブラウザで使用されるJavaScriptCoreエンジンを使用し、JavaScriptおよびTypeScriptコードを実行
+- **JavaScript/TypeScriptコードの実行**:
+  - JavaScriptCoreエンジンを使い、JavaScriptとTypeScriptの両方を効率的に実行
+    - Bunは高速実行を実現
+- **Zigランタイム**:
+  - セキュリティ制御やOSレベルの機能（ファイルシステム、ネットワーク操作など）を提供
+    - BunのランタイムはZig言語で構築
+- **Bunの標準ライブラリ**:
+  - HTTPユーティリティ
+  - ウェブAPIサポート
+  - その他ユーティリティを含む
+- **Bun Package Manager**:
+  - モジュールの管理と配布に独自のアプローチを採用
+---
+### Cloudflare Workers
+
+**構成：**
+```plain
+[Cloudflare Workers]
+|
+|-- [V8 JavaScriptエンジン]
+|    |
+|    |-- [JavaScriptコードの実行]
+|         |
+|         |-- [ウェブ標準APIのサポート]
+|         |-- [Cloudflare固有のAPI]
+|
+|-- [Cloudflareの標準ライブラリ]
+|    |
+|    |-- [HTTPリクエスト/レスポンス操作]
+|    |-- [エッジストレージAPI]
+|    |-- [クリプトグラフィAPI]
+|
+|-- [モジュールの管理]
+     |
+     |-- [単一ファイルまたはモジュール]
+     |-- [Wrangler CLIツールによる開発サポート]
+```
+
+**流れ：**
+```plain
+[JavaScript コード]
+    ↓
+[Cloudflare Workers ランタイム]
+    ↓
+[ V8 JavaScriptエンジン ]
+    ↓
+[ Web API (Fetch API, etc.) ]
+    ↓
+[ Cloudflareのグローバルネットワーク ]
+```
+
+- **Cloudflare Workers:**
+  - エッジコンピューティングプラットフォーム
+  - 世界中のデータセンターでコードを実行する
+- **V8 JavaScriptエンジン:**
+  - Cloudflare Workersは、Google ChromeのV8エンジンを使用し、JavaScriptコードを解析し実行する
+- **Cloudflareの標準ライブラリ:**
+  - HTTPリクエスト/レスポンス操作
+  - エッジストレージAPI
+  - クリプトグラフィAPI など
+- **モジュールの管理:**
+  - 単一ファイルまたはモジュールの形式でのコード管理をサポート
+  - Wrangler CLIツールを通じて開発プロセスを容易にする
