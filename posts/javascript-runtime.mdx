@@ -13,9 +13,9 @@ tags: [js]
   - 実行エンジン
     - JavaScriptコードを解釈し、マシンコードに変換して実行する役割を持つ
       - 代表的な実行エンジンには・・・
-        - V8（Google Chrome, Node.js）
-        - SpiderMonkey（Firefox）
-        - JavaScriptCore（Safari）
+        - [V8](https://v8.dev)（Google Chrome, Node.js）
+        - [SpiderMonkey](https://spidermonkey.dev)（Firefox）
+        - [JavaScriptCore](https://developer.apple.com/documentation/javascriptcore)（Safari）
   - 発展の歴史
     - 初期のJavaScriptは、主にクライアントサイドのスクリプト言語として使用
       - ページ内の動的な要素の操作やフォームの検証など
@@ -39,23 +39,24 @@ tags: [js]
   - **用途**:
     - クライアントサイド
 ---
-- **Node.js**
+- **[Node.js](https://nodejs.jp/docs)**
   - **実行エンジン**:
     - V8
   - **APIスタイル**:
-    - Node固有
+    - [Node固有](https://nodejs.org/api/)
   - **セキュリティ**:
     - ファイルシステムやネットワークへのフルアクセス許可（実行時フラグやポリシーファイルによるアクセス制御可能）
+    - サンドボックスではない
   - **パッケージ管理**:
     - npm
   - **用途**:
     - サーバーサイド、CLI
 ---
-- **Deno**
+- **[Deno](https://docs.deno.com/runtime/manual)**
   - **実行エンジン**:
     - V8
   - **APIスタイル**:
-    - Web標準 + Deno固有
+    - Web標準 + [Deno固有](https://deno.land/api@v1.41.0?s=Deno)
   - **セキュリティ**:
     - サンドボックス、明示的な権限
   - **パッケージ管理**:
@@ -67,7 +68,7 @@ tags: [js]
   - **実行エンジン**:
     - JavaScriptCore
   - **APIスタイル**:
-    - Web標準 + Bun固有
+    - Web標準 + [Bun固有](https://bun.sh/docs/runtime/bun-apis)
   - **セキュリティ**:
     - サンドボックス、明示的な権限（セキュリティメカニズム含む）
   - **パッケージ管理**:
@@ -79,13 +80,13 @@ tags: [js]
   - **実行エンジン**:
     - V8
   - **APIスタイル**:
-    - Web標準 + Cloudflare固有
+    - Web標準 + [Cloudflare固有](https://developers.cloudflare.com/workers/runtime-apis/)
   - **セキュリティ**:
     - サンドボックス
   - **パッケージ管理**:
     - 無し（単一ファイルまたはモジュール、Wranglerツールによるプロジェクト管理とパッケージングのサポート）
   - **用途**:
-    - エッジコンピューティング
+    - [エッジコンピューティング](https://www.cloudflare.com/ja-jp/learning/serverless/glossary/what-is-edge-computing/)
 
 ## ランタイムごとの構成と内部処理の流れ
 
@@ -126,7 +127,9 @@ tags: [js]
 - **その他のコンポーネント：**
   - ウェブページ表示のための多様なコンポーネント
     - ブラウザ：HTMLレンダリングエンジンやCSS解析器を含む
+
 ---
+
 ### Node.js
 
 **構成：**
@@ -175,7 +178,9 @@ tags: [js]
 - **npm (Node Package Manager)**:
   - JavaScriptのパッケージマネージャ
     - Node.jsエコシステム内のサードパーティモジュールやライブラリを管理
+
 ---
+
 ### Deno
 
 **構成：**
@@ -196,12 +201,12 @@ tags: [js]
 |-- [Denoの標準ライブラリ]
 |    |
 |    |-- [HTTPユーティリティ]
-|    |-- [ウェブAPI (Web標準APIのサポート)]
+|    |-- [Web API (Web標準APIのサポート)]
 |    |-- [ウェブアセンブリ]
 |    |-- [テストフレームワーク]
 |    |-- [その他のユーティリティ]
 |
-|-- [Deno Package Manager]
+|-- [Denoのモジュール管理]
 ```
 
 **流れ：**
@@ -236,10 +241,12 @@ tags: [js]
   - HTTPユーティリティ
   - ウェブアセンブリサポート
   - テストフレームワーク を含む豊富な標準ライブラリを提供
-- **Deno Package Manager**:
+- **Denoのモジュール管理**:
   - URLをベースにしたモジュールのインポートと配布をサポート
-  - （従来のnpmのようなパッケージマネージャを使用していない）
----
+    - 従来のnpmのようなパッケージマネージャを使用しない
+    - Deno自体がパッケージマネージャの役割を果たす
+  - Deno v1.25以降ではnpmパッケージが使える
+
 ### Bun
 
 **構成：**
@@ -260,10 +267,10 @@ tags: [js]
 |-- [Bunの標準ライブラリ]
 |    |
 |    |-- [HTTPユーティリティ]
-|    |-- [ウェブAPI (Web標準APIのサポート)]
+|    |-- [Web API (Web標準APIのサポート)]
 |    |-- [その他のユーティリティ]
 |
-|-- [Bun Package Manager]
+|-- [Bunのモジュール管理:]
 ```
 
 **流れ：**
@@ -291,11 +298,15 @@ tags: [js]
     - BunのランタイムはZig言語で構築
 - **Bunの標準ライブラリ**:
   - HTTPユーティリティ
-  - ウェブAPIサポート
+  - Web APIサポート
   - その他ユーティリティを含む
-- **Bun Package Manager**:
+- **Bunのモジュール管理:**:
   - モジュールの管理と配布に独自のアプローチを採用
+    - URLまたはnpmパッケージ名を用いたインポートと自動キャッシュ管理
+  - bun自体がパッケージマネージャーであり、npmと互換性がある
+
 ---
+
 ### Cloudflare Workers
 
 **構成：**
