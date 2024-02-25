@@ -1,8 +1,6 @@
-"use client";
-
 import { css } from "@/lib/styled-system/css";
 import { Button, Divider, Tag } from "antd";
-import { allPosts } from "contentlayer/generated";
+import { Post, allPosts } from "contentlayer/generated";
 import type { MDXComponents } from "mdx/types";
 import { useMDXComponent } from "next-contentlayer/hooks";
 import Link from "next/link";
@@ -10,21 +8,12 @@ import { format, parseISO } from "date-fns";
 import { notFound, useParams } from "next/navigation";
 import { HomeFilled, QuestionCircleFilled } from "@ant-design/icons";
 
-export const generateStaticParams = async () => {
-  return allPosts.map((post) => ({
-    slug: post._raw.flattenedPath,
-  }));
-};
-
 const mdxComponents: MDXComponents = {
   a: ({ href, children }) => <Link href={href as string}>{children}</Link>,
   hr: () => <Divider />,
 };
 
-export const PagePostsDetailView = () => {
-  const { slug } = useParams();
-  const post = allPosts.find((post) => post._raw.flattenedPath === slug);
-
+export const PagePostsDetailView = ({ post }: { post: Post | undefined }) => {
   if (!post) notFound();
 
   const MDXContent = useMDXComponent(post.body.code);
