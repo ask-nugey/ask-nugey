@@ -5,7 +5,8 @@ import { allPosts } from "contentlayer/generated";
 export const generateMetadata = ({ params }: { params: { slug: string } }) => {
   const post = allPosts.find((post) => post._raw.flattenedPath === params.slug);
   return {
-    title: `${post?.title} | ${siteName}`,
+    title: post?.title,
+    description: post?.description,
     openGraph: {
       title: `${post?.title} | ${siteName}`,
       description: `${post?.description} | ${siteName}`,
