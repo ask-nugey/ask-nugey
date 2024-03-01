@@ -1,7 +1,9 @@
-import { description, siteName } from "@/src/app/layout";
 import { PagePostsDetailView } from "@/src/ui/view/posts/detail";
 import { allPosts } from "contentlayer/generated";
 import { Metadata } from "next";
+
+const siteName = "Ask Nugey!（ヌギーにきいて!）";
+const description = "Ask Nugey! → プログラミング、デザイン、AI、CSS...etc";
 
 type Props = {
   params: { slug: string };
