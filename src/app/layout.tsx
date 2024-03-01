@@ -8,9 +8,8 @@ import { AntdRegistry } from "@/lib/nextjs-registry/es";
 import { Metadata } from "next";
 
 const inter = Inter({ subsets: ["latin"] });
-export const siteName = "Ask Nugey!（ヌギーにきいて!）";
-export const description =
-  "Ask Nugey! → プログラミング、デザイン、AI、CSS...etc";
+const siteName = "Ask Nugey!（ヌギーにきいて!）";
+const description = "Ask Nugey! → プログラミング、デザイン、AI、CSS...etc";
 const url = "https://ask-nugey.com";
 
 export const metadata: Metadata = {
@@ -47,7 +46,7 @@ const providers = [AntdRegistry, ThemeProvider, BaseLayout];
 
 export default function RootLayout({ children }: PropsWithChildren) {
   return (
-    <html lang="en">
+    <html lang="ja">
       <head>
         <link
           rel="stylesheet"
