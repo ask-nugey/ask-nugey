@@ -46,7 +46,7 @@ const providers = [AntdRegistry, ThemeProvider, BaseLayout];
 
 export default function RootLayout({ children }: PropsWithChildren) {
   return (
-    <html lang="en">
+    <html lang="ja">
       <head>
         <link
           rel="stylesheet"
