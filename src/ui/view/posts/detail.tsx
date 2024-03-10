@@ -1,11 +1,11 @@
 import { css } from "@/lib/styled-system/css";
 import { Button, Divider, Tag } from "antd";
-import { Post, allPosts } from "contentlayer/generated";
+import { Post } from "contentlayer/generated";
 import type { MDXComponents } from "mdx/types";
 import { useMDXComponent } from "next-contentlayer/hooks";
 import Link from "next/link";
 import { format, parseISO } from "date-fns";
-import { notFound, useParams } from "next/navigation";
+import { notFound } from "next/navigation";
 import { HomeFilled, QuestionCircleFilled } from "@ant-design/icons";
 
 const mdxComponents: MDXComponents = {
