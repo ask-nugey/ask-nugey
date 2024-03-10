@@ -2,7 +2,7 @@ import type { ThemeConfig } from "antd";
 
 export const themeConfig: ThemeConfig = {
   token: {
-    fontSize: 14,
+    fontSize: 16,
     colorBgBase: "#faf9f7",
     colorError: "#ff4d4f",
     colorInfo: "#1677ff",
