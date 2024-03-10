@@ -4,7 +4,7 @@ import { Inter } from "next/font/google";
 import { ThemeProvider } from "@/src/styles/AntdThemeProvider";
 import { BaseLayout } from "@/src/ui/components/layout/BaseLayout";
 import MergeProvider from "@/src/utils/MergeProvider";
-import { AntdRegistry } from "@/lib/nextjs-registry/es";
+import AntdRegistry from "@/lib/nextjs-registry/AntdRegistry";
 import { Metadata } from "next";
 
 const inter = Inter({ subsets: ["latin"] });
