@@ -7,6 +7,7 @@ import Link from "next/link";
 import { format, parseISO } from "date-fns";
 import { notFound } from "next/navigation";
 import { HomeFilled, QuestionCircleFilled } from "@ant-design/icons";
+import { CommentCard } from "@/src/ui/components/CommentCard";
 
 const mdxComponents: MDXComponents = {
   a: ({ href, children }) => <Link href={href as string}>{children}</Link>,
@@ -185,6 +186,7 @@ export const PagePostsDetailView = ({ post }: { post: Post | undefined }) => {
           </Button>
         </a>
       </div>
+      <CommentCard />
     </div>
   );
 };
