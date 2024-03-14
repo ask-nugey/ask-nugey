@@ -10,6 +10,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@giscus/react": "^3.0.0",
     "@types/mapbox__rehype-prism": "^0.8.3",
     "antd": "^5.12.6",
     "contentlayer": "^0.3.4",
