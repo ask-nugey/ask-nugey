@@ -7,7 +7,8 @@
     "dev": "rm -rf .next && next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "depcruise": "bunx depcruise src .dependency-cruiser.js . --include-only '^src' --output-type dot | dot -T svg > dependency-graph.png"
   },
   "dependencies": {
     "@giscus/react": "^3.0.0",
@@ -28,6 +29,7 @@
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "dependency-cruiser": "^16.3.1",
     "rehype-accessible-emojis": "^0.3.2",
     "rehype-autolink-headings": "^7.1.0",
     "rehype-code-titles": "^1.2.0",
