@@ -1,23 +1,13 @@
 import { css } from "@/lib/styled-system/css";
 import { Button, Divider, Tag } from "antd";
-import { Post } from "contentlayer/generated";
-import type { MDXComponents } from "mdx/types";
-import { useMDXComponent } from "next-contentlayer/hooks";
 import Link from "next/link";
 import { format, parseISO } from "date-fns";
 import { notFound } from "next/navigation";
 import { HomeFilled, QuestionCircleFilled } from "@ant-design/icons";
 import { CommentCard } from "@/src/ui/components/CommentCard";
 
-const mdxComponents: MDXComponents = {
-  a: ({ href, children }) => <Link href={href as string}>{children}</Link>,
-  hr: () => <Divider />,
-};
-
-export const PagePostsDetailView = ({ post }: { post: Post | undefined }) => {
+export const PagePostsDetailView = ({ post }: { post: undefined }) => {
   if (!post) notFound();
-
-  const MDXContent = useMDXComponent(post.body.code);
 
   return (
     <div
@@ -112,13 +102,13 @@ export const PagePostsDetailView = ({ post }: { post: Post | undefined }) => {
       })}
     >
       <time
-        dateTime={post.createdAt}
+        // dateTime={post.createdAt}
         className={css({
           display: "block",
           color: "gray.400",
         })}
       >
-        {format(parseISO(post.createdAt), "yyyy/MM/d")}
+        {/* {format(parseISO(post.createdAt), "yyyy/MM/d")} */}
       </time>
       <h1
         className={css({
@@ -126,7 +116,7 @@ export const PagePostsDetailView = ({ post }: { post: Post | undefined }) => {
           fontWeight: "bold",
         })}
       >
-        {post.title}
+        {/* {post.title} */}
       </h1>
       <div
         className={css({
@@ -135,13 +125,13 @@ export const PagePostsDetailView = ({ post }: { post: Post | undefined }) => {
           marginBottom: 4,
         })}
       >
-        {post.tags.map((tag) => (
+        {/* {post.tags.map((tag) => (
           <Tag key={tag} color="gold">
             # {tag}
           </Tag>
-        ))}
+        ))} */}
       </div>
-      <MDXContent components={mdxComponents} />
+      {/* コンテンツ */}
       <div
         className={css({
           display: "grid",

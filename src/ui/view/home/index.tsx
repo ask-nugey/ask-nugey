@@ -1,13 +1,10 @@
 import { PostCard } from "@/src/ui/components/PostCard";
 import { compareDesc } from "date-fns";
-import { allPosts } from "contentlayer/generated";
 import { css } from "@/lib/styled-system/css";
 import Image from "next/image";
 
 export const PageHomeView = () => {
-  const posts = allPosts.sort((a, b) =>
-    compareDesc(new Date(a.createdAt), new Date(b.createdAt))
-  );
+  const posts: any = "";
 
   return (
     <>
@@ -117,9 +114,9 @@ export const PageHomeView = () => {
           },
         })}
       >
-        {posts.map((post, idx) => (
+        {/* {posts.map((post, idx) => (
           <PostCard key={idx} {...post} />
-        ))}
+        ))} */}
       </div>
     </>
   );

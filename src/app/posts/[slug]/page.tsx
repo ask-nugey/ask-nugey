@@ -1,5 +1,4 @@
 import { PagePostsDetailView } from "@/src/ui/view/posts/detail";
-import { allPosts } from "contentlayer/generated";
 import { Metadata } from "next";
 
 const siteName = "Ask Nugey!（ヌギーにきいて!）";
@@ -10,7 +9,7 @@ type Props = {
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const post = allPosts.find((post) => post._raw.flattenedPath === params.slug);
+  const post: any = "";
 
   return {
     title: post?.title,
@@ -37,7 +36,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 const PagePostsDetail = async function PagePostsDetail({ params }: Props) {
-  const post = allPosts.find((post) => post._raw.flattenedPath === params.slug);
+  const post: any = "";
 
   return <PagePostsDetailView post={post} />;
 };
