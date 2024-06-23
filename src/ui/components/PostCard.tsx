@@ -12,7 +12,7 @@ export const PostCard = (props: Props) => {
   return (
     <article>
       <Link
-        href={props.post.slug}
+        href={`/posts/${props.post.slug}`}
         className={css({
           display: "grid",
           gap: 2,
