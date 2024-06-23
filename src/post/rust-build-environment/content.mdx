@@ -1,0 +1,276 @@
+# 目次
+
+# Rustの開発環境の構築
+- Rustの開発には、**Rustツールチェーンが必要**
+  - （バイナリを実行する環境には不要）
+- **rustupで、Rustツールチェーンをインストール・管理**
+  - 直接、Rustツールチェーンをダウンロードできるが非推奨
+- **rustup-init（インストーラー）で、Rustツールチェーンとrustupをインストールできる**
+
+※ツールチェーンとは、一般にプログラム開発に使う一連の道具のこと。rustupも広義にはツールチェーンと言えるが、厳密に考えても仕方がない。
+
+---
+
+- **Rustツールチェーン：**
+  - 構成
+    - **rustc：**
+      - Rustのコンパイラ
+    - **Cargo（カーゴ）：**
+      - Rustのパッケージマネージャー
+      - **（Node.jsでいうところのnpm）**
+    - **std：**
+      - Rustの標準（standard）ライブラリ
+  - 種類（リリースチャンネル）
+    - stable（安定版）
+    - beta（ベータ版）
+    - nightly（開発版）
+- **rustup：**
+  - Rustツールチェーンのインストール
+  - Rustツールチェーンの複数バージョン管理
+  - クロスコンパイル用ターゲットのインストール
+  - 開発支援ツールのインストール
+  - **（Node.jsでいうところのnvm や nodenv）**
+  - [rustupの公式ドキュメント](https://rust-lang.github.io/rustup/)
+
+## Rustツールチェーンのインストール
+
+- **rustup-init（インストーラー）のインストール方法：**
+  - **①インストールコマンド**
+　or
+  - **②Homebrew**<br />
+```bash
+# ①インストールコマンド でインストール
+% curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+```
+
+---
+
+ヌギーは②brewでインストール
+```bash
+# ②Homebrew でインストール
+% brew install rustup-init
+```
+
+## 実際にrustup-init（インストーラー）を実行（セットアップ）
+rustup-initで、Rustツールチェーンをインストールしていく。
+
+**rustup-initコマンドでセットアップ開始！**（されない場合は、ターミナルを再起動しましょう）
+```bash
+% rustup-init
+```
+
+しかし、ヌギーの環境ではすでにRustがインストールされており、警告⚠️が出てしまいました。
+```bash
+warning: it looks like you have an existing installation of Rust at:
+warning: /opt/homebrew/bin
+warning: It is recommended that rustup be the primary Rust installation.
+warning: Otherwise you may have confusion unless you are careful with your PATH
+warning: If you are sure that you want both rustup and your already installed Rust
+warning: then please reply `y' or `yes' or set RUSTUP_INIT_SKIP_PATH_CHECK to yes
+warning: or pass `-y' to ignore all ignorable checks.
+error: cannot install while Rust is installed
+```
+> /opt/homebrew/binにRustがインストールされているようです。
+> Rustのインストールはrustupを優先することをお勧めします。
+> そうでないと、PATH に注意しないと混乱する可能性があります。
+> もし、rustup と既にインストールされている Rust の両方が必要なのであれば、`y` か `yes` と答えるか、RUSTUP_INIT_SKIP_PATH_CHECK を yes に設定するか、`-y` を渡して無視できるチェックをすべて無視してください。
+
+↑一旦無視して、**Continue? (y/N)**と出るので脳死で**yes**すると**Welcome to Rust**と歓迎され、続きます↓<br />
+（※後でスタッフが**brew uninstall rust**しました）
+
+```bash
+# 続き
+Welcome to Rust!
+
+〜省略〜
+
+This path will then be added to your PATH environment variable by
+modifying the profile files located at:
+
+  /Users/user/.profile
+  /Users/user/.zshenv
+
+〜省略〜
+
+1) Proceed with installation (default)
+2) Customize installation
+3) Cancel installation
+> // エンター（1以外を選ぶ場合は2または3と入力してからエンター）
+```
+↑この3択は環境構築の方法ですが、とりあえずヌギーはdefaultの「1」にするため、エンターを押しました。
+
+このとき、**「/Users/user/.profile」と「/Users/user/.zshenv」がないとエラー**になるので、**無い場合は空ファイルでいいので作成**しましょう（人によってはこのファイルは異なるかもしれません）。
+
+```bash
+# 続き
+info: profile set to 'default'
+
+〜省略〜
+
+Rust is installed now. Great!
+
+To get started you may need to restart your current shell.
+This would reload your PATH environment variable to include
+Cargo's bin directory ($HOME/.cargo/bin).
+
+To configure your current shell, run:
+source "$HOME/.cargo/env"
+```
+↑と出るので、指示どおり「.cargo/env」を読み込み直し、パスを反映↓
+```bash
+% source "$HOME/.cargo/env"
+```
+
+- 「.cargo/env」ファイルは、単に「$HOME/.cargo/bin」のパスを通しているだけ
+- 「$HOME/.cargo/bin」ディレクトリにrustc、cargo、rustupコマンドが格納されている
+
+これでRustの開発で使用するコマンドが叩けるはずです↓
+```bash
+# cargo のバージョン確認
+cargo --version
+# rustc のバージョン確認
+rustc --version
+# rustdoc のバージョン確認
+rustdoc --version
+# rustup のバージョン確認
+rustup --version
+```
+
+# RustでHello, world!
+
+カレントディレクトリ**直下**にRust プロジェクト作成
+```bash
+# cargo new (プロジェクト名)
+% cargo new hello_rust
+% cd hello_rust
+```
+or
+
+カレントディレクトリ**自体**にRust プロジェクト作成
+```bash
+% mkdir hello_rust
+% cd hello_rust
+% cargo init
+```
+
+コンパイルして実行
+```bash
+% cargo run
+   Compiling hello_rust v0.1.0 (/Users/user/my-space/hello_rust)
+    Finished dev [unoptimized + debuginfo] target(s) in 2.80s
+     Running `target/debug/hello_rust`
+Hello, world!
+```
+
+※ファイル名に2単語以上使う場合は、アンダースコアで区切るのが慣例のよう
+
+## cargoコマンド
+- **cargo new** を使ってプロジェクトを作成できる
+- **cargo build** を使ってプロジェクトをビルドできる
+- **cargo run** を使うとプロジェクトのビルドと実行を1ステップで行える
+- **cargo check** を使うとバイナリを生成せずにプロジェクトをビルドして、エラーがないか確認できる
+- Cargoは、ビルドの成果物をコードと同じディレクトリに保存するのではなく、target/debugディレクトリに格納する
+
+# Rustの開発で役立つツール
+
+## rust-analyzer
+- Rust の Language Server / フォーマッター
+  - [rust-analyzer（vscode）](https://marketplace.visualstudio.com/items?itemName=matklad.rust-analyzer)
+  - [User Manual](https://rust-analyzer.github.io/manual.html#installation)
+  - フォーマットの設定ファイル：rustfmt.toml
+    - [Rustfmt](https://rust-lang.github.io)
+  - 主な機能
+    - コード補完
+    - 定義ジャンプ
+    - ホバー時に型やドキュメントを表示する
+    - インレイヒント
+    - シンタックスハイライト
+
+```plain
+（rustfmt.toml）
+tab_spaces = 2
+max_width = 160
+chain_width = 160
+```
+
+## CodeLLDB
+- [CodeLLDB](https://marketplace.visualstudio.com/items?itemName=vadimcn.vscode-lldb)
+  - デバッグをサポートするための拡張機能
+
+## Rust Test Explorer
+- [Rust Test Explorer](https://marketplace.visualstudio.com/items?itemName=swellaby.vscode-rust-test-adapter)
+  - テストをサイドバーから一覧表示して実行できるようになる。
+
+## Rust Doc Viewer
+- [Rust Doc Viewer](https://marketplace.visualstudio.com/items?itemName=JScearcy.rust-doc-viewer)
+  - cargo docで生成されたドキュメントを VSCode 上で表示できるようになる。
+
+## crates
+- [crates](https://marketplace.visualstudio.com/items?itemName=serayuzgur.crates)
+  - 最新のバージョンを編集画面に表示してくれる
+  - バージョンのとこをホバーすると選択可能なバージョンを表示してくれる
+  - 全てのクレートを一括で最新版にアップデートするコマンドが追加される
+
+## Even Better TOML
+- [Even Better TOML](https://marketplace.visualstudio.com/items?itemName=tamasfe.even-better-toml)
+  - Cargo.tomlで補完が効くようになる。
+
+## cargo-edit
+- [cargo-edit](https://crates.io/crates/cargo-edit)
+  - パッケージの追加/削除サブコマンド追加
+
+```bash
+# インストール
+% cargo install cargo-edit
+```
+
+**cargo-editの使い方**
+```bash
+# パッケージの追加
+% cargo add <パッケージ名>
+% cargo add <パッケージ名>@<バージョン指定>
+
+# パッケージの追加(開発用)
+% cargo add <パッケージ名> --dev
+
+# パッケージのアップグレード
+% cargo upgrade <パッケージ名>
+
+# パッケージの削除
+% cargo rm <パッケージ名>
+```
+
+## cargo-watch
+- [cargo-watch](https://crates.io/crates/cargo-watch)
+  - ファイル変更検知
+
+```bash
+# インストール
+% cargo install cargo-watch
+```
+
+**cargo-watchの使い方**
+```bash
+# cargo check の自動実行
+% cargo watch -x check
+
+# cargo test の自動実行
+% cargo watch -x test
+
+# cargo run の自動実行
+% cargo watch -x run
+
+# check, test, run の連続実行
+% cargo watch -x check -x test -x run
+
+# cargoではないコマンドの自動実行
+% cargo watch -- echo Hello world
+```
+
+# 参考
+  - [Rust をインストール（公式）](https://www.rust-lang.org/ja/tools/install)
+  - [macOSでRustのローカル開発環境を整えるための手順2022](https://qiita.com/notakaos/items/9f3ee8a3f3a0caf39f7b)
+  - [MacでRustの開発環境を構築する](https://qiita.com/maoutokagura/items/c2fd85132bcec399c3a1)
+  - [【Rust 入門】macOS と VSCode で環境構築をする方法](https://zenn.dev/shogo_wada_pro/articles/365e2710a44f5a)
+  - [実践Rustプログラミング入門](https://www.amazon.co.jp/%E5%AE%9F%E8%B7%B5Rust%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0%E5%85%A5%E9%96%80-%E5%88%9D%E7%94%B0-%E7%9B%B4%E4%B9%9F/dp/4798061700)
+  - [実践Rust入門[言語仕様から開発手法まで]](https://www.amazon.co.jp/%E5%AE%9F%E8%B7%B5Rust%E5%85%A5%E9%96%80-%E8%A8%80%E8%AA%9E%E4%BB%95%E6%A7%98%E3%81%8B%E3%82%89%E9%96%8B%E7%99%BA%E6%89%8B%E6%B3%95%E3%81%BE%E3%81%A7-%CE%BAeen/dp/4297105594)

@@ -1,0 +1,307 @@
+# 目次
+
+# Hono🔥を知る
+- **[Hono](https://hono.dev)とは、**
+  -  **JavaScriptでWebアプリを作るためのフレームワーク**
+    - [リポジトリ](https://github.com/honojs/hono)
+    - **jsでバックエンドの開発**するときに便利
+      - 似たフレームワークには・・・
+        - [Express.js](https://expressjs.com/ja/)
+        - [Koa.js](https://koajs.com)
+      - **API開発**などで使用できる
+   - **[Web標準API（Web Standard API）](https://developer.mozilla.org/ja/docs/Web/API)のみを使用している**
+     - 例えば、
+       - [fetchメソッド](https://fetch.spec.whatwg.org/#fetch-method) などが使用できる
+     - なので、**Web標準APIに準拠している[jsランタイム](javascript-runtime)でHonoは動作する**
+       - 関連記事：[JavaScriptランタイム（実行環境）について（図解）](javascript-runtime)
+    - **Hohoの実行環境（jsランタイム）**
+       - [workerd - Cloudflare Workers](https://developers.cloudflare.com/workers/)
+       - [Deno](https://deno.com)
+       - [Bun](https://bun.sh)
+       - [Fastly Compute](https://www.fastly.com/documentation/developers/)
+       - [AWS Lambda](https://docs.aws.amazon.com/ja_jp/lambda/latest/dg/welcome.html)
+       - [Node.js](https://nodejs.jp/docs)
+       - [edge-light - Vercel Edge Functions](https://vercel.com/docs/functions)
+  - **[Cloudflare](cloudflare-what-is)に勤めている和田裕介さん（[Twitter](https://twitter.com/yusukebe)）が開発**
+    - **Cloudflareに勤める前から開発している（2021年12月15日〜）**
+    - 「ただし、HonoはCloudflareのプロダクトではありません。僕が入社したことで、HonoもCloudflareの公式フレームワークに思えるかもしれませんが、そうではないのです。Honoはあくまでも僕を中心としたコントリビューターによるオープンソースのプロダクトです。」（引用：[「Honoはあくまでオープンソースプロダクト」開発者でコントリビューターの私が会社員になった理由」](https://findy-code.io/engineer-lab/yusukebe)）
+    - 「[ボケて](https://bokete.jp)」の開発者でもある
+      - 2ヶ月で開発されたとのこと（ソース：[「和田裕介（ボケて）×土屋泰洋：前編「ゆーすけべーの作り方」](https://dentsu-ho.com/articles/2006)」）
+  - **Hono開発者(和田さん)によるスライド**
+    - [どこでも動くWebフレームワークをつくる](https://speakerdeck.com/yusukebe/dokodemodong-kuwebhuremuwakuwotukuru)
+    - [Hono v4](https://speakerdeck.com/yusukebe/hono-v4)
+
+# Honoの具体的なコード（Hono未使用コードと比較）
+
+## 1. クエリパラメータを扱う
+
+**Hono使用:**
+
+```javascript
+// Honoをインポート
+import { Hono } from 'hono'
+
+// Honoアプリケーションを初期化
+const app = new Hono()
+
+// '/greet'エンドポイントにGETリクエストが来た場合の処理
+app.get('/greet', (c) => {
+  // クエリパラメータ'name'を取得、なければ'World'をデフォルト値とする
+  const name = c.req.query('name') || 'World'
+  // レスポンスとしてテキストを返す
+  return c.text(`Hello, ${name}!`)
+})
+
+// アプリケーションを起動
+app.fire()
+```
+
+**図解:**
+
+```plaintext
+[クライアント]
+  |
+  | (GET /greet?name=John)
+  v
+[Honoアプリケーション]
+  |
+  | (クエリパラメータ解析)
+  v
+[レスポンス生成]
+  |
+  | ("Hello, John!")
+  v
+[クライアント (レスポンス受信)]
+```
+
+---
+
+**Hono未使用（Node.jsのみ）:**
+
+```javascript
+// HTTPモジュールをインポート
+const http = require('http');
+// URLモジュールをインポート
+const url = require('url');
+
+// HTTPサーバーを作成
+const server = http.createServer((req, res) => {
+  // URLからクエリパラメータを解析
+  const queryObject = url.parse(req.url,true).query;
+  // 'name'クエリパラメータを取得、なければ'World'をデフォルト値とする
+  const name = queryObject.name || 'World';
+  // レスポンスヘッダを設定
+  res.writeHead(200, {'Content-Type': 'text/plain'});
+  // レスポンスボディを送信
+  res.end(`Hello, ${name}!`);
+});
+
+// サーバーをポート3000で起動
+server.listen(3000);
+```
+
+**図解:**
+
+```plaintext
+[クライアント]
+  |
+  | (GET /greet?name=John)
+  v
+[Node.js サーバー]
+  |
+  | (URL解析)
+  | (クエリパラメータ解析)
+  v
+[レスポンス生成]
+  |
+  | ("Hello, John!")
+  v
+[クライアント (レスポンス受信)]
+```
+
+## 2. JSONレスポンスを返すAPIエンドポイント
+
+**Hono使用:**
+
+```javascript
+// Honoをインポート
+import { Hono } from 'hono'
+
+// Honoアプリケーションを初期化
+const app = new Hono()
+
+// '/data'エンドポイントにGETリクエストが来た場合の処理
+app.get('/data', (c) => {
+  // レスポンスとして返すデータ
+  const data = { message: 'Hello, World!', numbers: [1, 2, 3] }
+  // レスポンスとしてJSONを返す
+  return c.json(data)
+})
+
+// アプリケーションを起動
+app.fire()
+```
+
+**図解:**
+
+```plaintext
+[クライアント]
+  |
+  | (GET /data)
+  v
+[Honoアプリケーション]
+  |
+  | (JSONレスポンス生成)
+  v
+[レスポンス送信]
+  |
+  | { "message": "Hello, World!", "numbers": [1, 2, 3] }
+  v
+[クライアント (レスポンス受信)]
+```
+
+---
+
+**Hono未使用（Node.jsのみ）:**
+
+```javascript
+// HTTPモジュールをインポート
+const http = require('http');
+
+// HTTPサーバーを作成
+const server = http
+
+.createServer((req, res) => {
+  // レスポンスとして返すデータ
+  const data = { message: 'Hello, World!', numbers: [1, 2, 3] };
+  // レスポンスヘッダを設定
+  res.writeHead(200, {'Content-Type': 'application/json'});
+  // レスポンスボディとしてJSONを送信
+  res.end(JSON.stringify(data));
+});
+
+// サーバーをポート3000で起動
+server.listen(3000);
+```
+
+**図解:**
+
+```plaintext
+[クライアント]
+  |
+  | (GET /data)
+  v
+[Node.js サーバー]
+  |
+  | (JSONレスポンス生成)
+  v
+[レスポンス送信]
+  |
+  | { "message": "Hello, World!", "numbers": [1, 2, 3] }
+  v
+[クライアント (レスポンス受信)]
+```
+
+## 3. ミドルウェアを活用する
+
+**Hono使用:**
+
+```javascript
+// Honoと基本認証ミドルウェアをインポート
+import { Hono } from 'hono'
+import { basicAuth } from 'hono/basic-auth'
+
+// Honoアプリケーションを初期化
+const app = new Hono()
+
+// '/protected/*'のパスに基本認証のミドルウェアを適用
+app.use('/protected/*', basicAuth({ username: 'user', password: 'pass' }))
+
+// '/protected/secret'エンドポイントにGETリクエストが来た場合の処理
+app.get('/protected/secret', (c) => c.text('Secret Information'))
+
+// アプリケーションを起動
+app.fire()
+```
+
+**図解:**
+
+```plaintext
+[クライアント]
+  |
+  | (GET /protected/secret)
+  v
+[Honoアプリケーション]
+  |
+  | (認証ミドルウェア)
+  | (認証成功)
+  v
+[レスポンス生成]
+  |
+  | ("Secret Information")
+  v
+[クライアント (レスポンス受信)]
+```
+
+---
+
+**Hono未使用（Node.jsのみ）:**
+
+```javascript
+// HTTPと基本認証を解析するモジュールをインポート
+const http = require('http');
+const auth = require('basic-auth');
+
+// HTTPサーバーを作成
+const server = http.createServer((req, res) => {
+  // リクエストから認証情報を取得
+  const credentials = auth(req);
+
+  // 認証情報のチェック
+  if (!credentials || credentials.name !== 'user' || credentials.pass !== 'pass') {
+    // 認証失敗
+    res.writeHead(401, { 'WWW-Authenticate': 'Basic realm="example"' });
+    res.end('Access denied');
+  } else {
+    // 認証成功
+    res.writeHead(200, {'Content-Type': 'text/plain'});
+    res.end('Secret Information');
+  }
+});
+
+// サーバーをポート3000で起動
+server.listen(3000);
+```
+
+**図解:**
+
+```plaintext
+[クライアント]
+  |
+  | (GET /protected/secret)
+  v
+[Node.js サーバー]
+  |
+  | (認証情報解析)
+  | (認証チェック)
+  | (認証成功)
+  v
+[レスポンス生成]
+  |
+  | ("Secret Information")
+  v
+[クライアント (レスポンス受信)]
+```
+
+# Honoに関する外部記事
+  - [Hono[炎]っていうイケてる名前のフレームワークを作っている](https://zenn.dev/yusukebe/articles/0c7fed0949e6f7)
+  - [[Cloudflare Workers] HonoにJSXミドルウェアが追加されました](https://zenn.dev/yusukebe/articles/c9bc1aa389cbd7)
+  - [Honoのv3が出ました](https://zenn.dev/yusukebe/articles/53713b41b906de)
+  - [Honoのv3.2が出ました](https://zenn.dev/yusukebe/articles/ee57dc12f34724)
+  - [BunとHono](https://zenn.dev/yusukebe/articles/efa173ab4b9360)
+  - [Hono + htmx + Cloudflareは新しいスタック](https://zenn.dev/yusukebe/articles/e8ff26c8507799)
+  - [Honoの新しいCloudflare Pagesスターターについて](https://zenn.dev/yusukebe/articles/92fcb0ef03b151)
+  - [HonoのNode.jsアダプタが2.7倍速くなりました](https://zenn.dev/yusukebe/articles/7ac501716ae1f7)
+  - [Honoのv3.10とv3.11について](https://zenn.dev/yusukebe/articles/d1be7aa06999cb)
+  - [Honoのv4が2月9日にリリースされます](https://zenn.dev/yusukebe/articles/b20025ebda310a)
+  - [HonoXについて](https://zenn.dev/yusukebe/articles/724940fa3f2450)

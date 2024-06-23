@@ -1,11 +1,9 @@
 import { PostCard } from "@/src/ui/components/PostCard";
-import { compareDesc } from "date-fns";
 import { css } from "@/lib/styled-system/css";
 import Image from "next/image";
+import { getAllPosts } from "@/src/app/posts/_utils";
 
 export const PageHomeView = () => {
-  const posts: any = "";
-
   return (
     <>
       <div
@@ -114,9 +112,9 @@ export const PageHomeView = () => {
           },
         })}
       >
-        {/* {posts.map((post, idx) => (
-          <PostCard key={idx} {...post} />
-        ))} */}
+        {getAllPosts().map((post) => (
+          <PostCard key={post.slug} post={post} />
+        ))}
       </div>
     </>
   );

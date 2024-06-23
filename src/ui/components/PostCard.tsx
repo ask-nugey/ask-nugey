@@ -1,14 +1,18 @@
 import Link from "next/link";
-import { format, parseISO } from "date-fns";
-import { Post } from "contentlayer/generated";
+import { format } from "date-fns";
 import { css } from "@/lib/styled-system/css";
 import { Tag } from "antd";
+import { Post } from "@/src/app/posts/_type";
 
-export const PostCard = (post: Post) => {
+type Props = {
+  post: Post;
+};
+
+export const PostCard = (props: Props) => {
   return (
     <article>
       <Link
-        href={post.url}
+        href={props.post.slug}
         className={css({
           display: "grid",
           gap: 2,
@@ -28,13 +32,13 @@ export const PostCard = (post: Post) => {
         })}
       >
         <time
-          dateTime={post.createdAt}
+          dateTime={props.post.createdAt.toString()}
           className={css({
             display: "block",
             color: "gray.400",
           })}
         >
-          {format(parseISO(post.createdAt), "yyyy/MM/d")}
+          {format(props.post.createdAt, "yyyy/MM/d")}
         </time>
         <h2
           className={css({
@@ -43,16 +47,16 @@ export const PostCard = (post: Post) => {
             fontWeight: "bold",
           })}
         >
-          {post.title}
+          {props.post.title}
         </h2>
-        {post.description && (
+        {props.post.description && (
           <div
             className={css({
               color: "#444",
               fontSize: "md",
             })}
           >
-            {post.description}
+            {props.post.description}
           </div>
         )}
         <div
@@ -61,7 +65,7 @@ export const PostCard = (post: Post) => {
             flexWrap: "wrap",
           })}
         >
-          {post.tags.map((tag) => (
+          {props.post.tags.map((tag) => (
             <Tag key={tag} color="gold">
               # {tag}
             </Tag>

@@ -1,0 +1,271 @@
+# 目次
+
+# 概要
+- APIサーバー構築とDBサーバーの構築
+  - 機能
+    - CRUD（作成、読み取り、更新、削除）
+  - 使用技術
+    - Go言語（golnag）
+    - MySQL（※変更する可能性アリ）
+  - 環境構築
+    - Docker
+
+## 大まかな構成
+```plain
+クライアント（ブラウザ）
+  |
+  | HTTPリクエスト
+  V
+[ APIサーバー ]
+  | ∧ (Go言語)
+  | |
+  | | データ操作
+  | | (作成, 読み取り, 更新, 削除)
+  | |
+  V |
+[ データベース (MySQL) ]
+     (データ保管)
+```
+
+## 構築の流れ
+- 1. GoでAPIサーバー構築
+- 2. MySQLのDBサーバー構築
+- 3. GoとMySQlを接続
+
+## ディレクトリ構成
+
+```plain
+go-api-server/
+├── docker-compose.yml # Docker Compose設定ファイル
+├── api-server
+│   ├── Dockerfile
+│   └── app
+│       ├── go.mod     # Goモジュール
+│       └── main.go
+└── database
+    ├── Dockerfile
+    └── .env
+```
+
+# apiサーバーの構築
+
+**流れ**
+```plain
+[ ユーザーのマシン ]
+    |
+    | Dockerコマンド
+    V
+[ Docker Engine ]
+    | (Dockerfileに基づいたイメージのビルド)
+    V
+[ Dockerイメージ (Go Webサーバー) ]
+    | (コンテナ内での実行)
+    V
+[ Dockerコンテナ ]
+    | (Go言語で書かれたWebサーバー)
+    |
+    | 1. HTTPリクエスト受信
+    | 2. リクエスト処理
+    V
+[ Go Webサーバー ]
+    | (ルーティング、ハンドラー)
+    |
+    └── レスポンス送信
+```
+---
+**ディレクトリ構成**
+```plain
+api-server/
+│
+├── Dockerfile   # GoアプリケーションのDockerfile
+├── go.mod       # Goモジュール定義ファイル
+└── main.go      # アプリケーションのエントリポイント
+```
+---
+**Dockerfile（例）**
+```js
+# 使用するGoのバージョンを指定
+FROM golang:1.18
+
+# ワークディレクトリの設定
+WORKDIR /app
+
+# 必要なファイルをコンテナにコピー
+COPY go.mod ./
+COPY main.go ./
+
+# Goモジュールをダウンロード
+RUN go mod download
+
+# アプリケーションをビルド
+RUN go build -o /api-server
+
+# ポート8080を公開
+EXPOSE 8080
+
+# アプリケーションの実行
+CMD [ "/api-server" ]
+```
+---
+**main.go (基本的なWebサーバー)**
+```go
+package main
+
+import (
+    "fmt"
+    "net/http"
+)
+
+func main() {
+    http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+        fmt.Fprintf(w, "Hello, Docker and Go!")
+    })
+
+    http.ListenAndServe(":8080", nil)
+}
+```
+
+# DBサーバーの構築
+**流れ**
+```plain
+[ ユーザーのマシン ]
+    |
+    | Docker Composeコマンド
+    V
+[ Docker Engine ]
+    | (docker-compose.ymlに基づいたサービスのビルド)
+    V
+[ Dockerコンテナ (MySQLサーバー) ]
+    | (MySQLサーバーの実行)
+    |
+    | データベース接続受付
+    |
+    V
+[ MySQLデータベース ]
+    | (データの永続化)
+    |
+    └── データの保存と管理
+```
+---
+**ディレクトリ構成**
+```plain
+database/
+│
+├── docker-compose.yml   # Docker Compose設定ファイル
+└── .env                 # 環境変数ファイル（オプション）
+```
+---
+**Dockerfile（例）**
+```yaml
+version: '3.8'
+services:
+  db:
+    image: mysql:8.0
+    container_name: my_mysql
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: mypassword
+      MYSQL_DATABASE: mydatabase
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    volumes:
+      - my_db_data:/var/lib/mysql
+volumes:
+  my_db_data:
+```
+
+.envファイル（オプション）
+```js
+MYSQL_ROOT_PASSWORD=mypassword
+MYSQL_DATABASE=mydatabase
+MYSQL_USER=user
+MYSQL_PASSWORD=password
+```
+---
+- TODO: 追加予定の内容
+  - envファイルの説明
+    - goでのenv読み込みコード
+  - goでDBテーブルに接続コード
+    - database/sql パッケージ
+    - DBドライバ
+      - データベースの種類ごとに異なる
+
+# APIサーバーとDBサーバーを接続
+**構成**
+```plain
+[ Dockerコンテナ ]──────────┐
+　|                        |
+　| [ APIサーバー ]　　      |
+　|   | ∧ (Go言語)　        |
+　|   | |                  |
+　|   | | 1. DB接続　       |
+　|   | | 2. DBテーブル作成  |
+　|   | |                  |
+　|   V |                  |
+　| [ データベース (MySQL) ] |
+　|      (データ保管)　      |
+　|                        |
+　└────────────────────────┘
+```
+---
+**ディレクトリ構成**
+```plain
+go-api-server/
+├── docker-compose.yml
+├── api-server
+│   ├── Dockerfile
+│   └── app
+│       ├── go.mod
+│       └── main.go
+└── database
+    ├── Dockerfile
+    └── .env
+```
+---
+**docker-compose.yml（例）**
+```yaml
+version: '3.8'
+
+services:
+  api-server:
+    build:
+      context: ./api-server
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - DB_HOST=database
+      - DB_PORT=3306
+      - DB_USER=user
+      - DB_PASSWORD=password
+      - DB_NAME=mydatabase
+    depends_on:
+      - database
+
+  database:
+    build:
+      context: ./database
+      dockerfile: Dockerfile
+    environment:
+      - MYSQL_ROOT_PASSWORD=rootpassword
+      - MYSQL_DATABASE=mydatabase
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=password
+    ports:
+      - "3306:3306"
+    volumes:
+      - db-data:/var/lib/mysql
+
+volumes:
+  db-data:
+```
+---
+- TODO: 追加予定の内容）
+  - DBテーブルの初期化（作成）の説明
+    - 方法
+      - goのDB操作ライブラリ
+        - SQLを実行して作成
+        - ORMを使用して作成
+      - マイグレーションツールを使用
+      - 手動でSQLスクリプト実行して作成
