@@ -1,42 +1,48 @@
-# 目次
+## 目次
 
-# React 19の内容を翻訳してみた
-[公式のブログ](https://react.dev/blog/2024/02/15/react-labs-what-we-have-been-working-on-february-2024)でReact 19のアナウンスが出ました。
+## React 19 の内容を翻訳してみた
 
-この内容をChatGPTでなるべく端的にまとめました。以下、翻訳兼要約になります↓
+[公式のブログ](https://react.dev/blog/2024/02/15/react-labs-what-we-have-been-working-on-february-2024)で React 19 のアナウンスが出ました。
+
+この内容を ChatGPT でなるべく端的にまとめました。以下、翻訳兼要約になります ↓
 
 ---
 
-# React Labs: 私たちが取り組んでいること – 2024年2月 – React
+## React Labs: 私たちが取り組んでいること – 2024 年 2 月 – React
 
-2024年2月15日にJoseph Savona、Ricky Hanlon、Andrew Clark、Matt Carroll、Dan Abramovによって記されました。
+2024 年 2 月 15 日に Joseph Savona、Ricky Hanlon、Andrew Clark、Matt Carroll、Dan Abramov によって記されました。
 
-React Labsでは、私たちは現在研究開発中のプロジェクトについての進捗を共有しています。[前回の更新](https://react.dev/blog/2023/03/22/react-labs-what-we-have-been-working-on-march-2023)から、私たちは大きな進歩を遂げており、これらの進展を皆さんと共有したいと考えています。
+React Labs では、私たちは現在研究開発中のプロジェクトについての進捗を共有しています。[前回の更新](https://react.dev/blog/2023/03/22/react-labs-what-we-have-been-working-on-march-2023)から、私たちは大きな進歩を遂げており、これらの進展を皆さんと共有したいと考えています。
 
-**注目**: 2024年5月15日から16日にかけて、ネバダ州ヘンダーソンでReact Conf 2024が開催されます。対面での参加を希望される方は、2月28日までにチケットの抽選にサインアップすることができます。チケット、無料ストリーミング、スポンサーシップに関する詳細はReact Confのウェブサイトをご覧ください。
+**注目**: 2024 年 5 月 15 日から 16 日にかけて、ネバダ州ヘンダーソンで React Conf 2024 が開催されます。対面での参加を希望される方は、2 月 28 日までにチケットの抽選にサインアップすることができます。チケット、無料ストリーミング、スポンサーシップに関する詳細は React Conf のウェブサイトをご覧ください。
 
-## React Compiler
+### React Compiler
 
-### 現状
-React Compilerはもはや研究プロジェクトではなく、現在instagram.comの本番環境で稼働しています。Metaでの追加プラットフォームへの展開と最初のオープンソースリリースの準備が進められています。
+#### 現状
 
-### 目的
-[前回の投稿](https://react.dev/blog/2023/03/22/react-labs-what-we-have-been-working-on-march-2023#react-optimizing-compiler)で説明したようにReactの以前のバージョンでは、状態が変化すると不必要に多くの再レンダリングが行われることがありました。これを解決するために[useMemo](https://react.dev/reference/react/useMemo)、[useCallback](https://react.dev/reference/react/useCallback)、[memo](https://react.dev/reference/react/memo)といったAPIを使用して手動でメモ化する手法がありましたが、これはコードを複雑にし、正確に実行するのが難しいものでした。React Compilerの目的は、Reactが状態の変化に応じてUIの必要な部分だけを自動的に再レンダリングすることで、このプロセスを簡素化し、Reactの核となる思想を保持することです。
+React Compiler はもはや研究プロジェクトではなく、現在 instagram.com の本番環境で稼働しています。Meta での追加プラットフォームへの展開と最初のオープンソースリリースの準備が進められています。
 
-### 技術
-React Compilerは、JavaScriptのルールと「Reactのルール」の両方をモデル化して、安全にコードをコンパイルします。このアプローチにより、Reactコンポーネントが冪等であること、つまり同じ入力に対して同じ値を返し、propsや状態の値を変更しないことを保証します。
+#### 目的
 
-### サポート
-開発者が自分のコードがReactのルールに従っていることを確認できるように、[Strict Mode](https://react.dev/reference/react/StrictMode)と[ReactのESLintプラグイン](https://react.dev/learn/editor-setup#linting)の使用を推奨しています。これらのツールは、今日のアプリケーションの品質を向上させるだけでなく、将来の機能向けにアプリケーションを準備します。
+[前回の投稿](https://react.dev/blog/2023/03/22/react-labs-what-we-have-been-working-on-march-2023#react-optimizing-compiler)で説明したように React の以前のバージョンでは、状態が変化すると不必要に多くの再レンダリングが行われることがありました。これを解決するために[useMemo](https://react.dev/reference/react/useMemo)、[useCallback](https://react.dev/reference/react/useCallback)、[memo](https://react.dev/reference/react/memo)といった API を使用して手動でメモ化する手法がありましたが、これはコードを複雑にし、正確に実行するのが難しいものでした。React Compiler の目的は、React が状態の変化に応じて UI の必要な部分だけを自動的に再レンダリングすることで、このプロセスを簡素化し、React の核となる思想を保持することです。
+
+#### 技術
+
+React Compiler は、JavaScript のルールと「React のルール」の両方をモデル化して、安全にコードをコンパイルします。このアプローチにより、React コンポーネントが冪等であること、つまり同じ入力に対して同じ値を返し、props や状態の値を変更しないことを保証します。
+
+#### サポート
+
+開発者が自分のコードが React のルールに従っていることを確認できるように、[Strict Mode](https://react.dev/reference/react/StrictMode)と[React の ESLint プラグイン](https://react.dev/learn/editor-setup#linting)の使用を推奨しています。これらのツールは、今日のアプリケーションの品質を向上させるだけでなく、将来の機能向けにアプリケーションを準備します。
 
 コンパイラの動作を確認するには、[昨年秋の講演](https://www.youtube.com/watch?v=qOQClO3g8-Y)をご覧ください。
 
-## Actions
+### Actions
 
-### 開発
-[以前](https://react.dev/blog/2023/03/22/react-labs-what-we-have-been-working-on-march-2023#react-server-components)、Server Actionsの開発を通じて、私たちはAPIをクライアント専用アプリケーションのデータ処理をサポートするように拡張しました。
+#### 開発
 
-### 使用例
+[以前](https://react.dev/blog/2023/03/22/react-labs-what-we-have-been-working-on-march-2023#react-server-components)、Server Actions の開発を通じて、私たちは API をクライアント専用アプリケーションのデータ処理をサポートするように拡張しました。
+
+#### 使用例
 
 ```jsx
 <form action={search}>
@@ -47,26 +53,29 @@ React Compilerは、JavaScriptのルールと「Reactのルール」の両方を
 
 この例では、[`<form/>`](https://react.dev/reference/react-dom/components/form)を使用してユーザーのクエリに基づいた検索を実行します。
 
-### 機能
-アクション関数は、同期的または非同期的に操作を行うことができます。Reactは、データ送信のライフサイクル全体を管理し
+#### 機能
+
+アクション関数は、同期的または非同期的に操作を行うことができます。React は、データ送信のライフサイクル全体を管理し
 
 、開発者がフォームアクションの現在の状態や応答にアクセスできるようにします。
 
-### 目的
-ライブラリがコンポーネントAPIを設計する際にActionsパターンを採用し、React開発者に一貫した体験を提供します。
+#### 目的
 
-## React Canaryの新機能
+ライブラリがコンポーネント API を設計する際に Actions パターンを採用し、React 開発者に一貫した体験を提供します。
 
-React Canariesを導入し、設計がほぼ最終的なものに近づいた新機能を早期に採用するオプションを提供しています。これにより、Reactの開発プロセスが変更され、コミュニティと共に公開で機能を構築しています。
+### React Canary の新機能
 
-### 機能一覧
+React Canaries を導入し、設計がほぼ最終的なものに近づいた新機能を早期に採用するオプションを提供しています。これにより、React の開発プロセスが変更され、コミュニティと共に公開で機能を構築しています。
+
+#### 機能一覧
+
 - React Server Components
 - Asset Loading
 - Document Metadata
 - Actions
 
-これらの新機能に関するドキュメントはreact.devに追加されています。この機能が連携して動作するため、個々にStableチャネルでリリースすることは困難ですが、開発者が早期にフィードバックを提供する機会を提供します。
+これらの新機能に関するドキュメントは react.dev に追加されています。この機能が連携して動作するため、個々に Stable チャネルでリリースすることは困難ですが、開発者が早期にフィードバックを提供する機会を提供します。
 
-## 結論
+### 結論
 
-React Labsでは、開発中のプロジェクトについて進捗を共有し、Reactの将来に向けて新しい機能を開発しています。これらの機能は、開発者がより効率的にアプリケーションを構築し、ユーザー体験を向上させることを目指しています。React Conf 2024でのさらなる発表を楽しみにしています。
+React Labs では、開発中のプロジェクトについて進捗を共有し、React の将来に向けて新しい機能を開発しています。これらの機能は、開発者がより効率的にアプリケーションを構築し、ユーザー体験を向上させることを目指しています。React Conf 2024 でのさらなる発表を楽しみにしています。

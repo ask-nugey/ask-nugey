@@ -1,23 +1,24 @@
-# 目次
+## 目次
 
-# JavaScriptの実行環境（ランタイム）とは
-- Webブラウザやサーバー上でJavaScriptコードを実行するためのプラットフォーム
+## JavaScript の実行環境（ランタイム）とは
+
+- Web ブラウザやサーバー上で JavaScript コードを実行するためのプラットフォーム
   - 実行エンジン
-    - JavaScriptコードを解釈し、マシンコードに変換して実行する役割を持つ
+    - JavaScript コードを解釈し、マシンコードに変換して実行する役割を持つ
       - 代表的な実行エンジンには・・・
         - [V8](https://v8.dev)（Google Chrome, Node.js）
         - [SpiderMonkey](https://spidermonkey.dev)（Firefox）
         - [JavaScriptCore](https://developer.apple.com/documentation/javascriptcore)（Safari）
   - 発展の歴史
-    - **初期段階のJavaScript**
+    - **初期段階の JavaScript**
       - ブラウザ上でのみ使用されるスクリプト言語
       - ウェブページを動的にする機能を提供
         - 例：ページ上の要素の操作、フォームの正しい入力の検証
-    - **Node.jsの登場による変化**
-      - JavaScriptをサーバーサイドで使用可能に
+    - **Node.js の登場による変化**
+      - JavaScript をサーバーサイドで使用可能に
       - ウェブサイトのバックエンド開発にも適用されるようになる
-      - **Node.jsの特徴**
-        - 非同期I/Oを採用し、イベント駆動型のプログラミングを実現
+      - **Node.js の特徴**
+        - 非同期 I/O を採用し、イベント駆動型のプログラミングを実現
           - ウェブサーバーが複数のリクエストを同時に処理するときに力を発揮する
 
 ```plain
@@ -39,28 +40,30 @@
 +----------------+----------------+
 ```
 
-# JavaScript実行環境の比較
+## JavaScript 実行環境の比較
 
-## ブラウザ
+### ブラウザ
+
 - **ブラウザ**
   - **実行エンジン**:
     - ウェブページの動的な振る舞いを制御
-      - DOMの操作やイベントの処理を担う
+      - DOM の操作やイベントの処理を担う
     - 種類
       - V8 (Google Chrome, Opera)
       - SpiderMonkey (Firefox)
       - JavaScriptCore (Safari)
-      - Chakra (旧Microsoft Edge)
-  - **APIスタイル**:
-    - [Web標準](https://developer.mozilla.org/ja/docs/Web/API)
+      - Chakra (旧 Microsoft Edge)
+  - **API スタイル**:
+    - [Web 標準](https://developer.mozilla.org/ja/docs/Web/API)
   - **セキュリティ**:
     - サンドボックス
   - **パッケージ管理**:
-    - 無し（CDNまたはモジュール、ESモジュールのサポートによるnpmパッケージの利用増加）
+    - 無し（CDN またはモジュール、ES モジュールのサポートによる npm パッケージの利用増加）
   - **用途**:
     - クライアントサイド
 
 **内部構成：**
+
 ```plain
 [ブラウザ]
 |
@@ -72,6 +75,7 @@
 ```
 
 **処理の流れ：**
+
 ```plain
 [JavaScript コード]
         ↓
@@ -91,24 +95,26 @@
     [画面表示]
 ```
 
-## Node.js
+### Node.js
+
 - **[Node.js](https://nodejs.jp/docs)**
   - **実行エンジン**:
     - V8
-  - **APIスタイル**:
-    - [Node固有](https://nodejs.org/api/)
-      - ブラウザ特有のAPIに代わり、サーバーサイド操作やファイルシステムアクセスなどの機能を提供
+  - **API スタイル**:
+    - [Node 固有](https://nodejs.org/api/)
+      - ブラウザ特有の API に代わり、サーバーサイド操作やファイルシステムアクセスなどの機能を提供
   - **セキュリティ**:
     - ファイルシステムやネットワークへのフルアクセス許可（実行時フラグやポリシーファイルによるアクセス制御可能）
     - サンドボックスではない
   - **パッケージ管理**:
     - npm
-      - JavaScriptのパッケージマネージャ
-        - Node.jsエコシステム内のサードパーティモジュールやライブラリを管理
+      - JavaScript のパッケージマネージャ
+        - Node.js エコシステム内のサードパーティモジュールやライブラリを管理
   - **用途**:
     - サーバーサイド、CLI
 
 **内部構成：**
+
 ```plain
 [Node.js]
 |
@@ -127,6 +133,7 @@
 ```
 
 **処理の流れ：**
+
 ```plain
 [JavaScript コード]
       ↓
@@ -142,6 +149,7 @@
 ```
 
 **さらに詳細な流れ：**
+
 ```plain
         [JavaScript コード]
                  ↓
@@ -171,25 +179,26 @@
     [オペレーティングシステム]
 ```
 
-## Deno
+### Deno
 
 - **[Deno](https://docs.deno.com/runtime/manual)**
   - **実行エンジン**:
     - V8
-  - **APIスタイル**:
-    - Web標準 + [Deno固有](https://deno.land/api@v1.41.0?s=Deno)
-      - Rustで構築されたランタイムがAPIを提供する
+  - **API スタイル**:
+    - Web 標準 + [Deno 固有](https://deno.land/api@v1.41.0?s=Deno)
+      - Rust で構築されたランタイムが API を提供する
   - **セキュリティ**:
     - サンドボックス、明示的な権限
   - **パッケージ管理**:
-    - URLをベースにしたモジュールのインポートと配布をサポート
-      - 従来のnpmのようなパッケージマネージャを使用しない
-      - Deno自体がパッケージマネージャの役割を果たす
-    - Deno v1.25以降ではnpmパッケージが使える
+    - URL をベースにしたモジュールのインポートと配布をサポート
+      - 従来の npm のようなパッケージマネージャを使用しない
+      - Deno 自体がパッケージマネージャの役割を果たす
+    - Deno v1.25 以降では npm パッケージが使える
   - **用途**:
     - サーバーサイド、CLI、スクリプティング
 
 **内部構成：**
+
 ```plain
 [Deno]
 |
@@ -216,6 +225,7 @@
 ```
 
 **処理の流れ：**
+
 ```plain
 [JavaScript/TypeScript コード]
       ↓
@@ -234,6 +244,7 @@
 ```
 
 **さらに詳細な流れ：**
+
 ```plain
 [JavaScript/TypeScript コード]
             ↓
@@ -262,23 +273,24 @@
   [オペレーティングシステム]
 ```
 
-## Bun
+### Bun
 
 - **Bun**
   - **実行エンジン**:
     - JavaScriptCore
-  - **APIスタイル**:
-    - Web標準 + [Bun固有](https://bun.sh/docs/runtime/bun-apis)
+  - **API スタイル**:
+    - Web 標準 + [Bun 固有](https://bun.sh/docs/runtime/bun-apis)
   - **セキュリティ**:
     - サンドボックス、明示的な権限（セキュリティメカニズム含む）
   - **パッケージ管理**:
     - モジュール管理と配布に独自のアプローチを採用
-      - URLまたはnpmパッケージ名を用いたインポートと自動キャッシュ管理
-    - bun自体がパッケージマネージャーであり、npmと互換性がある
+      - URL または npm パッケージ名を用いたインポートと自動キャッシュ管理
+    - bun 自体がパッケージマネージャーであり、npm と互換性がある
   - **用途**:
     - サーバーサイド、CLI、スクリプティング
 
 **内部構成：**
+
 ```plain
 [Bun]
 |
@@ -303,6 +315,7 @@
 ```
 
 **処理の流れ：**
+
 ```plain
       [JavaScriptコード]
              ↓
@@ -321,21 +334,23 @@
     [オペレーティングシステム]
 ```
 
-## Cloudflare Workers
+### Cloudflare Workers
+
 - **Cloudflare Workers**
   - **実行エンジン**:
     - V8
-  - **APIスタイル**:
-    - Web標準 + [Cloudflare固有](https://developers.cloudflare.com/workers/runtime-apis/)
+  - **API スタイル**:
+    - Web 標準 + [Cloudflare 固有](https://developers.cloudflare.com/workers/runtime-apis/)
   - **セキュリティ**:
     - サンドボックス
   - **パッケージ管理**:
     - 単一ファイルまたはモジュールの形式でのコード管理をサポート
-    - Wrangler CLIツールを通じて開発プロセスを容易にする
+    - Wrangler CLI ツールを通じて開発プロセスを容易にする
   - **用途**:
     - [エッジコンピューティング](https://www.cloudflare.com/ja-jp/learning/serverless/glossary/what-is-edge-computing/)
 
 **内部構成：**
+
 ```plain
 [Cloudflare Workers]
 |
@@ -356,6 +371,7 @@
 ```
 
 **処理の流れ：**
+
 ```plain
 [JavaScript コード]
       ↓
@@ -372,6 +388,7 @@
 ```
 
 **さらに詳細な流れ：**
+
 ```plain
       [JavaScript コード]
              ↓

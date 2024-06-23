@@ -1,16 +1,18 @@
-# 目次
+## 目次
 
-# 概要
-- APIサーバー構築とDBサーバーの構築
+## 概要
+
+- API サーバー構築と DB サーバーの構築
   - 機能
     - CRUD（作成、読み取り、更新、削除）
   - 使用技術
-    - Go言語（golnag）
+    - Go 言語（golnag）
     - MySQL（※変更する可能性アリ）
   - 環境構築
     - Docker
 
-## 大まかな構成
+### 大まかな構成
+
 ```plain
 クライアント（ブラウザ）
   |
@@ -27,12 +29,13 @@
      (データ保管)
 ```
 
-## 構築の流れ
-- 1. GoでAPIサーバー構築
-- 2. MySQLのDBサーバー構築
-- 3. GoとMySQlを接続
+### 構築の流れ
 
-## ディレクトリ構成
+- 1. Go で API サーバー構築
+- 2. MySQL の DB サーバー構築
+- 3. Go と MySQl を接続
+
+### ディレクトリ構成
 
 ```plain
 go-api-server/
@@ -47,9 +50,10 @@ go-api-server/
     └── .env
 ```
 
-# apiサーバーの構築
+## api サーバーの構築
 
 **流れ**
+
 ```plain
 [ ユーザーのマシン ]
     |
@@ -72,8 +76,11 @@ go-api-server/
     |
     └── レスポンス送信
 ```
+
 ---
+
 **ディレクトリ構成**
+
 ```plain
 api-server/
 │
@@ -81,8 +88,11 @@ api-server/
 ├── go.mod       # Goモジュール定義ファイル
 └── main.go      # アプリケーションのエントリポイント
 ```
+
 ---
+
 **Dockerfile（例）**
+
 ```js
 # 使用するGoのバージョンを指定
 FROM golang:1.18
@@ -106,8 +116,11 @@ EXPOSE 8080
 # アプリケーションの実行
 CMD [ "/api-server" ]
 ```
+
 ---
-**main.go (基本的なWebサーバー)**
+
+**main.go (基本的な Web サーバー)**
+
 ```go
 package main
 
@@ -125,8 +138,10 @@ func main() {
 }
 ```
 
-# DBサーバーの構築
+## DB サーバーの構築
+
 **流れ**
+
 ```plain
 [ ユーザーのマシン ]
     |
@@ -146,18 +161,24 @@ func main() {
     |
     └── データの保存と管理
 ```
+
 ---
+
 **ディレクトリ構成**
+
 ```plain
 database/
 │
 ├── docker-compose.yml   # Docker Compose設定ファイル
 └── .env                 # 環境変数ファイル（オプション）
 ```
+
 ---
+
 **Dockerfile（例）**
+
 ```yaml
-version: '3.8'
+version: "3.8"
 services:
   db:
     image: mysql:8.0
@@ -175,24 +196,29 @@ volumes:
   my_db_data:
 ```
 
-.envファイル（オプション）
+.env ファイル（オプション）
+
 ```js
-MYSQL_ROOT_PASSWORD=mypassword
-MYSQL_DATABASE=mydatabase
-MYSQL_USER=user
-MYSQL_PASSWORD=password
+MYSQL_ROOT_PASSWORD = mypassword;
+MYSQL_DATABASE = mydatabase;
+MYSQL_USER = user;
+MYSQL_PASSWORD = password;
 ```
+
 ---
+
 - TODO: 追加予定の内容
-  - envファイルの説明
-    - goでのenv読み込みコード
-  - goでDBテーブルに接続コード
+  - env ファイルの説明
+    - go での env 読み込みコード
+  - go で DB テーブルに接続コード
     - database/sql パッケージ
-    - DBドライバ
+    - DB ドライバ
       - データベースの種類ごとに異なる
 
-# APIサーバーとDBサーバーを接続
+## API サーバーと DB サーバーを接続
+
 **構成**
+
 ```plain
 [ Dockerコンテナ ]──────────┐
 　|                        |
@@ -208,8 +234,11 @@ MYSQL_PASSWORD=password
 　|                        |
 　└────────────────────────┘
 ```
+
 ---
+
 **ディレクトリ構成**
+
 ```plain
 go-api-server/
 ├── docker-compose.yml
@@ -222,10 +251,13 @@ go-api-server/
     ├── Dockerfile
     └── .env
 ```
+
 ---
+
 **docker-compose.yml（例）**
+
 ```yaml
-version: '3.8'
+version: "3.8"
 
 services:
   api-server:
@@ -260,12 +292,14 @@ services:
 volumes:
   db-data:
 ```
+
 ---
+
 - TODO: 追加予定の内容）
-  - DBテーブルの初期化（作成）の説明
+  - DB テーブルの初期化（作成）の説明
     - 方法
-      - goのDB操作ライブラリ
-        - SQLを実行して作成
-        - ORMを使用して作成
+      - go の DB 操作ライブラリ
+        - SQL を実行して作成
+        - ORM を使用して作成
       - マイグレーションツールを使用
-      - 手動でSQLスクリプト実行して作成
+      - 手動で SQL スクリプト実行して作成
