@@ -2,7 +2,7 @@
 
 import { css } from "@/lib/styled-system/css";
 import { Layout, Menu } from "antd";
-import { MenuItemType } from "antd/es/menu/hooks/useItems";
+import { MenuItemType } from "antd/es/menu/interface";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { PropsWithChildren, useState } from "react";
