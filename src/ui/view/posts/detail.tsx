@@ -1,23 +1,20 @@
 import { css } from "@/lib/styled-system/css";
-import { Button, Divider, Tag } from "antd";
-import { Post } from "contentlayer/generated";
-import type { MDXComponents } from "mdx/types";
-import { useMDXComponent } from "next-contentlayer/hooks";
-import Link from "next/link";
-import { format, parseISO } from "date-fns";
-import { notFound } from "next/navigation";
+import { format } from "date-fns";
+import { PostMeta } from "@/src/app/posts/_type";
+import dynamic from "next/dynamic";
+import { Button, Tag } from "antd";
 import { HomeFilled, QuestionCircleFilled } from "@ant-design/icons";
 import { CommentCard } from "@/src/ui/components/CommentCard";
 
-const mdxComponents: MDXComponents = {
-  a: ({ href, children }) => <Link href={href as string}>{children}</Link>,
-  hr: () => <Divider />,
+type Props = {
+  slug: string;
+  meta: PostMeta;
 };
 
-export const PagePostsDetailView = ({ post }: { post: Post | undefined }) => {
-  if (!post) notFound();
-
-  const MDXContent = useMDXComponent(post.body.code);
+export const PostDetailView = (props: Props) => {
+  const MDXContent = dynamic(
+    () => import(`../../../post/${props.slug}/content.mdx`)
+  );
 
   return (
     <div
@@ -112,13 +109,13 @@ export const PagePostsDetailView = ({ post }: { post: Post | undefined }) => {
       })}
     >
       <time
-        dateTime={post.createdAt}
+        dateTime={props.meta.createdAt.toDateString()}
         className={css({
           display: "block",
           color: "gray.400",
         })}
       >
-        {format(parseISO(post.createdAt), "yyyy/MM/d")}
+        {format(props.meta.createdAt, "yyyy/MM/d")}
       </time>
       <h1
         className={css({
@@ -126,7 +123,7 @@ export const PagePostsDetailView = ({ post }: { post: Post | undefined }) => {
           fontWeight: "bold",
         })}
       >
-        {post.title}
+        {props.meta.title}
       </h1>
       <div
         className={css({
@@ -135,13 +132,13 @@ export const PagePostsDetailView = ({ post }: { post: Post | undefined }) => {
           marginBottom: 4,
         })}
       >
-        {post.tags.map((tag) => (
+        {props.meta.tags.map((tag) => (
           <Tag key={tag} color="gold">
             # {tag}
           </Tag>
         ))}
       </div>
-      <MDXContent components={mdxComponents} />
+      <MDXContent />
       <div
         className={css({
           display: "grid",
