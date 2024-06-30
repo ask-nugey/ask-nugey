@@ -1,9 +1,9 @@
+import rehypePrism from "@mapbox/rehype-prism";
 import nextMDX from "@next/mdx";
+import rehypeKatex from "rehype-katex";
+import rehypeSlug from "rehype-slug";
 import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
-import rehypeKatex from "rehype-katex";
-import rehypePrism from "@mapbox/rehype-prism";
-import rehypeSlug from "rehype-slug";
 import remarkToc from "remark-toc";
 
 /** @type {import('next').NextConfig} */

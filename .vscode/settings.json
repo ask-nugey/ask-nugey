@@ -1,0 +1,22 @@
+{
+  /* Linter and Formatter */
+  // linter
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+  "eslint.useESLintClass": true,
+  // formatter
+  "editor.defaultFormatter": "esbenp.prettier-vscode", // デフォルトフォーマッターをPrettierに設定
+  "editor.formatOnSave": true,
+  "editor.formatOnPaste": true,
+  "editor.formatOnType": true,
+  "[markdown]": {
+    "files.trimTrailingWhitespace": false,
+    "editor.defaultFormatter": "yzhang.markdown-all-in-one"
+  },
+
+  /* Typescript */
+  // プロジェクトのtsバージョンを優先
+  // 公式URL: https://code.visualstudio.com/docs/typescript/typescript-compiling#_using-the-workspace-version-of-typescript
+  "typescript.tsdk": "node_modules/typescript/lib"
+}
