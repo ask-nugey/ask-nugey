@@ -1,4 +1,4 @@
-import { PostMeta } from '@/src/app/posts/_type';
+import { PostMeta } from '@/src/types/post';
 
 export const meta: PostMeta = {
 	title: 'Go + DB + Docker でAPIサーバー構築（作成）',

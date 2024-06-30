@@ -4,7 +4,7 @@ import { format } from 'date-fns';
 import dynamic from 'next/dynamic';
 
 import { css } from '@/lib/styled-system/css';
-import { PostMeta } from '@/src/app/posts/_type';
+import { PostMeta } from '@/src/types/post';
 import { CommentCard } from '@/src/ui/components/CommentCard';
 
 type Props = {

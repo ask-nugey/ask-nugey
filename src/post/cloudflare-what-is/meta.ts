@@ -1,4 +1,4 @@
-import { PostMeta } from '@/src/app/posts/_type';
+import { PostMeta } from '@/src/types/post';
 
 export const meta: PostMeta = {
 	title: 'Cloudflare （クラウドフレア）とは',

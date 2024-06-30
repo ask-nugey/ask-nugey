@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
-import { Post, PostMeta } from '@/src/app/posts/_type';
+import { Post, PostMeta } from '@/src/types/post';
 
 const postsDirectory = path.join(process.cwd(), 'src', 'post');
 export const postSlugs = fs.readdirSync(postsDirectory).filter(file => {
