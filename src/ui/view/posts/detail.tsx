@@ -4,17 +4,16 @@ import { format } from 'date-fns';
 import dynamic from 'next/dynamic';
 
 import { css } from '@/lib/styled-system/css';
-import { PostMeta } from '@/src/types/post';
+import { Post } from '@/src/types/post';
 import { CommentCard } from '@/src/ui/components/CommentCard';
 
 type Props = {
-	slug: string;
-	meta: PostMeta;
+	post: Post;
 };
 
 export const PostDetailView = (props: Props) => {
-	const MDXContent = dynamic(
-		() => import(`../../../post/${props.slug}/content.mdx`),
+	const PostContent = dynamic(
+		() => import(`/src/post/${props.post.slug}/content.mdx`),
 	);
 
 	return (
@@ -110,13 +109,13 @@ export const PostDetailView = (props: Props) => {
 			})}
 		>
 			<time
-				dateTime={props.meta.createdAt.toDateString()}
+				dateTime={props.post.createdAt.toDateString()}
 				className={css({
 					display: 'block',
 					color: 'gray.400',
 				})}
 			>
-				{format(props.meta.createdAt, 'yyyy/MM/d')}
+				{format(props.post.createdAt, 'yyyy/MM/d')}
 			</time>
 			<h1
 				className={css({
@@ -124,7 +123,7 @@ export const PostDetailView = (props: Props) => {
 					fontWeight: 'bold',
 				})}
 			>
-				{props.meta.title}
+				{props.post.title}
 			</h1>
 			<div
 				className={css({
@@ -133,13 +132,13 @@ export const PostDetailView = (props: Props) => {
 					marginBottom: 4,
 				})}
 			>
-				{props.meta.tags.map(tag => (
+				{props.post.tags.map(tag => (
 					<Tag key={tag} color="gold">
 						# {tag}
 					</Tag>
 				))}
 			</div>
-			<MDXContent />
+			<PostContent />
 			<div
 				className={css({
 					display: 'grid',

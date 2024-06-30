@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 
-import { getPostMeta, postSlugs } from '@/src/app/posts/_utils';
+import { getAllPosts, getPostBySlug } from '@/src/app/_actions/posts';
 import { PostDetailView } from '@/src/ui/view/posts/detail';
 
 type Props = {
@@ -10,16 +10,16 @@ type Props = {
 };
 
 export async function generateStaticParams() {
-	return postSlugs.map(slug => ({
-		slug,
+	const posts = await getAllPosts();
+	return posts.map(post => ({
+		slug: post?.slug,
 	}));
 }
 
-export default function Page(props: Props) {
-	const { slug } = props.params;
-	const meta = getPostMeta(slug);
+export default async function Page(props: Props) {
+	const post = await getPostBySlug(props.params.slug);
 
-	if (!meta) notFound();
+	if (!post) notFound();
 
-	return <PostDetailView slug={slug} meta={meta!} />;
+	return <PostDetailView post={post} />;
 }

@@ -1,10 +1,11 @@
 import Image from 'next/image';
 
 import { css } from '@/lib/styled-system/css';
-import { getAllPosts } from '@/src/app/posts/_utils';
+import { getAllPosts } from '@/src/app/_actions/posts';
 import { PostCard } from '@/src/ui/components/PostCard';
 
-export const PageHomeView = () => {
+export const PageHomeView = async () => {
+	const posts = await getAllPosts();
 	return (
 		<>
 			<div
@@ -113,8 +114,8 @@ export const PageHomeView = () => {
 					},
 				})}
 			>
-				{getAllPosts().map(post => (
-					<PostCard key={post.slug} post={post} />
+				{posts.map(post => (
+					<PostCard key={post?.slug} post={post} />
 				))}
 			</div>
 		</>

@@ -6,10 +6,12 @@ import { css } from '@/lib/styled-system/css';
 import { Post } from '@/src/types/post';
 
 type Props = {
-	post: Post;
+	post?: Post;
 };
 
 export const PostCard = (props: Props) => {
+	if (!props.post) return null;
+
 	return (
 		<article>
 			<Link
