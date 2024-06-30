@@ -2,10 +2,24 @@ import Image from 'next/image';
 
 import { css } from '@/lib/styled-system/css';
 import { getAllPosts } from '@/src/app/_actions/posts';
+import { Post } from '@/src/types/post';
 import { PostCard } from '@/src/ui/components/PostCard';
 
 export const PageHomeView = async () => {
 	const posts = await getAllPosts();
+
+	/**
+	 * **新しい順に並び替えた記事**
+	 * - updatedAtが存在する場合はそれを、存在しない場合はcreatedAtを基準に並び替え
+	 */
+	const sortedPostsByNewest = posts
+		.filter((post): post is Post => post !== undefined)
+		.sort((postA, postB) => {
+			const dateA = new Date(postA.updatedAt ?? postA.createdAt).getTime();
+			const dateB = new Date(postB.updatedAt ?? postB.createdAt).getTime();
+			return dateB - dateA;
+		});
+
 	return (
 		<>
 			<div
@@ -114,7 +128,7 @@ export const PageHomeView = async () => {
 					},
 				})}
 			>
-				{posts.map(post => (
+				{sortedPostsByNewest.map(post => (
 					<PostCard key={post?.slug} post={post} />
 				))}
 			</div>
