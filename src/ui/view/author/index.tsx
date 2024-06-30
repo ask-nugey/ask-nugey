@@ -1,7 +1,7 @@
 export const PageAuthorView = () => {
-  return (
-    <>
-      <h1>ヌギーとは</h1>
-    </>
-  );
+	return (
+		<>
+			<h1>ヌギーとは</h1>
+		</>
+	);
 };
