@@ -1,33 +1,50 @@
 {
-  "name": "antd-demo",
+  "name": "ask-nugey",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": ">=18.17.0"
+  },
   "scripts": {
-    "prepare": "panda codegen",
     "dev": "rm -rf .next && next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "----- format -----": "",
+    "lint": "next lint --dir src",
+    "format": "prettier --write --ignore-path .gitignore './src/**/*.{js,jsx,ts,tsx,json,css}'",
+    "fix": "prettier --write --ignore-path .gitignore './src/**/*.{js,jsx,ts,tsx,json,css}' && next lint --fix --dir src",
+    "----- other -----": "",
+    "prepare↓  (MEMO: install後に以下scriptを実行)": "",
+    "prepare↓  (MEMO: `panda codegen` で panda.config.ts を元に styled-system/ を生成)": "",
+    "prepare": "panda codegen"
   },
   "dependencies": {
     "@giscus/react": "^3.0.0",
-    "@types/mapbox__rehype-prism": "^0.8.3",
-    "antd": "^5.12.6",
-    "contentlayer": "^0.3.4",
-    "date-fns": "^3.3.0",
-    "next": "13.5.6",
-    "next-contentlayer": "^0.3.4",
-    "react": "^18",
-    "react-dom": "^18"
+    "@mdx-js/loader": "^3.0.1",
+    "@mdx-js/react": "^3.0.1",
+    "@next/mdx": "^14.2.4",
+    "antd": "^5.18.3",
+    "date-fns": "^3.6.0",
+    "next": "^14.2.4",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
   },
   "devDependencies": {
-    "@ant-design/icons": "^5.2.6",
-    "@csstools/postcss-cascade-layers": "^4.0.3",
+    "@ant-design/icons": "^5.3.7",
+    "@csstools/postcss-cascade-layers": "^4.0.6",
     "@mapbox/rehype-prism": "^0.9.0",
-    "@pandacss/dev": "^0.26.1",
-    "@types/node": "^20",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
+    "@pandacss/dev": "^0.41.0",
+    "@types/node": "^20.14.9",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@typescript-eslint/eslint-plugin": "^7.14.1",
+    "@typescript-eslint/parser": "^7.14.1",
+    "eslint": "^8.56.0",
+    "eslint-config-next": "^14.2.4",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-storybook": "^0.8.0",
+    "eslint-plugin-unused-imports": "^4.0.0",
+    "prettier": "^3.3.2",
     "rehype-accessible-emojis": "^0.3.2",
     "rehype-autolink-headings": "^7.1.0",
     "rehype-code-titles": "^1.2.0",
@@ -38,6 +55,6 @@
     "remark-gfm": "^4.0.0",
     "remark-math": "^6.0.0",
     "remark-toc": "^9.0.0",
-    "typescript": "^5"
+    "typescript": "^5.5.2"
   }
 }

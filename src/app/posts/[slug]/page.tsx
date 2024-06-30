@@ -1,45 +1,25 @@
-import { PagePostsDetailView } from "@/src/ui/view/posts/detail";
-import { allPosts } from "contentlayer/generated";
-import { Metadata } from "next";
+import { notFound } from 'next/navigation';
 
-const siteName = "Ask Nugey!（ヌギーにきいて!）";
-const description = "Ask Nugey! → プログラミング、デザイン、AI、CSS...etc";
+import { getAllPosts, getPostBySlug } from '@/src/app/_actions/posts';
+import { PostDetailView } from '@/src/ui/view/posts/detail';
 
 type Props = {
-  params: { slug: string };
+	params: {
+		slug: string;
+	};
 };
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const post = allPosts.find((post) => post._raw.flattenedPath === params.slug);
-
-  return {
-    title: post?.title,
-    description: post?.description,
-    openGraph: {
-      title: `${post?.title} | ${siteName}`,
-      description: `${post?.description} | ${siteName}`,
-      images: [
-        {
-          url: "https://ask-nugey.com/opengraph-image.png",
-        },
-      ],
-    },
-    twitter: {
-      title: `${post?.title} | ${siteName}`,
-      description: `${post?.description} | ${description}`,
-      images: [
-        {
-          url: "https://ask-nugey.com/opengraph-image.png",
-        },
-      ],
-    },
-  };
+export async function generateStaticParams() {
+	const posts = await getAllPosts();
+	return posts.map(post => ({
+		slug: post?.slug,
+	}));
 }
 
-const PagePostsDetail = async function PagePostsDetail({ params }: Props) {
-  const post = allPosts.find((post) => post._raw.flattenedPath === params.slug);
+export default async function Page(props: Props) {
+	const post = await getPostBySlug(props.params.slug);
 
-  return <PagePostsDetailView post={post} />;
-};
+	if (!post) notFound();
 
-export default PagePostsDetail;
+	return <PostDetailView post={post} />;
+}

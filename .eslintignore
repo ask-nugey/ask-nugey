@@ -1,0 +1,10 @@
+node_modules
+**/.next/**
+**/_next/**
+**/dist/**
+public/
+package.json
+package-lock.json
+next.config.js
+webpack.config.js
+**/storybook-static/**

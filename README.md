@@ -7,7 +7,6 @@
 - **Framework**: [Next.js](https://nextjs.org/)
 - **Styling**: [Panda CSS](https://panda-css.com)
 - **Component library**: [Ant Design](https://ant.design)
-- **Content**: [MDX](https://github.com/mdx-js/mdx) and [contentlayer](https://contentlayer.dev)
 - **Database**: -
 - **Analytics**: -
 - **Deployment**: [Vercel](https://vercel.com)
