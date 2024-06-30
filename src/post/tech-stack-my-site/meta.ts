@@ -1,4 +1,4 @@
-import { PostMeta } from '@/src/app/posts/_type';
+import { PostMeta } from '@/src/types/post';
 
 export const meta: PostMeta = {
 	title: '「Ask Nuegy（ヌギーに聞いて！）」ブログの技術選定',

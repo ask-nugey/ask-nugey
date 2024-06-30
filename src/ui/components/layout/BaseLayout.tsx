@@ -120,7 +120,7 @@ export const BaseLayout = ({ children }: PropsWithChildren) => {
 						})}
 					>
 						{SnsItems.map(item => (
-							<Link
+							<a
 								key={item.key}
 								href={item.key}
 								target="_blank"
@@ -134,7 +134,7 @@ export const BaseLayout = ({ children }: PropsWithChildren) => {
 								})}
 							>
 								{item.icon}
-							</Link>
+							</a>
 						))}
 					</div>
 				</div>
