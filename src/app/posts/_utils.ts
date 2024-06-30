@@ -14,6 +14,7 @@ export const postSlugs = fs.readdirSync(postsDirectory).filter(file => {
 
 export const getPostMeta = (slug: string) => {
 	try {
+		// eslint-disable-next-line @typescript-eslint/no-var-requires
 		const { meta }: { meta: PostMeta } = require(`../../post/${slug}/meta`);
 		return meta;
 	} catch {

@@ -6,8 +6,7 @@ import { Layout, Menu } from 'antd';
 import { MenuItemType } from 'antd/es/menu/interface';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { PropsWithChildren, useState } from 'react';
+import { PropsWithChildren } from 'react';
 
 import { css } from '@/lib/styled-system/css';
 
@@ -41,8 +40,8 @@ const SnsItems = [
 ];
 
 export const BaseLayout = ({ children }: PropsWithChildren) => {
-	const [current, setCurrent] = useState('');
-	const router = useRouter();
+	// const [current, setCurrent] = useState('');
+	// const router = useRouter();
 
 	return (
 		<Layout
@@ -99,7 +98,7 @@ export const BaseLayout = ({ children }: PropsWithChildren) => {
 						//   setCurrent(e.key);
 						//   router.push(e.key);
 						// }}
-						selectedKeys={[current]}
+						// selectedKeys={[current]}
 						items={MenuItems}
 						className={css({
 							flex: 1,
