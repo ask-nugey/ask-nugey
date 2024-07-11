@@ -8,7 +8,6 @@ import { ThemeProvider } from '@/src/styles/AntdThemeProvider';
 import { BaseLayout } from '@/src/ui/components/layout/BaseLayout';
 import MergeProvider from '@/src/utils/MergeProvider';
 
-
 const inter = Inter({ subsets: ['latin'] });
 const siteName = 'Ask Nugey!（ヌギーにきいて!）';
 const description = 'Ask Nugey! → プログラミング、デザイン、AI、CSS...etc';
