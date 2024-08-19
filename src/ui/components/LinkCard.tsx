@@ -57,7 +57,7 @@ export const LinkCard = async (props: Props) => {
 							fontWeight: 'bold',
 							overflow: 'hidden',
 							textOverflow: 'ellipsis',
-							// WebkitBoxOrient: 'vertical', TODO: エラー解消
+							WebkitBoxOrient: 'vertical',
 							WebkitLineClamp: 2,
 						})}
 					>
@@ -70,7 +70,7 @@ export const LinkCard = async (props: Props) => {
 							fontSize: 14,
 							overflow: 'hidden',
 							textOverflow: 'ellipsis',
-							// WebkitBoxOrient: 'vertical', TODO: エラー解消
+							WebkitBoxOrient: 'vertical',
 							WebkitLineClamp: 1,
 						})}
 					>
@@ -83,7 +83,7 @@ export const LinkCard = async (props: Props) => {
 							fontSize: 12,
 							overflow: 'hidden',
 							textOverflow: 'ellipsis',
-							// WebkitBoxOrient: 'vertical', TODO: エラー解消
+							WebkitBoxOrient: 'vertical',
 							WebkitLineClamp: 1,
 						})}
 					>
