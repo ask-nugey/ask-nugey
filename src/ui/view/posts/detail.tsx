@@ -106,6 +106,44 @@ export const PostDetailView = (props: Props) => {
 				'& li': {
 					listStyleType: 'disc',
 				},
+
+				'& table': {
+					width: 'max-content',
+					fontSize: '0.875rem', // text-sm
+					textAlign: 'left',
+					color: '#555',
+					overflowX: 'auto',
+					boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', // shadow-md
+					borderRadius: '0.5rem', // sm:rounded-lg
+
+					mdDown: {
+						width: '100%',
+					},
+				},
+
+				'& thead': {
+					fontSize: '0.875rem', // text-sm
+					color: '#374151', // text-gray-700
+					backgroundColor: '#f9fafb', // bg-gray-50
+				},
+
+				'& th': {
+					paddingLeft: '1.5rem', // px-6
+					paddingRight: '1.5rem', // px-6
+					paddingTop: '0.75rem', // py-3
+					paddingBottom: '0.75rem', // py-3
+				},
+
+				'& tr': {
+					borderBottom: '1px solid #e5e7eb', // border-b
+				},
+
+				'& td': {
+					paddingLeft: '1.5rem', // px-6
+					paddingRight: '1.5rem', // px-6
+					paddingTop: '0.75rem', // py-3
+					paddingBottom: '0.75rem', // py-3
+				},
 			})}
 		>
 			<time
