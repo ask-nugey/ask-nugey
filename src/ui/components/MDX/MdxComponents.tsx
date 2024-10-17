@@ -41,4 +41,10 @@ export const MdxComponents: MDXComponents = {
 	},
 
 	hr: () => <Divider />,
+
+	table: ({ children }) => (
+		<div style={{ overflowX: 'auto' }}>
+			<table>{children}</table>
+		</div>
+	),
 };
