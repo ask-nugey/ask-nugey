@@ -1,6 +1,7 @@
 type Tag =
 	| 'Go'
 	| 'Rust'
+	| 'Python'
 	| 'js'
 	| 'React'
 	| 'CSS'
