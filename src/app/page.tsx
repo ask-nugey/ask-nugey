@@ -1,7 +1,13 @@
 import { PageHomeView } from '@/src/ui/view/home';
 
-const PageHome = function PageHome() {
-	return <PageHomeView />;
+export type PageHomeProps = {
+	searchParams: {
+		tab?: 'all' | 'theme';
+	};
+};
+
+const PageHome = function PageHome(props: PageHomeProps) {
+	return <PageHomeView {...props} />;
 };
 
 export default PageHome;
