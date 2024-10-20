@@ -13,7 +13,11 @@ export const PostCard = (props: Props) => {
 	if (!props.post) return null;
 
 	return (
-		<article>
+		<article
+			className={css({
+				display: 'grid',
+			})}
+		>
 			<Link
 				href={`/posts/${props.post.slug}`}
 				className={css({
@@ -27,10 +31,11 @@ export const PostCard = (props: Props) => {
 					overflow: 'hidden',
 
 					'& h2': {
-						textDecoration: 'underline',
+						textDecoration: 'none',
+						whiteSpace: 'break-spaces',
 					},
 					'&:hover h2': {
-						textDecoration: 'none',
+						textDecoration: 'underline',
 					},
 				})}
 			>
@@ -66,6 +71,12 @@ export const PostCard = (props: Props) => {
 					className={css({
 						display: 'flex',
 						flexWrap: 'wrap',
+						justifyContent: 'flex-end',
+						alignItems: 'flex-end',
+						'& span': {
+							fontSize: 'xs',
+							lineHeight: '1.6em',
+						},
 					})}
 				>
 					{props.post.tags.map(tag => (
