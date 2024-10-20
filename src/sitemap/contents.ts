@@ -300,7 +300,7 @@ export const themes: ArticleNode[] = [
 	},
 	{
 		theme: 'Python',
-		articles: [],
+		articles: ['pyenv-version-management', 'python-version-env-tools'],
 		children: [
 			{
 				theme: 'Python入門',

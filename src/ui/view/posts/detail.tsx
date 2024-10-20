@@ -106,9 +106,6 @@ export const PostDetailView = (props: Props) => {
 				'& li': {
 					listStyleType: 'disc',
 				},
-				'& li pre': {
-					display: 'table-column',
-				},
 
 				'& table': {
 					width: 'max-content',
