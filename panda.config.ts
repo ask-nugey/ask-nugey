@@ -52,6 +52,25 @@ export default defineConfig({
 						900: { value: '{colors.indigo.900}' },
 						950: { value: '{colors.indigo.950}' },
 					},
+					state: {
+						error: { value: '#ff4d4f' },
+						info: { value: '#1677ff' },
+						link: { value: '#1677ff' },
+						success: { value: '#52c41a' },
+						warning: { value: '#faad14' },
+					},
+					text: {
+						base: { value: '#333' },
+						white: { value: '#fff' },
+					},
+					bg: {
+						base: { value: '#faf9f7' },
+						white: { value: '#fff' },
+					},
+					border: {
+						base: { value: '#eeebe4' },
+						white: { value: '#fff' },
+					},
 				},
 			},
 		},
