@@ -1,11 +1,14 @@
 import Image from 'next/image';
+import Link from 'next/link';
 
 import { css } from '@/lib/styled-system/css';
 import { getAllPosts } from '@/src/app/_actions/posts';
+import { PageHomeProps } from '@/src/app/page';
 import { Post } from '@/src/types/post';
-import { PostCard } from '@/src/ui/components/PostCard';
+import { AllPosts } from '@/src/ui/view/home/_index/AllPosts';
+import { ThemePosts } from '@/src/ui/view/home/_index/ThemePosts';
 
-export const PageHomeView = async () => {
+export const PageHomeView = async (props: PageHomeProps) => {
 	const posts = await getAllPosts();
 
 	/**
@@ -22,6 +25,7 @@ export const PageHomeView = async () => {
 
 	return (
 		<>
+			{/* メインビジュアル */}
 			<div
 				className={css({
 					display: 'grid',
@@ -108,29 +112,128 @@ export const PageHomeView = async () => {
 				</p>
 			</div>
 
+			{/* タブ */}
 			<div
 				className={css({
+					position: 'relative',
 					display: 'flex',
-					flexWrap: 'wrap',
 					justifyContent: 'center',
-					gap: 4,
-					marginTop: 16,
-					marginInline: 4,
+					marginTop: 8,
 
-					'& div': {
-						md: {
-							maxWidth: '100%',
-							width: 320,
-						},
-						mdDown: {
-							width: 'calc(100% - 16px)',
-						},
+					_before: {
+						content: '""',
+						position: 'absolute',
+						bottom: 0,
+						right: 0,
+						left: 0,
+						zIndex: 0,
+
+						height: '1px',
+						backgroundColor: '#cfc5ae',
 					},
 				})}
 			>
-				{sortedPostsByNewest.map(post => (
-					<PostCard key={post?.slug} post={post} />
-				))}
+				<div
+					className={css({
+						display: 'flex',
+						gap: 0.5,
+						width: '100%',
+						maxWidth: '1200px',
+						margin: 'auto',
+						paddingInline: 4,
+						mdDown: {
+							paddingInline: 2,
+						},
+					})}
+				>
+					<div
+						className={css(
+							{
+								position: 'relative',
+								zIndex: 1,
+								color: 'primary.300',
+								backgroundColor: 'bg.base',
+								border: '1px solid',
+								borderColor: '#cfc5ae',
+								borderRadius: '16px 16px 0 0',
+								fontWeight: 'bold',
+								_hover: {
+									color: 'primary.500',
+								},
+							},
+							(!props.searchParams.tab || props.searchParams.tab === 'all') && {
+								color: 'primary.500',
+								borderBottom: 0,
+							},
+						)}
+					>
+						<Link
+							href="/?tab=all"
+							scroll={false}
+							className={css({
+								display: 'block',
+								padding: '8px 16px',
+								color: 'inherit',
+							})}
+						>
+							一覧
+						</Link>
+					</div>
+					<div
+						className={css(
+							{
+								position: 'relative',
+								zIndex: 1,
+								color: 'primary.300',
+								backgroundColor: 'bg.base',
+								border: '1px solid',
+								borderColor: '#cfc5ae',
+								borderRadius: '16px 16px 0 0',
+								fontWeight: 'bold',
+								_hover: {
+									color: 'primary.500',
+								},
+							},
+							props.searchParams.tab === 'theme' && {
+								color: 'primary.500',
+								borderBottom: 0,
+							},
+						)}
+					>
+						<Link
+							href="/?tab=theme"
+							scroll={false}
+							className={css({
+								display: 'block',
+								padding: '8px 16px',
+								color: 'inherit',
+							})}
+						>
+							テーマ別
+						</Link>
+					</div>
+				</div>
+			</div>
+
+			{/* コンテンツ */}
+			<div
+				className={css({
+					width: '100%%',
+					maxWidth: '1200px',
+					margin: 'auto',
+					paddingInline: 5,
+					mdDown: {
+						paddingInline: 2,
+					},
+				})}
+			>
+				{(!props.searchParams.tab || props.searchParams.tab === 'all') && (
+					<AllPosts posts={sortedPostsByNewest} />
+				)}
+
+				{props.searchParams.tab === 'theme' && (
+					<ThemePosts posts={sortedPostsByNewest} />
+				)}
 			</div>
 		</>
 	);
