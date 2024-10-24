@@ -31,15 +31,15 @@ Pythonのバージョン管理と仮想環境管理には、それぞれ異な�
 #### インストール方法（通常の方法）
 - **インストール**:
   LinuxやmacOSでは、次のコマンドで簡単にインストールできます。
-  ```bash
-  curl https://pyenv.run | bash
-  ```
+```bash
+curl https://pyenv.run | bash
+```
 
 #### インストール方法（Homebrewを使用）
 - **Homebrewを使ったインストール**:
-  ```bash
-  brew install pyenv
-  ```
+```bash
+brew install pyenv
+```
 
 #### Pythonのバージョンをインストール
 ```bash
@@ -57,16 +57,16 @@ pyenv global 3.9.7
 
 #### virtualenvのインストール方法（通常の方法）
 - **virtualenvを使った仮想環境の作成**:
-  ```bash
-  pip install virtualenv
-  virtualenv myenv
-  ```
+```bash
+pip install virtualenv
+virtualenv myenv
+```
 
 #### インストール方法（Homebrewを使用）
 - **Homebrewを使ったインストール**:
-  ```bash
-  brew install virtualenv
-  ```
+```bash
+brew install virtualenv
+```
 
 #### 仮想環境の有効化
 ```bash
@@ -89,9 +89,9 @@ Anacondaは、主にデータサイエンスや機械学習向けの**統合環�
 
 #### インストール方法（Homebrewを使用）
 - **Homebrewを使ったインストール**:
-  ```bash
-  brew install --cask anaconda
-  ```
+```bash
+brew install --cask anaconda
+```
 
 #### 仮想環境のアクティベート
 ```bash
@@ -113,9 +113,9 @@ Dockerは、**軽量仮想環境（コンテナ）**を提供するツールで�
 
 #### インストール方法（Homebrewを使用）
 - **Homebrewを使ったインストール**:
-  ```bash
-  brew install --cask docker
-  ```
+```bash
+brew install --cask docker
+```
 
 #### Pythonイメージを使用してコンテナを作成
 ```bash
@@ -128,15 +128,15 @@ docker run -it python:3.9 bash
 
 #### インストール方法（通常の方法）
 - **asdfのインストール**:
-  ```bash
-  git clone https://github.com/asdf-vm/asdf.git ~/.asdf
-  ```
+```bash
+git clone https://github.com/asdf-vm/asdf.git ~/.asdf
+```
 
 #### インストール方法（Homebrewを使用）
 - **Homebrewを使ったインストール**:
-  ```bash
-  brew install asdf
-  ```
+```bash
+brew install asdf
+```
 
 #### Pythonプラグインの追加とバージョンのインストール
 ```bash
@@ -155,9 +155,9 @@ pip install pipenv
 
 #### インストール方法（Homebrewを使用）
 - **Homebrewを使ったインストール**:
-  ```bash
-  brew install pipenv
-  ```
+```bash
+brew install pipenv
+```
 
 #### Poetryのインストール方法（通常の方法）
 ```bash
@@ -166,9 +166,9 @@ curl -sSL https://install.python-poetry.org | python3 -
 
 #### インストール方法（Homebrewを使用）
 - **Homebrewを使ったインストール**:
-  ```bash
-  brew install poetry
-  ```
+```bash
+brew install poetry
+```
 
 #### 依存関係の追加（Pipenv）
 ```bash
@@ -190,21 +190,21 @@ poetry add requests
 
   **macOS/Linuxの場合**:
 
-  ```bash
-  curl -fsSL https://moonrepo.dev/install/proto.sh | bash
-  ```
+```bash
+curl -fsSL https://moonrepo.dev/install/proto.sh | bash
+```
 
   **Windowsの場合（PowerShellを使用）**:
 
-  ```powershell
-  iwr https://moonrepo.dev/install/proto.ps1 -UseBasicParsing | iex
-  ```
+```powershell
+iwr https://moonrepo.dev/install/proto.ps1 -UseBasicParsing | iex
+```
 
   インストール後、シェルを再起動するか、次のコマンドを実行して環境変数を更新します。
 
-  ```bash
-  source ~/.profile
-  ```
+```bash
+source ~/.profile
+```
 
 #### インストール方法（Homebrewを使用）
 
@@ -234,18 +234,18 @@ proto list python
 
   プロジェクトのルートディレクトリに`prototools.toml`というファイルを作成し、使用するバージョンを指定します。
 
-  ```toml
-  [tools.python]
-  version = "3.9.7"
-  ```
+```toml
+[tools.python]
+version = "3.9.7"
+```
 
 - **環境変数の設定**:
 
   シェルの初期化ファイル（例: `~/.bashrc`や`~/.zshrc`）に次の行を追加し、`proto`がパスを正しく設定できるようにします。
 
-  ```bash
-  eval "$(proto init)"
-  ```
+```bash
+eval "$(proto init)"
+```
 
 #### 使用方法
 
@@ -253,18 +253,18 @@ proto list python
 
   設定されたバージョンのPythonを使用してスクリプトを実行できます。
 
-  ```bash
-  python your_script.py
-  ```
+```bash
+python your_script.py
+```
 
 - **他のツールの管理**:
 
   `proto`は他の言語やパッケージマネージャーもサポートしているため、同様の方法で管理できます。
 
-  ```bash
-  proto install node 18.0.0
-  proto install go 1.20.0
-  ```
+```bash
+proto install node 18.0.0
+proto install go 1.20.0
+```
 
 #### 主な用途
 

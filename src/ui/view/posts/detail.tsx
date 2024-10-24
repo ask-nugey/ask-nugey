@@ -108,7 +108,7 @@ export const PostDetailView = (props: Props) => {
 				},
 
 				'& table': {
-					width: 'fit-content',
+					width: 'max-content',
 					fontSize: '0.875rem', // text-sm
 					textAlign: 'left',
 					color: '#555',

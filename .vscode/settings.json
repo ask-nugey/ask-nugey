@@ -6,7 +6,7 @@
   },
   "eslint.useESLintClass": true,
   // formatter
-  "editor.defaultFormatter": "esbenp.prettier-vscode", // デフォルトフォーマッターをPrettierに設定
+  "editor.defaultFormatter": "dbaeumer.vscode-eslint", // デフォルトフォーマッターをPrettierに設定
   "editor.formatOnSave": true,
   "editor.formatOnPaste": true,
   "editor.formatOnType": true,
