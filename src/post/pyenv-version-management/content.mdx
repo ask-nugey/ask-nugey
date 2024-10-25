@@ -4,39 +4,37 @@
 
 Pythonで開発しているとプロジェクトによっては異なるバージョンのPythonを使う必要が出てくることがあります。
 
-例えば、あるプロジェクトでは最新のPython 3.11を使用し、別のプロジェクトでは古いバージョンであるPython 2.7が必要な場合もあります。このような状況で、バージョン管理ツールがあれば、複数のPythonバージョンを簡単に切り替えることができます。
+例えば、あるプロジェクトでは最新のPython 3.11を使用し、別のプロジェクトでは古いバージョンであるPython 2.7が必要な場合もあります。
 
-### なぜバージョン管理が必要なのか
+**しかし、のように複数のバージョンを使い分ける必要がある場面で、バージョンを手動で切り替えるのは面倒ですし、その際に環境を壊してしまうこともあるかもしれません。**
 
-プロジェクトごとに異なるPythonやライブラリのバージョンを使用する際、バージョン管理をしっかり行わないと、バージョン間で競合が発生することがあります。それにより、プログラムが予期せぬエラーを起こしたり、正常に動作しなくなったりする可能性があります。
+### バージョン管理ツールの必要性
 
-バージョン管理ツールを活用することで、プロジェクトごとの環境を独立して設定でき、互いに干渉することなく複数のプロジェクトを並行して進めることが可能になります。
+そういった作業の面倒さを解決するには、バージョン管理ツールを導入すると良いです。
 
-### pyenvとは？
+Pythonの場合、**pyenv**などのバージョン管理ツールを導入すると、プロジェクトごとにPythonバージョンをコマンド一つで簡単に切り替えられ、各プロジェクトごとに環境を管理できます。これにより、エラーや設定の手間を減らしながら、複数のプロジェクトを効率よく進めることができます。
+
+**バージョン管理ツールのメリット↓**
+
+- **コマンドによる切り替え：**
+  - コマンドでバージョンごとにインストールしたり、切り替えることができる
+- **設定ファイルでチームで統一した開発環境を維持：**
+  - チームメンバー全員が同じ設定ファイルを共有するだけで、Pythonバージョンと依存関係の環境を構築できるため、環境差異による問題が発生しにくくなる
+
+## pyenvとは？
 
 **pyenv**は、Pythonの複数バージョンを管理するためのコマンドラインツールです。これを使えば、システム全体で使用するPythonのバージョンや、プロジェクトごとのバージョンを簡単に切り替えられます。
 
-pyenvを使うことで、バージョン間の競合を避け、複数のプロジェクトを効率よく進めることができます。
-
-## インストール方法
-
-pyenvのインストール方法は、使用するOSによって異なります。
-
-### 事前準備と依存関係
+### pyenvのOSごとのインストール前準備
 
 pyenvのインストール前に、いくつかの依存関係をインストールしておく必要があります。OSごとに準備が異なるため、以下の手順を参考にしてください。
 
-#### macOS
-
-macOSでは、Xcode Command Line ToolsとHomebrewが必要です。
-
-#### Windows
-
-Windowsでは、Git for Windowsをインストールする必要があります。
-
-#### Linux
-
-Linuxでは、ディストリビューションによって必要なパッケージが異なりますが、一般的な依存パッケージには、`build-essential`、`zlib1g-dev`、`libssl-dev`、`libsqlite3-dev`などがあります。
+- **macOS：**
+  - macOSでは、**Xcode Command Line Tools** と **Homebrew**が必要です。
+- **Windows：**
+  - Windowsでは、**Git for Windows** をインストールする必要があります。
+- **Linux：**
+  - Linuxでは、ディストリビューションによって必要なパッケージが異なりますが、一般的な依存パッケージには、`build-essential`、`zlib1g-dev`、`libssl-dev`、`libsqlite3-dev`などがあります。
 
 ### macOSでのインストール手順
 
@@ -56,7 +54,7 @@ pip install pyenv-win --target $HOME\.pyenv
 
 ### Linuxでのインストール手順
 
-Linuxでは、Gitを使ってリポジトリをクローンし、手動でインストールします。
+Linuxでは、Gitでリポジトリをクローンします。
 
 ```bash
 git clone https://github.com/pyenv/pyenv.git ~/.pyenv
@@ -64,9 +62,9 @@ git clone https://github.com/pyenv/pyenv.git ~/.pyenv
 
 ## pyenvの使い方
 
-インストール後は、Pythonバージョンをインストールしてプロジェクトで利用するバージョンを設定します。
+pyenvでPythonバージョンをインストールし、プロジェクトで利用するバージョンを設定します。
 
-### Pythonバージョンのインストール
+### Pythonをバージョン指定でインストール
 
 以下のコマンドで任意のバージョンをインストールできます。
 
@@ -100,14 +98,18 @@ pyenv versions
 また、`pyenv which`を使えば、指定したPythonコマンドがどのバージョンのPythonに関連付けられているか確認できます。
 
 ```bash
-pyenv which python
+pyenv which Python
 ```
 
-## pyenv-virtualenvの利用
+## pyenv-virtualenvとの併用
 
-**pyenv-virtualenv**は、プロジェクトごとに独立したPythonの仮想環境を作成・管理できるプラグインです。pyenv-virtualenvを使用することでプロジェクトごとに異なるライブラリやPythonのバージョンを使って作業ができます。
+**pyenv-virtualenv**は、プロジェクトごとに独立したPythonの仮想環境を作成・管理できるプラグインです。
 
-### インストール方法
+通常、Pythonでインストールしたライブラリはシステム全体で使われます。
+
+Pythonのバージョンと同じように、**ライブラリもプロジェクトごとに管理したい**場合、pyenv-virtualenvで仮想環境を作ることで解決します。（他にも仮想環境を作成するツールは存在します。）
+
+### pyenv-virtualenvのインストール方法
 
 まず、`pyenv-virtualenv`をインストールします。以下のコマンドを使って、pyenvのプラグインとして`pyenv-virtualenv`を追加します。
 
@@ -115,25 +117,25 @@ pyenv which python
 git clone https://github.com/pyenv/pyenv-virtualenv.git $(pyenv root)/plugins/pyenv-virtualenv
 ```
 
-### 仮想環境の作成と有効化
+### pyenv-virtualenvでの仮想環境の作成と有効化
 
 仮想環境を作成し、プロジェクトに適用するには、次の手順を実行します。
 
 1. **仮想環境を作成**  
    Python 3.11.2を使って仮想環境を作成する場合は、以下のコマンドを実行します。
 
-   ```bash
-   pyenv virtualenv 3.11.2 myproject-env
-   ```
+```bash
+pyenv virtualenv 3.11.2 myproject-env
+```
 
    ここで`myproject-env`は仮想環境の名前です。プロジェクトに合わせて自由に命名できます。
 
-2. **仮想環境を有効にする**  
+1. **仮想環境を有効にする**  
    作成した仮想環境を有効にするには、次のコマンドを使用します。
 
-   ```bash
-   pyenv activate myproject-env
-   ```
+```bash
+pyenv activate myproject-env
+```
 
    仮想環境が有効になると、そのプロジェクト内でのPythonの実行やライブラリのインストールは、すべてこの環境内で行われます。他のプロジェクトには影響しません。
 
@@ -149,25 +151,29 @@ pyenv deactivate
 
 例えば、Web開発プロジェクトを進める際、DjangoやFlaskなど特定のライブラリをインストールする必要がある場合、以下のように使います。
 
-1. **仮想環境を作成し、プロジェクトディレクトリに移動**
+1. **プロジェクトディレクトリに移動し、仮想環境を作成**
 
-   ```bash
-   pyenv virtualenv 3.11.2 webapp-env
-   cd /path/to/webapp-project
-   pyenv activate webapp-env
-   ```
+```bash
+cd /path/to/webapp-project
+pyenv virtualenv 3.11.2 webapp-env
+pyenv local webapp-env
+```
 
-2. **仮想環境内でライブラリをインストール**
+**補足：**  
+`pyenv local 環境名` とするとそのディレクトリに入るたびに仮想環境が自動的にアクティブ化されます。  
+一方、`pyenv activate 環境名`では一時的に有効にするもので、毎回コマンドを打つ必要があります。無効化のコマンドは`pyenv deactivate`です。
 
-   ```bash
-   pip install django
-   ```
+1. **仮想環境内でライブラリをインストール**
 
-3. **開発が終わったら仮想環境を無効化**
+```bash
+pip install django
+```
 
-   ```bash
-   pyenv deactivate
-   ```
+1. **仮想環境の削除**
+
+```bash
+pyenv uninstall webapp-env
+```
 
 こうしてプロジェクトごとに独立した環境を簡単に管理でき、他のプロジェクトと干渉しない開発が可能になります。
 
@@ -178,10 +184,6 @@ pyenvの設定が正しくない場合、パスやシェルの設定が原因で
 ```bash
 pyenv doctor
 ```
-
-## まとめ
-
-pyenvを活用すれば、複数のPythonバージョンを簡単に管理し、プロジェクトごとに適切な環境を構築できます。バージョン間の競合を避け、スムーズな開発を進めるために、ぜひpyenvを取り入れてみてください。
 
 ## 参考記事
 
