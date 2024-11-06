@@ -9,6 +9,8 @@ type Tag =
 	| 'Cloudflare'
 	| 'Hono'
 	| 'AI'
+	| 'モノレポ'
+	| 'moonrepo'
 	| 'Mac'
 	| '技術スタック'
 	| 'ヌギー';
