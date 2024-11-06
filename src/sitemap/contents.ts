@@ -300,7 +300,11 @@ export const themes: ArticleNode[] = [
 	},
 	{
 		theme: 'Python',
-		articles: ['pyenv-version-management', 'python-version-env-tools'],
+		articles: [
+			'python-what-is',
+			'pyenv-version-management',
+			'python-version-env-tools',
+		],
 		children: [
 			{
 				theme: 'Python入門',
@@ -709,6 +713,7 @@ export const themes: ArticleNode[] = [
 	{ theme: 'golang', articles: ['go-api-sql'], children: [] },
 	{ theme: 'rust', articles: ['rust-build-environment'], children: [] },
 	{ theme: 'html-css', articles: ['css-grid'], children: [] },
+	{ theme: 'モノレポ', articles: ['moonrepo-learn-demo'], children: [] },
 	{ theme: 'mac', articles: ['app-mac'], children: [] },
 	{
 		theme: 'nugey',
