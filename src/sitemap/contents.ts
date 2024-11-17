@@ -708,6 +708,11 @@ export const themes: ArticleNode[] = [
 				articles: ['react-dev-blog-2024-02-15'],
 				children: [],
 			},
+			{
+				theme: 'NestJS',
+				articles: ['learn-nestjs-with-moon-demo'],
+				children: [],
+			},
 		],
 	},
 	{ theme: 'golang', articles: ['go-api-sql'], children: [] },
