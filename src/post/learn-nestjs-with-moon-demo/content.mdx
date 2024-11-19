@@ -12,9 +12,16 @@
 ```plain
 learn-nestjs-with-moon
 ├── README.md
+├── .github
+├── .moon
+│   ├── toolchain.yml              # ワークスペースの開発環境などの設定
+│   └── workspace.yml              # monorepoでのワークスペースの設定の定義
+├── .vscode
 ├── apps
 │   └── api
 │       ├── eslint.config.js
+│       ├── jest.config.ts
+│       ├── jest.unit.json
 │       ├── moon.yml               # 'api'用のタスク設定（開発、ビルド、テストなど）
 │       ├── nest-cli.json
 │       ├── package.json
