@@ -7,18 +7,22 @@ import { PostDetailView } from '@/src/ui/view/posts/detail';
 const siteName = 'Ask Nugey!（ヌギーにきいて!）';
 const description = 'Ask Nugey! → プログラミング、デザイン、AI、CSS...etc';
 
-type Props = {
-	params: {
-		slug: string;
-	};
-};
-
 export async function generateStaticParams() {
 	const posts = await getAllPosts();
 	return posts.map(post => ({
 		slug: post?.slug,
 	}));
 }
+
+// generateStaticParams で定義したパス以外でリクエストされた際、404ページへ
+export const dynamicParams = false
+
+
+type Props = {
+	params: {
+		slug: string;
+	};
+};
 
 export async function generateMetadata(props: Props): Promise<Metadata> {
 	const post = await getPostBySlug(props.params.slug);
