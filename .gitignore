@@ -38,3 +38,12 @@ next-env.d.ts
 ## Panda
 styled-system
 styled-system-studio
+
+# Cloudflare related
+/.save.next
+/.worker-next
+/.wrangler
+
+# wrangler files
+.wrangler
+.dev.vars
