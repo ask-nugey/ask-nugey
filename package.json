@@ -5,6 +5,7 @@
   "engines": {
     "node": ">=18.17.0"
   },
+  "type": "module",
   "scripts": {
     "dev": "rm -rf .next && next dev",
     "build": "next build",
@@ -13,7 +14,15 @@
     "lint": "next lint --dir src",
     "format": "prettier --write --ignore-path .gitignore './src/**/*.{js,jsx,ts,tsx,json,css}'",
     "fix": "prettier --write --ignore-path .gitignore './src/**/*.{js,jsx,ts,tsx,json,css}' && next lint --fix --dir src",
+    "----- worker -----": "",
+    "dev:worker": "wrangler dev --port 8772",
+    "build:worker": "cloudflare",
+    "deploy": "cloudflare && wrangler deploy",
+    "preview": "cloudflare && wrangler dev",
+    "cf-typegen": "wrangler types --env-interface CloudflareEnv env.d.ts",
     "----- other -----": "",
+    "generate:posts": "node scripts/generatePostSlugs.js",
+    "watch:posts": "node scripts/watchPostSlugs.js",
     "prepare↓  (MEMO: install後に以下scriptを実行)": "",
     "prepare↓  (MEMO: `panda codegen` で panda.config.ts を元に styled-system/ を生成)": "",
     "prepare": "panda codegen"
@@ -32,12 +41,14 @@
   },
   "devDependencies": {
     "@ant-design/icons": "^5.5.2",
+    "@cloudflare/workers-types": "^4.20241205.0",
     "@csstools/postcss-cascade-layers": "^4.0.6",
     "@eslint/compat": "^1.2.3",
     "@eslint/eslintrc": "^3.2.0",
     "@eslint/js": "^9.16.0",
     "@mapbox/rehype-prism": "^0.9.0",
     "@pandacss/dev": "^0.41.0",
+    "@opennextjs/cloudflare": "^0.2.1",
     "@types/node": "^20.17.9",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
@@ -59,6 +70,7 @@
     "remark-math": "^6.0.0",
     "remark-toc": "^9.0.0",
     "typescript": "^5.7.2",
-    "typescript-eslint": "^8.17.0"
+    "typescript-eslint": "^8.17.0",
+    "wrangler": "^3.93.0"
   }
 }
