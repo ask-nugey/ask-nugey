@@ -5,6 +5,9 @@
     "source.fixAll.eslint": "explicit"
   },
   "eslint.useESLintClass": true,
+  "[javascript]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  },
   // formatter
   "editor.defaultFormatter": "dbaeumer.vscode-eslint", // デフォルトフォーマッターをPrettierに設定
   "editor.formatOnSave": true,
