@@ -22,8 +22,9 @@ export type Post = {
 	description: string;
 	createdAt: Date;
 	updatedAt?: Date;
-	tags: Tag[];
+	tags: Tag[] | string[];
 	slug: string;
+	host?: 'zenn' | 'qiita' | 'note'
 };
 
 /**
@@ -31,4 +32,4 @@ export type Post = {
  * - `src/post/〜〜/meta.ts` で使用する
  * - 記事のslug情報は「〜〜」のディレクトリ名から取得している
  */
-export type PostMeta = Omit<Post, 'slug'>;
+export type PostMeta = Omit<Post, 'slug' | 'host'>;

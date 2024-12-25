@@ -2,7 +2,7 @@ import { PageHomeView } from '@/src/ui/view/home';
 
 export type PageHomeProps = {
 	searchParams: {
-		tab?: 'all' | 'theme';
+		tab?: 'all' | 'theme' | 'zenn' | 'qiita';
 	};
 };
 
