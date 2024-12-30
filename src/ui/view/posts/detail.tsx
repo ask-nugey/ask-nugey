@@ -100,11 +100,20 @@ export const PostDetailView = (props: Props) => {
 				'& pre': {
 					borderRadius: 'xl',
 				},
-				'& ul': {
+				'& ul, & ol': {
 					paddingLeft: '1.5em',
 				},
-				'& li': {
+				'& ul li': {
 					listStyleType: 'disc',
+				},
+				'& ol li': {
+					listStyleType: 'decimal',
+				},
+
+				'& p img': {
+					marginTop: 4,
+					marginBottom: 6,
+
 				},
 
 				'& table': {
