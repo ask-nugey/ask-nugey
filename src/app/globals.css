@@ -1,1 +1,13 @@
 @layer reset, antd, base, tokens, recipes, utilities;
+
+@layer reset {
+  body {
+    overflow-wrap: anywhere; /* 収まらない場合に折り返す */
+    word-break: normal; /* 単語の分割はデフォルトに依存 */
+    line-break: strict; /* 禁則処理を厳格に適用 */
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    word-break: auto-phrase;
+  }
+}
