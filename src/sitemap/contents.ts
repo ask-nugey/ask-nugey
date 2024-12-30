@@ -715,6 +715,7 @@ export const themes: ArticleNode[] = [
 			},
 		],
 	},
+	{ theme: 'Azure', articles: ['azure-devops'], children: [] },
 	{ theme: 'golang', articles: ['go-api-sql'], children: [] },
 	{ theme: 'rust', articles: ['rust-build-environment'], children: [] },
 	{ theme: 'html-css', articles: ['css-grid'], children: [] },
