@@ -1,0 +1,348 @@
+## 目次
+
+## MacでWindows環境を無料で構築する方法
+
+以下のように様々ある
+
+- VirtualBox: 仮想環境
+- UTM: 仮想環境
+- Parallels: 仮想環境
+- Boot Camp: Intel Macのみ
+- Azureで構築して接続: クラウド
+- さくらのVPS for Windows Server: クラウド
+- お名前.com デスクトップクラウド: クラウド
+- VMware Fusion: 仮想環境
+
+## VMware Fusion で構築
+
+VMware Fusion と VMware Workstation は2024/11にpro版、商用利用含め無料になった  
+サッとWindowsで動作確認したい場合はこれで十分
+
+https://blogs.vmware.com/cloud-foundation/2024/11/11/vmware-fusion-and-workstation-are-now-free-for-all-users/
+
+- VMware Fusion:
+  - ホストOSが Mac ならこっちを使用
+- VMware Workstation: 
+  - ホストOSが WindowsまたはLinux ならこっちを使用
+
+## VMware Fusion のダウンロードとインストール方法
+
+### home brew の場合
+
+こっちの方が簡単
+
+```bash
+brew install vmware-fusion
+```
+
+### 公式サイト経由の場合
+
+※ すでにインストール済みなら、
+[Windows 11 仮想マシンを作成](http://localhost:3000/posts/mac-emulator-for-windows#windows-11-%E4%BB%AE%E6%83%B3%E3%83%9E%E3%82%B7%E3%83%B3%E3%82%92%E4%BD%9C%E6%88%90)を進める
+
+#### 作業手順
+
+1.  Broadcomのアカウントを作成
+2. 「VMware Fusion Pro」をダウンロード
+3. 「VMware Fusion Pro」をインストール
+
+という手順になるそう
+
+以下、引用
+
+https://qiita.com/tacky0127/items/814d6ffd825648f1b313
+
+#### 作業1 Broadcomのアカウントを作成
+
+Broadcoomのアカウントを作成していきます。
+
+詳細な作成手順を以下記事で確認できます。
+
+下記記事は私が以前Windows用の**VMware Workstation**導入のナレッジを残した記事です。
+
+リンク先記事の作業1を参考にアカウント作成を進めてください。
+
+#### 作業2 「VMware Fusion Pro」をダウンロード
+
+Broadcomのアカウントが作成できたので、そのアカウントを使って個人利用用の「VMware Fusion Pro」をダウンロードします。
+
+下記順で画面操作してください
+「Software 」→「WMware Cloud Fundation」→「All Products」をクリック。
+
+![](https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F596363%2F9daaabdb-cf35-0f3f-4177-732d065ab4e0.png?ixlib=rb-4.0.0&auto=format&gif-q=60&q=75&s=096d89b011e9736ba2c64d8bfe2a7c7f)
+
+下記順で操作してください
+
+「My Downloads 」（1）→「WMware Fusion」（2）をクリック。
+※(2)はスクロール先にあります。下の方までスクロールバーを下げてください。
+
+![](https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F596363%2Fd1802a69-ee55-5bf5-c8c9-b503797d7beb.png?ixlib=rb-4.0.0&auto=format&gif-q=60&q=75&s=03038e0e7bc66318bd7bfaeac04aba16)
+
+![](https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F596363%2F07b97c17-7add-0d7f-5a83-a2f52a0a72a2.png?ixlib=rb-4.0.0&auto=format&gif-q=60&q=75&s=01de86ae03b970b0985c3bc1c1665c6f)
+
+下記の手順で操作してください。
+
+「WMware Fusion 13 Pro for Personal Use」（1）→「13.6」（2）をクリック。
+※個人利用なので、Personal Useの方を選択してください。
+（Personal Useじゃない方を選択するとライセンスキーが必
+要となります）
+※「13.6」はこの記事を書いた時の最新バージョンです。
+
+![](https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F596363%2F7706fde5-626e-a26f-6aff-36f3a5c652a2.png?ixlib=rb-4.0.0&auto=format&gif-q=60&q=75&s=75f78582eb41998faa91994dfdb02284)
+
+![](https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F596363%2F8be58bd8-7ae0-da28-2101-0b5361ec966f.png?ixlib=rb-4.0.0&auto=format&gif-q=60&q=75&s=3ebb266b4baa6c174a6906212b25414b)
+
+「I agree to ,,,,,」にチェックをつけ、ダウンロードのアイコンをクリック。
+
+![](https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F596363%2F5cc411e3-4d9a-d20c-e886-0ae843090dff.png?ixlib=rb-4.0.0&auto=format&gif-q=60&q=75&s=8cbe7698b9e5a1bf4f2153783d6502fb)
+
+任意の格納場所を選択する
+
+![](https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F596363%2F3b820d67-0f08-4029-e746-bf2a402fb9e0.png?ixlib=rb-4.0.0&auto=format&gif-q=60&q=75&s=50e87e6364f824ac134cb201d150b2ff)
+
+**ポイント**
+
+Windows版のWorkStationをDLしようとした際は下記のようなダイアログが表示されましたが、FusionをDLする際は表示されませんでした。
+
+![](https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F596363%2Fe9347dee-bef9-db04-bf3b-ae7c2185fd0a.png?ixlib=rb-4.0.0&auto=format&gif-q=60&q=75&s=2505f065cd55a66babd3e12cb6c73dd6)
+
+**注意**
+
+VMware製品の初回DL時には下記のような住所を入力するフォームが表示されます。
+
+私はWorkStationで設定済みであったため、今回は要求されませんでした。
+
+登録の要求をされた際は **作業1** で共有したリンク先の**作業2**を参考にしてください。
+
+![](https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F596363%2F9df482c8-e70e-aec9-b407-c6a16162cbb5.png?ixlib=rb-4.0.0&auto=format&gif-q=60&q=75&s=0fe371e3bee7669137ee0c368f1bfdaf)
+
+VMwareのインストーラがダウンロードされるます。
+
+待ち時間はWorkStationより体感早かったです。(数分？くらい)
+
+お疲れ様でした！これで、「VMware Fusion Pro」のダウンロードが完了です。
+
+#### 作業3 VMware Fusion Pro をインストール
+
+ダウンロードしたVMwareのインストーラを実行します。
+
+![](https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F596363%2Ffd49ab49-8588-3a16-3a30-cb76609ce8da.png?ixlib=rb-4.0.0&auto=format&gif-q=60&q=75&s=2d3c51251db08f7b062bc4aa05d7c4a0)
+
+Appインストール画面が表示されます。
+ダブルクリックでインストールします。
+
+![](https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F596363%2Ff8a223ca-2e3f-da90-7243-312141b9c509.png?ixlib=rb-4.0.0&auto=format&gif-q=60&q=75&s=ea0d3f1efc23c7d4555b996a353b4a0f)
+
+DL元確認のダイアログが表示されますが「開く」ボタンを選択して進めていきます。
+
+![](https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F596363%2Fd705460c-642c-e326-20e7-b6d6bae7fea5.png?ixlib=rb-4.0.0&auto=format&gif-q=60&q=75&s=3a7dd75fd57c79922160b7bd27cae328)
+
+利用約款が表示されます
+「同意する」を選択します。
+
+![](https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F596363%2Fd83e253a-e378-f7b1-28ad-ee1eb0b06fb2.png?ixlib=rb-4.0.0&auto=format&gif-q=60&q=75&s=4255323f918caf4ec89317d8846ccf72)
+
+「個人使用」のラジオボタンを選択します。
+
+![](https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F596363%2Fb9fed468-5fdf-2025-7690-cfe5836c64ea.png?ixlib=rb-4.0.0&auto=format&gif-q=60&q=75&s=f258c110a6de21cdac5ee59299c0df29)
+
+「完了」ボタンを選択します。
+
+![](https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F596363%2F96894ed3-ea8b-86c5-22c3-d445e423eed5.png?ixlib=rb-4.0.0&auto=format&gif-q=60&q=75&s=7d10b51b611cba30b978359aaffa07fd)
+
+## Windows 11 仮想マシンを作成
+
+以下、引用
+
+https://qiita.com/sanjushi003/items/2c77880fbf999ddf94fe
+
+### Windows 仮想マシンの作成
+
+今回は、プロダクトキーやインストールメディアを持っていない状況を想定し、新規に仮想マシンを作成します。
+
+まず、「Microsoft から Windows を取得」を選択します。
+
+![](https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F864151%2F88024511-087b-17aa-7253-0aacd93f1dc7.png?ixlib=rb-4.0.0&auto=format&gif-q=60&q=75&s=3889eedcbac276974b96c3510495a33e)
+
+そのまま進みます。
+
+![](https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F864151%2F563ff4ae-9817-9fe7-110b-0e151dd1855d.png?ixlib=rb-4.0.0&auto=format&gif-q=60&q=75&s=0a9c88e1076bfb447f249cd384c47591)
+
+Edition、言語設定を確認し、「Windows のダウンロード」を選択します。
+
+事前に Windows 11 のイメージを準備しておく必要はなく、VMware Fusion から直接ダウンロードできます。
+
+![](https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F864151%2F2f0f182a-4276-597d-045c-9475554dfad1.png?ixlib=rb-4.0.0&auto=format&gif-q=60&q=75&s=d0da94a599baaf7c0b6932b062e44dfe)
+
+約 6GB のファイルをダウンロードしているので、しばらく時間がかかります。
+
+ダウンロードが完了したら、次に進みます。
+
+![](https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F864151%2F20d6769d-0aeb-227d-1ee5-a53379a11190.png?ixlib=rb-4.0.0&auto=format&gif-q=60&q=75&s=20aef9215ee34183c52c843e32fe051a)
+
+ブートで使用するファームウェアのタイプは、デフォルトの「UEFI」を選択します。
+
+![](https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F864151%2F1406b8b8-22e2-f1e1-a3b5-2d0c6bde295d.png?ixlib=rb-4.0.0&auto=format&gif-q=60&q=75&s=fe3a0435fe0bdafd68e28f880911cd42)
+
+パスワードを設定します。
+
+![](https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F864151%2Fc1357f79-28f0-f7cb-ee61-60dbb62f215d.png?ixlib=rb-4.0.0&auto=format&gif-q=60&q=75&s=350e1ffdc0b41d5819fb2d127d30f292)
+
+仮想ディスクを選択します。
+
+あとからサイズは変更できるので、まずはデフォルト設定を変更せずに進みます。
+
+![](https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F864151%2Ffdf86f57-6e63-edff-1455-a977366094b2.png?ixlib=rb-4.0.0&auto=format&gif-q=60&q=75&s=17bc703f97c09ed00b063706e1091940)
+
+仮想マシンの構成を終了します。
+
+必要であれば後からリソースの割り当ては変更可能なので、一旦このままにしておきます。
+
+![](https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F864151%2F8321a69f-7601-f10e-7774-617db4f66e0a.png?ixlib=rb-4.0.0&auto=format&gif-q=60&q=75&s=a296cf965e24469da2aa3ea01efb3fa9)
+
+仮想マシンの構成ファイルを保存するフォルダを指定します。
+
+![](https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F864151%2F5890d91c-f9e7-b7af-e811-6a2e20596952.png?ixlib=rb-4.0.0&auto=format&gif-q=60&q=75&s=b5cf0ed95e6ce7866b2f5d4ffec0d950)
+
+### Windows 11 の初期セットアップ
+
+何度かの再起動のあと、セットアップ画面が表示されます。
+
+言語設定はデフォルトの 「日本語 (日本)」のまま続けます。
+
+![](https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F864151%2F56466cc4-be21-9bee-97d7-f258582bb0eb.png?ixlib=rb-4.0.0&auto=format&gif-q=60&q=75&s=1e760faf6071e1437c33a16e33f23262)
+
+今回はプロダクトキーを持たないので、「プロダクト キーがありません」を選択します。
+
+> もしプロダクトキーを持っている場合、このタイミングで入力しておくことができます。
+> 
+> 
+> インストールが完了してから、あとでプロダクトキーをすることも可能です。
+> 
+
+![](https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F864151%2F963889a7-8c2f-f511-07ba-ebe6a7cb221c.png?ixlib=rb-4.0.0&auto=format&gif-q=60&q=75&s=677f2c3d5d5ceb419697ee702b0a5e16)
+
+オペレーティングシステムを選択します。
+
+今回は「Windows 11 Home」を選択しました。
+
+![](https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F864151%2F02b377f5-1909-1706-5a2d-38ea06e5d455.png?ixlib=rb-4.0.0&auto=format&gif-q=60&q=75&s=f37ed7d52c50bc17a415d910a7c9b16c)
+
+ライセンス条項を確認し、進みます。
+
+![](https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F864151%2Fe6c6fd3a-8f2f-d04f-934d-11fcfca9a4c6.png?ixlib=rb-4.0.0&auto=format&gif-q=60&q=75&s=24fe45833eba940a2edbfd4cee8bbf79)
+
+インストールの種類は「カスタム」を選択します。
+
+![](https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F864151%2Fe1d0e27f-0520-2ebf-21cf-4fcfea3bf816.png?ixlib=rb-4.0.0&auto=format&gif-q=60&q=75&s=3912ef8369d5f1aff6ce9e508ff1e703)
+
+インストールするドライブはデフォルト設定のまま変更せず、そのまま進めます。
+
+![](https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F864151%2Fd9626b0d-e495-0a05-7a68-446ad047fc8e.png?ixlib=rb-4.0.0&auto=format&gif-q=60&q=75&s=ba33897f5775699eb3febbc133615d85)
+
+数分ほどインストールが完了するのを待ちます。
+
+![](https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F864151%2F062e4d3c-20a8-bab9-76dc-2b1ef47da901.png?ixlib=rb-4.0.0&auto=format&gif-q=60&q=75&s=156507c24c9487e465399144d4600b7f)
+
+再起動させます。
+
+![](https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F864151%2F4e52358e-8090-e24a-161b-014d4c700ce7.png?ixlib=rb-4.0.0&auto=format&gif-q=60&q=75&s=9f2da4348fbfa5694bdda440bb3ee511)
+
+サービス開始まで数分待つと、初期セットアップは完了です。
+
+![](https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F864151%2F41abc9fe-5912-1672-2e8e-146e4e88938e.png?ixlib=rb-4.0.0&auto=format&gif-q=60&q=75&s=55529fbd44cef65e474686952c0d3d6f)
+
+### Windows 11 のアカウント設定
+
+ここから先は通常 Windows 11 の PC を購入した際に実施するアカウント設定なので、以降の詳細な手順は割愛します。
+
+![](https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F864151%2F5bb1c1b2-1637-bbdc-cde5-11ba9741e2d3.png?ixlib=rb-4.0.0&auto=format&gif-q=60&q=75&s=bacded4a49efc69aa5c55d20f36e72d8)
+
+Windows 11 の利用開始に際しては、Microsoft アカウントが必要となります。
+
+持っていない場合は、このタイミングで作成が可能です。
+
+![](https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F864151%2F5dec7a97-f56b-cf6c-23fc-c7fb83eef113.png?ixlib=rb-4.0.0&auto=format&gif-q=60&q=75&s=231a79f4c120fa6fd5f942d8d87a6576)
+
+アカウント設定が完了すると、Windows 11 を利用できます！
+
+![](https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F864151%2Fcc33e9dd-fd01-fd71-12ad-e4f6c43e8076.png?ixlib=rb-4.0.0&auto=format&gif-q=60&q=75&s=54592c589bcfa8efda7ed8c4714f71a9)
+
+## VMware Tools をインストール
+
+[公式のマニュアル](https://docs.google.com/viewer?url=http%3A%2F%2Fwww.vmware.com%2Ffiles%2Fjp%2Fpdf%2Fvmware-tools-installation-configuration_JA.pdf)によるとVMware Toolsを入れる事で、以下ができるようになるとのこと
+- **グラフィックパフォーマンスの高速化とWindows Aeroのサポート**
+- **テキストとグラフィックとファイルのコピペ**
+- **マウスのパフォーマンス向上**
+- **仮想マシンのクロックとホストまたはクライアントデスクトップのクロックの同期**
+- **ゲストOS処理を自動化するスクリプティング**
+
+以下、引用
+
+https://wayohoo.com/article/4615
+
+### VMware Toolsのインストールの仕方。
+
+![](https://wayohoo.net/images/2013/vmware-tools-install-00.jpg)
+
+まず、VMware Fusionを起動して、「メニューバー」-「仮想マシン」-「VMware Toolsのインストール」をクリックします。
+
+![](https://wayohoo.net/images/2013/vmware-tools-install-01.jpg)
+
+インストールをクリックします。
+
+![](https://wayohoo.net/images/2013/vmware-tools-install-02.jpg)
+
+DVDドライブ（D:）VMware Toolsをクリックします。
+
+![](https://wayohoo.net/images/2013/vmware-tools-install-03.jpg)
+
+setup64.exeの実行をクリックします。
+
+![](https://wayohoo.net/images/2013/vmware-tools-install-04.jpg)
+
+はいをクリックします。
+
+![](https://wayohoo.net/images/2013/vmware-tools-install-05.jpg)
+
+しばし待ちます。
+
+![](https://wayohoo.net/images/2013/vmware-tools-install-06.jpg)
+
+次へをクリックします。
+
+![](https://wayohoo.net/images/2013/vmware-tools-install-07.jpg)
+
+次へをクリックします。
+
+![](https://wayohoo.net/images/2013/vmware-tools-install-08.jpg)
+
+インストールをクリックします。
+
+![](https://wayohoo.net/images/2013/vmware-tools-install-09.jpg)
+
+しばし待ちます。
+
+![](https://wayohoo.net/images/2013/vmware-tools-install-10.jpg)
+
+終了ボタンをクリックします。
+
+![](https://wayohoo.net/images/2013/vmware-tools-install-11.jpg)
+
+再起動するか尋ねてくるので、はいをクリックします。
+
+![](https://wayohoo.net/images/2013/vmware-tools-install-12.jpg)
+
+再起動します。
+
+再起動が終わったら、完了です！
+
+### VMware FusionでMac-Win間のテキストやファイルのコピペができるようになった！
+
+![](https://wayohoo.net/images/2013/vmware-tools-install-13.jpg)
+
+さっそくテキストをMacからWindowsへ、WindowsからMacへ。
+
+![](https://wayohoo.net/images/2013/vmware-tools-install-14-2.jpg)
+
+ファイルをWindowsからMacへ。MacからWindowsへと移動してみてください。相互にやりとりができるようになっているはずです！
