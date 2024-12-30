@@ -1,0 +1,100 @@
+## 目次
+
+## Azure DevOps - クラウド版とオンプレ版
+Azure DevOpsには以下2つのオファリングがある
+- Azure DevOps Services: クラウド版
+  - [Azure DevOps にサインアップする](https://learn.microsoft.com/ja-jp/azure/devops/user-guide/sign-up-invite-teammates?view=azure-devops&tabs=microsoft-account)
+- Azure DevOps Server: オンプレ版
+  -[ 単一サーバーに Azure DevOps をオンプレミスにインストールする](https://learn.microsoft.com/ja-jp/azure/devops/server/install/single-server?view=azure-devops-2022)
+
+## Azure DevOps の外観
+
+- [**Azure Boards**](https://azure.microsoft.com/services/devops/boards/): タスク管理ツール
+  - タスク
+    - [Work Items（作業項目）](https://learn.microsoft.com/ja-jp/azure/devops/boards/work-items/about-work-items?view=azure-devops)
+  - ビュー
+    - [Boards（ボード）](https://learn.microsoft.com/ja-jp/azure/devops/boards/boards/kanban-overview?view=azure-devops)
+    - [バックログ（Backlog）](https://learn.microsoft.com/ja-jp/azure/devops/boards/backlogs/backlogs-overview?view=azure-devops)
+    - [Sprints（スプリント）](https://learn.microsoft.com/ja-jp/azure/devops/boards/sprints/assign-work-sprint?view=azure-devops)
+    - [Queries（クエリ）](https://learn.microsoft.com/ja-jp/azure/devops/boards/queries/view-run-query?view=azure-devops)
+    - [Delivery Plans（配信計画、デリバリー計画、デリバリープラン）](https://learn.microsoft.com/ja-jp/azure/devops/boards/plans/review-team-plans?view=azure-devops)
+    - [Analytics ビュー（分析ビュー、アナリティクスビュー）](https://learn.microsoft.com/ja-jp/azure/devops/report/powerbi/what-are-analytics-views?view=azure-devops)
+- [**Azure Repos**](https://azure.microsoft.com/services/devops/repos/): バージョン管理ツール
+- [**Azure Pipelines**](https://azure.microsoft.com/services/devops/pipelines/): CI/CDツール
+  - Pipelines
+      - YAMLパイプライン
+      - クラシックパイプライン
+      - ビルド（Build）
+      - リリース（Release）
+  - Environments
+  - Library
+- [**Azure Test Plans**](https://azure.microsoft.com/products/devops/test-plans/): テストツール
+- [**Azure Artifacts**](https://azure.microsoft.com/products/devops/artifacts/): パッケージを共有ツール
+
+### 組織管理
+
+**`組織 ＞ プロジェクト ＞ チーム`**  
+のような関係性です
+
+- **Organization（組織）**
+    - 会社単位とかで設定
+- **Project（プロジェクト）**
+    - 複数のプロジェクト作成可能
+    - 1つのプロジェクト内に複数のTeamとAreaを作成できる
+- **Team（チーム）**
+    - 1つのプロジェクトに属する（複数のプロジェクトをまたげない）
+    - 複製作成可能
+    - さらにサブチームも作成可能
+    - チームごとに1つずつBoardsを管理できる
+- **Area（エリア）**
+    - プロジェクト、チーム、作業項目、ボードに紐づけられるタグのようなもの
+    - 1つのプロジェクトに属する（複数のプロジェクトをまたげない）
+    - 複製作成可能
+    - ツリー上に作成可能
+    - 例えば、チームとWork Items（作業項目）を紐づけるときにAreaを使用します
+      - チームA → エリアパス `Project/Frontend`
+      - 作業項目1: エリアパス `Project/Frontend` → チームAに表示
+
+![](/images/azure-devops_outline_ask-nugey.png)
+
+## Azure Boards
+
+- **Work Items（作業項目）**: タスク
+  - Bug（バグ）
+  - Task（タスク）
+  - User Story（ユーザーストーリー）
+  - Epic（エピック）
+- **Boards（ボード）**: viewみたいなもの
+   - Boards（ボード）
+   - Backlog（バックログ）
+   - Kanban Board（カンバンボード）
+   - Sprints（スプリントビュー）
+   - Queries（クエリ）
+   - Burndown Chart / Burnup Chart（バーンダウンチャート / バーンアップチャート）
+   - Delivery Plans（タイムライン）
+
+## アカウントの紐づけ
+
+- **Organization（組織）レベル**
+    - ユーザーを組織に招待する必要がある
+    - 組織内のプロジェクト単位で権限を制限することが可能
+- **Project（プロジェクト）レベル**
+    - 組織内のユーザーを紐づけられる
+    - プロジェクトのチームに所属しなくてもプロジェクト内のリポジトリ、パイプライン、作業項目などにアクセスすることが可能
+- **Team（チーム）レベル**
+    - 組織内のユーザーを紐づけられる
+    - 特定のエリア（Area）やスプリント（Iteration）など、チーム固有のリソースやビューにアクセスできるようになる
+    - そのチームが担当するバックログやボードにも紐づく
+
+## 認証方法（サインイン）
+
+- **Organization（組織）ごとに設定可能**
+    - **Microsoft アカウント：**
+        - 個人のMSアカウントを使用してログインする方法
+    - **Microsoft Entra ID に関連付けられたアカウント （旧 Azure Active Directory）：**
+        - 組織のEntra IDに接続して組織内のユーザーと連携する方法
+
+---
+
+- **Microsoft Entra ID**
+  ![](https://res.cloudinary.com/zenn/image/fetch/s--c5pIlcZv--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_1200/https://storage.googleapis.com/zenn-user-upload/deployed-images/80e53bccc35ab4fcd6ea309f.png%3Fsha%3Dd49a713024f9c700764fca58da47acf0f32e902d)
