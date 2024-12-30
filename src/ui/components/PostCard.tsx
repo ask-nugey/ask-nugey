@@ -160,6 +160,7 @@ export const PostCard = (props: Props) => {
 						justifyContent: 'flex-end',
 						alignItems: 'flex-end',
 						gap: 2,
+						marginTop: 'auto',
 						'& span': {
 							fontSize: 'xs',
 							lineHeight: '1.6em',

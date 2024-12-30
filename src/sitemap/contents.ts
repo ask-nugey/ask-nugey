@@ -719,7 +719,7 @@ export const themes: ArticleNode[] = [
 	{ theme: 'rust', articles: ['rust-build-environment'], children: [] },
 	{ theme: 'html-css', articles: ['css-grid'], children: [] },
 	{ theme: 'モノレポ', articles: ['moonrepo-learn-demo'], children: [] },
-	{ theme: 'mac', articles: ['app-mac'], children: [] },
+	{ theme: 'mac', articles: ['app-mac', 'mac-emulator-for-windows'], children: [] },
 	{
 		theme: 'nugey',
 		articles: ['nugey-personality', 'tech-stack-my-site', 'todo'],
