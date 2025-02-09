@@ -1,0 +1,1424 @@
+## 目次
+
+## 概要
+
+reactのserver actionsに対応した**conform**についてまとめたドキュメント
+- **公式doc**: https://ja.conform.guide
+- **github**: https://github.com/edmundhung/conform
+
+githubを見るに現在v2の開発が進んでいる模様（2025/02/09現在）
+
+## useForm
+
+
+```tsx
+const [form, fields] = useForm(options);
+```
+
+### 引数（options）と返り値の一覧
+
+useFormは配列で2つの値を返します: `[form, fields]`
+
+#### 引数（options）
+
+| プロパティ名                                | 型                                                 | デフォルト値         | 説明                                             |
+| ------------------------------------------- | -------------------------------------------------- | -------------------- | ------------------------------------------------ |
+| [id](#id)                                   | string                                             | 自動生成             | フォームのID                                     |
+| [defaultValue](#defaultvalue)               | DefaultValue\<Schema\>                             | undefined            | フォームの初期値                                 |
+| [constraint](#constraint)                   | Record\<string, Constraint\>                       | {}                   | フィールドの制約定義 (zod等を使用する場合は不要) |
+| [lastResult](#lastresult)                   | SubmissionResult\<FormError\> \| null \| undefined | undefined            | 前回の送信結果                                   |
+| [shouldValidate](#shouldvalidate)           | 'onSubmit' \| 'onBlur' \| 'onInput'                | 'onSubmit'           | バリデーションのタイミング                       |
+| [shouldRevalidate](#shouldrevalidate)       | 'onSubmit' \| 'onBlur' \| 'onInput'                | shouldValidateと同じ | 再バリデーションのタイミング                     |
+| [shouldDirtyConsider](#shoulddirtyconsider) | (name: string) => boolean                          | () => true           | dirty状態の計算対象判定                          |
+| [defaultNoValidate](#defaultnovalidate)     | boolean                                            | true                 | ブラウザのデフォルトバリデーション無効化         |
+| [onValidate](#onvalidate)                   | (context) => Submission                            | undefined            | バリデーション処理関数                           |
+| [onSubmit](#onsubmit)                       | (event, context) => void                           | undefined            | 送信処理関数                                     |
+
+　  
+**constraint オブジェクトのプロパティ**
+
+| プロパティ名 | 型               | 説明                   |
+| ------------ | ---------------- | ---------------------- |
+| required     | boolean          | 必須項目かどうか       |
+| minLength    | number           | 最小文字数             |
+| maxLength    | number           | 最大文字数             |
+| min          | string \| number | 最小値                 |
+| max          | string \| number | 最大値                 |
+| step         | string \| number | 数値の増減ステップ     |
+| pattern      | string           | 入力パターン(正規表現) |
+| multiple     | boolean          | 複数選択可能かどうか   |
+
+#### 返り値1 form
+
+| プロパティ/メソッド名                | 型                                | 説明                           |
+| ------------------------------------ | --------------------------------- | ------------------------------ |
+| **[識別子プロパティ]**               |                                   |                                |
+| [id](#id)                            | FormId                            | フォームのID                   |
+| [formId](#formid)                    | string                            | フォームのID（文字列）         |
+| [name](#name)                        | string                            | フォーム名                     |
+| **[アクセシビリティ関連プロパティ]** |                                   |                                |
+| [errorId](#errorid)                  | string                            | エラー表示用のID               |
+| [descriptionId](#descriptionid)      | string                            | 説明表示用のID                 |
+| **[値関連プロパティ]**               |                                   |                                |
+| [initialValue](#initialvalue)        | FormValue\<Schema\>               | 初期値                         |
+| [value](#value)                      | FormValue\<Schema\>               | 現在の値                       |
+| [key](#key)                          | string \| undefined               | レンダリング最適化用のキー     |
+| **[エラー関連プロパティ]**           |                                   |                                |
+| [errors](#errors)                    | FormError \| undefined            | フォームレベルのエラー         |
+| [allErrors](#allerrors)              | Record\<string, FormError\>       | すべてのエラー（ネストを含む） |
+| **[状態プロパティ]**                 |                                   |                                |
+| [valid](#valid)                      | boolean                           | フォーム全体が有効か           |
+| [dirty](#dirty)                      | boolean                           | 値が変更されているか           |
+| [status](#status)                    | 'success' \| 'error' \| undefined | 送信状態                       |
+| **[制御プロパティ]**                 |                                   |                                |
+| [noValidate](#novalidate)            | boolean                           | ブラウザのバリデーション無効化 |
+| **[メソッド]**                       |                                   |                                |
+| [validate](#validate)                | (payload?) => void                | バリデーション実行             |
+| [update](#update)                    | (payload) => void                 | 値の更新                       |
+| [reset](#reset)                      | (payload?) => void                | 値のリセット                   |
+| **[Array操作メソッド]**              |                                   |                                |
+| [insert](#insert)                    | (payload) => void                 | 配列要素の挿入                 |
+| [remove](#remove)                    | (payload) => void                 | 配列要素の削除                 |
+| [reorder](#reorder)                  | (payload) => void                 | 配列要素の並べ替え             |
+| [onSubmit](#onsubmit)                | (event) => void                   | 送信ハンドラ                   |
+| [getFieldset](#getfieldset)          | () => FieldsetMetadata            | フィールドメタデータ取得       |
+
+#### 返り値2 fields
+
+| プロパティ/メソッド名                | 型                                                 | 説明                             |
+| ------------------------------------ | -------------------------------------------------- | -------------------------------- |
+| [**識別子プロパティ]**               |                                                    |                                  |
+| [formId](#formid)                    | FormId                                             | 所属フォームのID                 |
+| [id](#id)                            | string                                             | フィールドのID                   |
+| [key](#key)                          | string \| undefined                                | レンダリング最適化用のキー       |
+| [name](#name)                        | FieldName                                          | フィールド名                     |
+| [**アクセシビリティ関連プロパティ]** |                                                    |                                  |
+| [errorId](#errorid)                  | string                                             | エラー表示用のID                 |
+| [descriptionId](#descriptionid)      | string                                             | 説明表示用のID                   |
+| [**値関連プロパティ]**               |                                                    |                                  |
+| [initialValue](#initialvalue)        | FormValue                                          | 初期値                           |
+| [value](#value)                      | FormValue                                          | 現在の値                         |
+| [**エラー関連プロパティ]**           |                                                    |                                  |
+| [errors](#errors)                    | FormError \| undefined                             | フィールドのエラー               |
+| [allErrors](#allerrors)              | Record\<string, FormError\>                        | 関連するすべてのエラー           |
+| [**状態プロパティ]**                 |                                                    |                                  |
+| [valid](#valid)                      | boolean                                            | フィールドが有効か               |
+| [dirty](#dirty)                      | boolean                                            | 値が変更されているか             |
+| [**制約プロパティ]**                 | (zod等を使用する場合は不要)                        |                                  |
+| [required](#required)                | boolean \| undefined                               | 必須項目か                       |
+| [minLength](#minlength)              | number \| undefined                                | 最小文字数                       |
+| [maxLength](#maxlength)              | number \| undefined                                | 最大文字数                       |
+| [min](#min)                          | string \| number \| undefined                      | 最小値                           |
+| [max](#max)                          | string \| number \| undefined                      | 最大値                           |
+| [step](#step)                        | string \| number \| undefined                      | 数値の増減ステップ               |
+| [pattern](#pattern)                  | string \| undefined                                | 入力パターン                     |
+| [multiple](#multiple)                | boolean \| undefined                               | 複数選択可能か                   |
+| [**コレクション操作メソッド]**       |                                                    |                                  |
+| [getFieldset](#getfieldset)          | () => Record\<string, FieldMetadata\> \| undefined | オブジェクト型の子フィールド取得 |
+| [getFieldList](#getfieldlist)        | () => FieldMetadata[] \| undefined                 | 配列型の子フィールド取得         |
+
+　  
+**型パラメータ**
+
+| パラメータ名 | デフォルト値          | 説明                   |
+| ------------ | --------------------- | ---------------------- |
+| Schema       | Record\<string, any\> | フォームデータの型定義 |
+| FormValue    | Schema                | 変換後の値の型         |
+| FormError    | string[]              | エラーメッセージの型   |
+
+### 引数（options）の詳細
+
+#### id
+
+フォームを識別するためのユニークなID。
+
+```tsx
+id?: string
+```
+
+**説明**
+
+- フォームのHTML要素に割り当てられるid属性として使用される
+- 同一ページ内で複数のフォームを使用する場合に必須
+- 指定しない場合は自動的にユニークなIDが生成される
+
+**使用例**
+
+```tsx
+const [form] = useForm({
+  id: "login-form"
+});
+```
+
+**注意点**
+
+- IDは一意である必要がある
+- プログラムで生成する場合は、一意性を確保する必要がある
+
+---
+
+#### defaultValue
+
+フォームの初期値を指定する。
+
+```tsx
+defaultValue?: DefaultValue<Schema>
+```
+
+**説明**
+
+- フォームの初期状態を定義する
+- Schema型に基づいて型安全な初期値を設定可能
+- ネストされたオブジェクトや配列もサポート
+
+**使用例**
+
+```tsx
+const [form] = useForm({
+  defaultValue: {
+    name: "John Doe",
+    email: "john@example.com",
+    address: {
+      street: "123 Main St",
+      city: "New York"
+    },
+    phones: ["123-456-7890"]
+  }
+});
+```
+
+**特記事項**
+
+- `undefined`の場合、フィールドは空の状態で初期化される
+- Fileタイプの場合、`null`または`undefined`のみ許容
+- 配列の場合、各要素に対してDefaultValue型が適用される
+
+---
+
+#### constraint
+
+各フィールドのバリデーション制約を定義する。  
+※zod等と併用する場合は不要
+
+```tsx
+constraint?: Record<string, Constraint>
+```
+
+**説明**
+
+- HTMLの標準的なフォーム制約属性に基づく
+- ネストされたフィールドはドット記法でアクセス
+
+**制約プロパティ**
+
+```tsx
+type Constraint = {
+  required?: boolean;
+  minLength?: number;
+  maxLength?: number;
+  min?: string | number;
+  max?: string | number;
+  step?: string | number;
+  pattern?: string;
+  multiple?: boolean;
+}
+```
+
+**使用例**
+
+```tsx
+const [form] = useForm({
+  constraint: {
+    username: {
+      required: true,
+      minLength: 3,
+      pattern: "^[a-zA-Z0-9_]+$"
+    },
+    "address.zipCode": {
+      pattern: "^\\\\\\\\d{5}(-\\\\\\\\d{4})?$"
+    },
+    age: {
+      min: 18,
+      max: 100
+    }
+  }
+});
+```
+
+**注意点**
+
+- パターンは正規表現文字列として指定
+- ネストされたフィールドはドット記法で指定する必要がある
+
+---
+
+#### shouldValidate
+
+バリデーションのトリガーとなるタイミングを指定する。
+
+```tsx
+shouldValidate?: 'onSubmit' | 'onBlur' | 'onInput'
+```
+
+**説明**
+
+- `onSubmit`: フォーム送信時のみバリデーション
+- `onBlur`: フィールドからフォーカスが外れた時
+- `onInput`: 入力値が変更される度
+
+**デフォルト値**
+
+- `'onSubmit'`
+
+**使用例**
+
+```tsx
+const [form] = useForm({
+  shouldValidate: "onBlur",
+  onValidate: ({ formData }) => {
+    // バリデーションロジック
+  }
+});
+```
+
+**特記事項**
+
+- パフォーマンスを考慮する場合は`onSubmit`を推奨
+- リアルタイムフィードバックが必要な場合は`onInput`を使用
+
+---
+
+#### shouldRevalidate
+
+既にバリデーション済みのフィールドの再バリデーションタイミングを指定する。
+
+```tsx
+shouldRevalidate?: 'onSubmit' | 'onBlur' | 'onInput'
+```
+
+**説明**
+
+- `shouldValidate`と同様の動作
+- 一度バリデーションが実行された後の動作を制御
+
+**デフォルト値**
+
+- `shouldValidate`と同じ値
+
+**使用例**
+
+```tsx
+const [form] = useForm({
+  shouldValidate: "onSubmit",
+  shouldRevalidate: "onBlur"
+});
+```
+
+**特記事項**
+
+- 初回バリデーション後のユーザー体験を最適化するために使用
+
+---
+
+#### shouldDirtyConsider
+
+フィールドをdirty状態の計算に含めるかどうかを判定する関数。
+
+```tsx
+shouldDirtyConsider?: (name: string) => boolean
+```
+
+**説明**
+
+- 特定のフィールドをdirty状態の計算から除外可能
+- CSRFトークンなどのシステムフィールドの除外に有用
+
+**デフォルト値**
+
+- すべてのフィールドを含める（`() => true`）
+
+**使用例**
+
+```tsx
+const [form] = useForm({
+  shouldDirtyConsider: (name) => {
+    return !["csrf_token", "timestamp"].includes(name);
+  }
+});
+```
+
+**ユースケース**
+
+- CSRFトークンの除外
+- タイムスタンプの除外
+- 自動生成される値の除外
+
+---
+
+#### onValidate
+
+フォームのバリデーション処理を定義する関数。
+
+```tsx
+onValidate?: (context: {
+  form: HTMLFormElement;
+  submitter: HTMLInputElement | HTMLButtonElement | null;
+  formData: FormData;
+}) => Submission<Schema, FormError, FormValue>
+```
+
+**説明**
+
+- フォームデータのバリデーションロジックを実装
+- エラーメッセージの生成と返却
+- 非同期バリデーションもサポート
+
+**使用例**
+
+```tsx
+const [form] = useForm({
+  onValidate: async ({ formData }) => {
+    const errors: Record<string, string[]> = {};
+    const email = formData.get("email") as string;
+
+    // 同期的バリデーション
+    if (!email.includes("@")) {
+      errors.email = ["有効なメールアドレスを入力してください"];
+    }
+
+    // 非同期バリデーション
+    const isEmailTaken = await checkEmailExists(email);
+    if (isEmailTaken) {
+      errors.email = ["このメールアドレスは既に使用されています"];
+    }
+
+    return {
+      error: Object.keys(errors).length > 0 ? errors : null
+    };
+  }
+});
+```
+
+**返り値の型**
+
+```tsx
+type Submission<Schema, FormError, FormValue> =
+  | {
+      status: 'success';
+      value: FormValue;
+      payload: Record<string, any>;
+    }
+  | {
+      status: 'error' | undefined;
+      error: Record<string, FormError | null> | null;
+      payload: Record<string, any>;
+    }
+```
+
+**特記事項**
+
+- 非同期バリデーションは Promise を返すことができる
+- エラーがない場合は `null` を返す
+- フィールドレベルとフォームレベルのエラーを区別可能
+
+---
+
+#### onSubmit
+
+フォーム送信時の処理を定義する関数。
+
+```tsx
+onSubmit?: (
+  event: FormEvent<HTMLFormElement>,
+  context: {
+    formData: FormData;
+    action: string;
+    encType: string;
+    method: string;
+    submission?: Submission<Schema, FormError, FormValue>;
+  }
+) => void
+```
+
+**説明**
+
+- フォーム送信時の処理をカスタマイズ
+- バリデーション成功後に実行される
+- フォームデータの加工や送信処理の制御が可能
+
+**使用例**
+
+```tsx
+const [form] = useForm({
+  onSubmit: async (event, { formData, submission }) => {
+    event.preventDefault();
+
+    if (submission?.status === 'success') {
+      try {
+        await submitToAPI(formData);
+        // 成功時の処理
+      } catch (error) {
+        // エラー処理
+      }
+    }
+  }
+});
+```
+
+**contextオブジェクト**
+
+- `formData`: 送信されるフォームデータ
+- `action`: フォームのaction属性値
+- `encType`: エンコーディングタイプ
+- `method`: HTTPメソッド
+- `submission`: バリデーション結果（任意）
+
+**特記事項**
+
+- デフォルトの送信動作をキャンセルする場合は`event.preventDefault()`を使用
+- `submission`オブジェクトでバリデーション結果を確認可能
+- 非同期処理が可能
+
+### 返り値1 form の詳細
+
+#### [識別子プロパティ]
+
+#### id
+
+フォームを一意に識別するID。
+
+```tsx
+id: FormId<Schema, FormError>
+```
+
+**説明**
+
+- フォーム要素の`id`属性として使用される
+- Schema型とFormError型の情報を持つ特殊な文字列型
+- useFormに渡されたidまたは自動生成された値
+
+**使用例**
+
+```tsx
+<form id={form.id}>
+```
+
+#### formId
+
+フォームのID（文字列として）。
+
+```tsx
+formId: string
+```
+
+**説明**
+
+- `id`プロパティの文字列表現
+- HTML要素の参照などで使用される
+
+**使用例**
+
+```tsx
+const formElement = document.getElementById(form.formId);
+```
+
+#### name
+
+フォームの名前。
+
+```tsx
+name: string
+```
+
+**説明**
+
+- フォーム全体を表す名前
+- 通常は空文字列
+
+#### [アクセシビリティ関連プロパティ]
+
+#### errorId
+
+エラーメッセージ表示要素のID。
+
+```tsx
+errorId: string
+```
+
+**説明**
+
+- エラーメッセージとフォームを関連付けるために使用
+- `aria-describedby`属性で参照される
+- 形式: `${formId}-error`
+
+**使用例**
+
+```tsx
+<div id={form.errorId} role="alert">
+  {form.errors?.join(", ")}
+</div>
+```
+
+#### descriptionId
+
+説明文のID。
+
+```tsx
+descriptionId: string
+```
+
+**説明**
+
+- フォームの説明文を関連付けるために使用
+- `aria-describedby`属性で参照される
+- 形式: `${formId}-description`
+
+**使用例**
+
+```tsx
+<div id={form.descriptionId}>
+  フォームの説明文をここに記載
+</div>
+```
+
+#### [値関連プロパティ]
+
+#### initialValue
+
+フォームの初期値。
+
+```tsx
+initialValue: FormValue<Schema>
+```
+
+**説明**
+
+- フォームの初期状態を表す値
+- リセット時にこの値に戻る
+- defaultValueまたはlastResultから設定される
+
+**使用例**
+
+```tsx
+const defaultFields = form.initialValue;
+```
+
+#### value
+
+フォームの現在の値。
+
+```tsx
+value: FormValue<Schema>
+```
+
+**説明**
+
+- フォームの現在の状態を表す値
+- ユーザーの入力によって更新される
+- ネストされたオブジェクトや配列をサポート
+
+**使用例**
+
+```tsx
+const currentData = form.value;
+```
+
+#### key
+
+レンダリング最適化用のキー。
+
+```tsx
+key: string | undefined
+```
+
+**説明**
+
+- Reactのレンダリング最適化に使用
+- フォームの状態が更新されたときに変更される
+- フォームのリセットや再初期化の検出に使用
+
+#### [エラー関連プロパティ]
+
+#### errors
+
+フォームレベルのエラーメッセージ。
+
+```tsx
+errors: FormError | undefined
+```
+
+**説明**
+
+- フォーム全体に関するエラーメッセージ
+- 通常は文字列の配列
+- バリデーション関数から設定される
+
+**使用例**
+
+```tsx
+{form.errors && (
+  <div role="alert" className="error">
+    {form.errors.map(error => (
+      <p key={error}>{error}</p>
+    ))}
+  </div>
+)}
+```
+
+#### allErrors
+
+フォーム内のすべてのエラー。
+
+```tsx
+allErrors: Record<string, FormError>
+```
+
+**説明**
+
+- フォーム全体とすべてのフィールドのエラーを含む
+- キーはフィールドのパス
+- ネストされたフィールドのエラーも含む
+
+**使用例**
+
+```tsx
+Object.entries(form.allErrors).map(([field, errors]) => (
+  <div key={field}>
+    {field}: {errors.join(", ")}
+  </div>
+))
+```
+
+#### [状態プロパティ]
+
+#### valid
+
+フォームが有効かどうか。
+
+```tsx
+valid: boolean
+```
+
+**説明**
+
+- フォーム全体とすべてのフィールドが有効な場合true
+- エラーが1つでもある場合false
+- バリデーション前はtrue
+
+**使用例**
+
+```tsx
+<button type="submit" disabled={!form.valid}>
+  送信
+</button>
+```
+
+#### dirty
+
+値が変更されているかどうか。
+
+```tsx
+dirty: boolean
+```
+
+**説明**
+
+- 初期値から変更があった場合true
+- shouldDirtyConsiderで制御可能
+- リセット後はfalse
+
+**使用例**
+
+```tsx
+{form.dirty && (
+  <p>※ 変更が保存されていません</p>
+)}
+```
+
+#### status
+
+フォームの送信状態。
+
+```tsx
+status?: 'success' | 'error'
+```
+
+**説明**
+
+- フォーム送信の結果を示す
+- 送信前やリセット後はundefined
+- onValidateの結果に基づいて設定される
+
+**使用例**
+
+```tsx
+{form.status === 'success' && <p>送信完了しました</p>}
+{form.status === 'error' && <p>送信に失敗しました</p>}
+```
+
+#### [制御プロパティ]
+
+#### noValidate
+
+ブラウザのデフォルトバリデーションを無効化。
+
+```tsx
+noValidate: boolean
+```
+
+**説明**
+
+- trueの場合、ブラウザのデフォルトバリデーションを無効化
+- Conformのバリデーションを優先する場合に使用
+- defaultNoValidateオプションで制御
+
+#### [メソッド]
+
+#### validate
+
+バリデーションを実行。
+
+```tsx
+validate: (payload?: { name?: string }) => void
+```
+
+**説明**
+
+- フォームまたは特定のフィールドのバリデーションを実行
+- nameを指定すると特定のフィールドのみバリデーション
+- onValidateが定義されている場合のみ機能する
+
+**使用例**
+
+```tsx
+// フォーム全体のバリデーション
+form.validate();
+
+// 特定フィールドのバリデーション
+form.validate({ name: "email" });
+```
+
+#### update
+
+フォームの値を更新。
+
+```tsx
+update: (payload: {
+  name?: string;
+  value?: unknown;
+  validated?: boolean;
+}) => void
+```
+
+**説明**
+
+- フォームまたは特定のフィールドの値を更新
+- バリデーション状態も制御可能
+- プログラムによる値の更新に使用
+
+**使用例**
+
+```tsx
+// 特定フィールドの更新
+form.update({
+  name: "email",
+  value: "new@example.com",
+  validated: true
+});
+
+// フォーム全体の更新
+form.update({
+  value: { email: "new@example.com", name: "John" }
+});
+```
+
+#### reset
+
+フォームをリセット。
+
+```tsx
+reset: (payload?: { name?: string }) => void
+```
+
+**説明**
+
+- フォームまたは特定のフィールドを初期値に戻す
+- バリデーション状態もリセット
+- エラーメッセージもクリア
+
+**使用例**
+
+```tsx
+// フォーム全体のリセット
+form.reset();
+
+// 特定フィールドのリセット
+form.reset({ name: "email" });
+```
+
+#### [Array操作メソッド]
+
+#### insert
+
+配列フィールドに要素を挿入。
+
+```tsx
+insert: (payload: {
+  name: string;
+  defaultValue?: unknown;
+  index?: number;
+}) => void
+```
+
+#### remove
+
+配列フィールドから要素を削除。
+
+```tsx
+remove: (payload: {
+  name: string;
+  index: number;
+}) => void
+```
+
+#### reorder
+
+配列フィールドの要素を並べ替え。
+
+```tsx
+reorder: (payload: {
+  name: string;
+  from: number;
+  to: number;
+}) => void
+```
+
+**使用例**
+
+```tsx
+// 配列要素の追加
+form.insert({
+  name: "phones",
+  defaultValue: "",
+  index: 0
+});
+
+// 配列要素の削除
+form.remove({
+  name: "phones",
+  index: 0
+});
+
+// 配列要素の並べ替え
+form.reorder({
+  name: "phones",
+  from: 0,
+  to: 2
+});
+```
+
+#### getFieldset
+
+フィールドメタデータを取得。
+
+```tsx
+getFieldset: () => Record<keyof Schema, FieldMetadata>
+```
+
+**説明**
+
+- フォーム内の各フィールドのメタデータを取得
+- 必要なときにのみメタデータを生成（遅延評価）
+- ネストされたフィールドもサポート
+
+**使用例**
+```ts
+const fields = form.getFieldset();
+const emailField = fields.email;
+const addressFields = fields.address.getFieldset();
+```
+
+### 返り値2 fields の詳細
+
+#### [識別子プロパティ]
+
+#### formId
+
+フィールドが属するフォームのID。
+
+```tsx
+formId: FormId<FormSchema, FormError>
+```
+
+**説明**
+
+- フィールドが属するフォームを識別
+- フォームとフィールドの関連付けに使用
+- フォームのSchema型とFormError型の情報を持つ
+
+**使用例**
+
+```tsx
+<input form={field.formId} />
+```
+
+#### id
+
+フィールド要素のID。
+
+```tsx
+id: string
+```
+
+**説明**
+
+- フィールドを一意に識別
+- label要素とフィールドの関連付けに使用
+- 形式: `${formId}-${name}`
+
+**使用例**
+
+```tsx
+<>
+  <label htmlFor={field.id}>メールアドレス</label>
+  <input id={field.id} />
+</>
+```
+
+#### name
+
+フィールドの名前。
+
+```tsx
+name: FieldName<Schema, FormSchema, FormError>
+```
+
+**説明**
+
+- フォーム送信時のフィールド名として使用
+- ネストされたフィールドはドット記法で表現
+- フィールドの型情報を持つ
+
+**使用例**
+
+```tsx
+<input name={field.name} />
+// ネストされたフィールドの例: "address.street"
+```
+
+#### key
+
+レンダリング最適化用のキー。
+
+```tsx
+key: string | undefined
+```
+
+**説明**
+
+- Reactのレンダリング最適化に使用
+- フィールドの値が更新されたときに変更
+- 配列要素の識別にも使用
+
+**使用例**
+
+```tsx
+<input key={field.key} />
+```
+
+#### [アクセシビリティ関連プロパティ]
+
+#### errorId
+
+エラーメッセージ表示要素のID。
+
+```tsx
+errorId: string
+```
+
+**説明**
+
+- エラーメッセージとフィールドを関連付け
+- `aria-describedby`属性で参照
+- 形式: `${field.id}-error`
+
+**使用例**
+
+```tsx
+<>
+  <input aria-describedby={field.errorId} />
+  <div id={field.errorId} role="alert">
+    {field.errors?.join(", ")}
+  </div>
+</>
+```
+
+#### descriptionId
+
+説明文要素のID。
+
+```tsx
+descriptionId: string
+```
+
+**説明**
+
+- フィールドの説明文を関連付け
+- `aria-describedby`属性で参照
+- 形式: `${field.id}-description`
+
+**使用例**
+
+```tsx
+<>
+  <input aria-describedby={field.descriptionId} />
+  <div id={field.descriptionId}>
+    パスワードは8文字以上必要です
+  </div>
+</>
+```
+
+#### [値関連プロパティ]
+
+#### initialValue
+
+フィールドの初期値。
+
+```tsx
+initialValue: FormValue<Schema>
+```
+
+**説明**
+
+- フィールドの初期状態を表す値
+- リセット時にこの値に戻る
+- 制御/非制御コンポーネントの初期値として使用
+
+**使用例**
+
+```tsx
+<input defaultValue={field.initialValue} />
+```
+
+#### value
+
+フィールドの現在の値。
+
+```tsx
+value: FormValue<Schema>
+```
+
+**説明**
+
+- フィールドの現在の状態を表す値
+- ユーザーの入力により更新
+- 制御コンポーネントの値として使用可能
+
+**使用例**
+
+```tsx
+<input value={field.value} onChange={handleChange} />
+```
+
+#### [エラー関連プロパティ]
+
+#### errors
+
+フィールドのエラーメッセージ。
+
+```tsx
+errors: FormError | undefined
+```
+
+**説明**
+
+- バリデーションエラーメッセージの配列
+- バリデーション未実行またはエラーなしの場合はundefined
+- アクセシビリティのためaria-invalidと組み合わせて使用
+
+**使用例**
+
+```tsx
+<>
+  <input aria-invalid={!!field.errors} />
+  {field.errors && (
+    <ul role="alert">
+      {field.errors.map(error => (
+        <li key={error}>{error}</li>
+      ))}
+    </ul>
+  )}
+</>
+```
+
+#### allErrors
+
+フィールドに関連するすべてのエラー。
+
+```tsx
+allErrors: Record<string, FormError>
+```
+
+**説明**
+
+- フィールド自身とその子フィールドのすべてのエラー
+- ネストされたフィールドのエラーも含む
+- キーはフィールドパス
+
+**使用例**
+
+```tsx
+Object.entries(field.allErrors).map(([path, errors]) => (
+  <div key={path}>
+    {path}: {errors.join(", ")}
+  </div>
+))
+```
+
+#### [状態プロパティ]
+
+#### valid
+
+フィールドが有効かどうか。
+
+```tsx
+valid: boolean
+```
+
+**説明**
+
+- フィールドのバリデーション状態
+- errorsまたはallErrorsが存在する場合はfalse
+- バリデーション未実行の場合はtrue
+
+**使用例**
+
+```tsx
+<div className={field.valid ? "valid" : "invalid"}>
+  <input />
+</div>
+```
+
+#### dirty
+
+値が変更されているかどうか。
+
+```tsx
+dirty: boolean
+```
+
+**説明**
+
+- 初期値から変更があった場合true
+- リセット後はfalse
+- shouldDirtyConsiderの影響を受ける
+
+**使用例**
+
+```tsx
+{field.dirty && (
+  <span className="modified-indicator">*</span>
+)}
+```
+
+#### [制約プロパティ]
+constraint で定義した内容を参照できる。
+
+```tsx
+const [form] = useForm({
+  constraint: {
+    username: {
+      required: true,
+      minLength: 3,
+      pattern: "^[a-zA-Z0-9_]+$"
+    },
+  }
+});
+```
+
+※zod等と併用する場合は基本的に使用しない
+※zod等で定義したものは参照できないの
+
+#### required
+
+必須項目かどうか。
+
+```tsx
+required?: boolean
+```
+
+#### minLength
+
+最小文字数。
+
+```tsx
+minLength?: number
+```
+
+#### maxLength
+
+最大文字数。
+
+```tsx
+maxLength?: number
+```
+
+#### min
+
+最小値。
+
+```tsx
+min?: string | number
+```
+
+#### max
+
+最大値。
+
+```tsx
+max?: string | number
+```
+
+#### step
+
+数値の増減ステップ。
+
+```tsx
+step?: string | number
+```
+
+#### pattern
+
+入力パターン（正規表現）。
+
+```tsx
+pattern?: string
+```
+
+#### multiple
+
+複数選択可能かどうか。
+
+```tsx
+multiple?: boolean
+```
+
+#### 制約プロパティの使用例
+
+```tsx
+<input
+  required={field.required}
+  minLength={field.minLength}
+  maxLength={field.maxLength}
+  min={field.min}
+  max={field.max}
+  step={field.step}
+  pattern={field.pattern}
+  multiple={field.multiple}
+/>
+```
+
+#### [コレクション操作メソッド]
+
+#### getFieldset
+
+オブジェクト型フィールドの子フィールドメタデータを取得。
+
+```tsx
+getFieldset?: () => Record<string, FieldMetadata>
+```
+
+**説明**
+
+- オブジェクト型フィールドの場合のみ存在
+- 子フィールドのメタデータを取得
+- 必要なときにのみメタデータを生成（遅延評価）
+
+**使用例**
+
+```tsx
+const addressFields = field.getFieldset?.();
+if (addressFields) {
+  return (
+    <fieldset>
+      <input {...getInputProps(addressFields.street, { type: "text" })} />
+      <input {...getInputProps(addressFields.city, { type: "text" })} />
+    </fieldset>
+  );
+}
+```
+
+#### getFieldList
+
+配列型フィールドの要素メタデータを取得。
+
+```tsx
+getFieldList?: () => FieldMetadata[]
+```
+
+**説明**
+
+- 配列型フィールドの場合のみ存在
+- 配列要素のメタデータを取得
+- 必要なときにのみメタデータを生成（遅延評価）
+
+**使用例**
+
+```tsx
+const phoneFields = field.getFieldList?.();
+if (phoneFields) {
+  return (
+    <div>
+      {phoneFields.map((phone, index) => (
+        <div key={phone.key}>
+          <input {...getInputProps(phone, { type: "tel" })} />
+          <button onClick={() => form.remove({ name: field.name, index })}>
+            削除
+          </button>
+        </div>
+      ))}
+      <button onClick={() => form.insert({ name: field.name })}>
+        追加
+      </button>
+    </div>
+  );
+}
+```
+
+#### [ヘルパー関数との統合]
+
+FieldMetadataは以下のヘルパー関数と組み合わせて使用できます：
+
+#### getInputProps
+
+```tsx
+<input {...getInputProps(field, { type: "text" })} />
+```
+
+#### getSelectProps
+
+```tsx
+<select {...getSelectProps(field)} />
+```
+
+#### getTextareaProps
+
+```tsx
+<textarea {...getTextareaProps(field)} />
+```
+
+#### getCollectionProps
+
+```tsx
+{getCollectionProps(field, {
+  type: "radio",
+  options: ["A", "B", "C"]
+}).map(props => (
+  <label key={props.key}>
+    <input {...props} />
+    {props.value}
+  </label>
+))}
+```
+
+これらのヘルパー関数は、FieldMetadataのプロパティを適切なHTML属性に変換し、アクセシビリティ対応も自動的に行います。
