@@ -1,0 +1,392 @@
+## 目次
+
+## 概要
+**React Hook Form**と**Conform**の具体的なコードも紹介しつつ比較して解説
+
+**Conformのドキュメントは[こちらの記事](/posts/conform-doc-v1)を参照**
+
+## 1. フォームの初期化（デフォルト値の設定）
+
+### React Hook Form
+
+React Hook Formでは、`useForm` hookを使用してフォームを初期化します：
+
+```tsx
+// React Hook Form
+const { register, handleSubmit } = useForm({
+  defaultValues: {
+    name: "default name",
+    email: "default@email.com"
+  }
+});
+```
+
+### Conform
+
+Conformでは、同様に`useForm` hookを使用しますが、構造が異なります：
+
+```tsx
+// Conform
+const [form, fields] = useForm({
+  defaultValue: {
+    name: "default name",
+    email: "default@email.com"
+  },
+  onValidate: ({ formData }) => parseWithZod(formData, { schema })
+});
+```
+
+### 比較
+- React Hook Formは`defaultValues`オプションを使用
+- Conformは`defaultValue`オプションを使用
+- Conformはフォームと各フィールドの状態を分離して返す
+- React Hook Formは単一のオブジェクトとしてフォーム制御機能を返す
+
+## 2. フォーム要素の登録
+
+### React Hook Form
+
+```tsx
+// React Hook Form
+function MyForm() {
+  const { register } = useForm();
+
+  return (
+    <form>
+      <input {...register("username", { required: true })} />
+      <input {...register("email", {
+        pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i
+      })} />
+    </form>
+  );
+}
+```
+
+### Conform
+
+```tsx
+// Conform
+function MyForm() {
+  const [form, fields] = useForm();
+
+  return (
+    <Form {...getFormProps(form)}>
+      <input {...getInputProps(fields.username, { type: 'text' })} />
+      <input {...getInputProps(fields.email, { type: 'email' })} />
+    </Form>
+  );
+}
+```
+
+### 比較
+- React Hook Formは`register`関数を使用して要素を登録
+- Conformは`getInputProps`ヘルパー関数を使用
+- React Hook Formはバリデーションルールを登録時に定義
+- Conformはスキーマベースのバリデーションを使用
+
+## 3. バリデーション設定
+
+### React Hook Form
+
+```tsx
+// React Hook Form
+const { register, handleSubmit } = useForm({
+  resolver: zodResolver(schema)
+});
+
+// または個別のバリデーション
+register("username", {
+  required: "Username is required",
+  minLength: {
+    value: 3,
+    message: "Username must be at least 3 characters"
+  }
+});
+```
+
+### Conform
+
+```tsx
+// Conform
+const [form, fields] = useForm({
+  onValidate: ({ formData }) => parseWithZod(formData, {
+    schema: z.object({
+      username: z.string().min(3),
+      email: z.string().email()
+    })
+  })
+});
+```
+
+### 比較
+- React Hook Formは resolver パターンまたは個別のバリデーションルールをサポート
+- Conformは主にスキーマベースのバリデーションを使用
+- ConformはZod、Yup、その他のバリデーションライブラリと統合可能
+
+## 4. エラーハンドリング
+
+### React Hook Form
+
+```tsx
+// React Hook Form
+const { formState: { errors } } = useForm();
+
+return (
+  <form>
+    <input {...register("email")} />
+    {errors.email && <span>{errors.email.message}</span>}
+  </form>
+);
+```
+
+### Conform
+
+```tsx
+// Conform
+const [form, fields] = useForm();
+
+return (
+  <Form {...getFormProps(form)}>
+    <Field label="Email" meta={fields.email}>
+      <input {...getInputProps(fields.email, { type: 'email' })} />
+    </Field>
+  </Form>
+);
+
+// Field コンポーネントでエラー表示を管理
+function Field({ label, meta, children }) {
+  return (
+    <div>
+      <label>{label}</label>
+      {children}
+      {meta?.errors?.map(error => (
+        <p key={error} className="error">{error}</p>
+      ))}
+    </div>
+  );
+}
+```
+
+### 比較
+- React Hook Formはエラーを`formState.errors`オブジェクトで管理
+- Conformは各フィールドのメタデータの一部としてエラーを管理
+
+## 5. フォーム送信処理
+
+### React Hook Form
+
+```tsx
+// React Hook Form
+const onSubmit = data => console.log(data);
+
+const { handleSubmit } = useForm();
+
+return (
+  <form onSubmit={handleSubmit(onSubmit)}>
+    {/* フォームフィールド */}
+  </form>
+);
+```
+
+### Conform
+
+```tsx
+// Conform
+const [form, fields] = useForm({
+  onSubmit(event, { submission }) {
+    event.preventDefault();
+    console.log(submission.value);
+  }
+});
+
+return (
+  <Form method="post" {...getFormProps(form)}>
+    {/* フォームフィールド */}
+  </Form>
+);
+```
+
+### 比較
+- React Hook Formは`handleSubmit`ラッパー関数を使用
+- Conformは標準的なフォームイベントを使用
+- Conformは Progressive Enhancement をより強く意識した設計
+- React Hook Formはより関数型プログラミング的なアプローチ
+
+## 6. フォーム全体の状態管理
+
+### React Hook Form
+
+```tsx
+// React Hook Form
+const { formState } = useForm();
+
+const {
+  isDirty,
+  isSubmitting,
+  isSubmitSuccessful,
+  isValid
+} = formState;
+```
+
+### Conform
+
+```tsx
+// Conform
+const [form, fields] = useForm();
+
+const {
+  dirty,
+  valid,
+  status,
+  errors
+} = form;
+```
+
+### 比較
+- React Hook Formには詳細な状態フラグがある
+- Conformは状態管理がよりシンプル
+- React Hook Formは非制御コンポーネントベース
+- Conformは制御/非制御の両方のアプローチをサポート
+
+## 7. フィールドレベルの状態管理
+
+### React Hook Form
+
+```tsx
+// React Hook Form
+const { watch } = useForm();
+const emailValue = watch("email");
+```
+
+### Conform
+
+```tsx
+// Conform
+const [form, fields] = useForm();
+const emailValue = fields.email.value;
+```
+
+### 比較
+- React Hook Formは`watch`メソッドを使用して値を監視
+- Conformは直接フィールドの状態にアクセス可能
+- Conformはよりメモ化しやすい構造
+- React Hook Formにはパフォーマンスに優れた値の監視システムがある
+
+## 8. フォーム全体の更新
+
+### React Hook Form
+
+```tsx
+// React Hook Form
+const { reset, setValue } = useForm();
+
+// フォーム全体をリセット
+reset();
+
+// 特定の値でフォーム全体を更新
+reset({
+  name: "new name",
+  email: "new@email.com"
+});
+
+// 複数のフィールドを更新
+setValue("name", "new name");
+setValue("email", "new@email.com");
+```
+
+### Conform
+
+```tsx
+// Conform
+const [form, fields] = useForm();
+
+// フォーム全体の更新関数
+const updateForm = () => {
+  form.update({
+    value: { email: "new@example.com", name: "John" }
+  });
+}
+
+// ボタンでフォーム全体をリセット
+<button {...form.reset.getButtonProps()}>
+  Reset Form
+</button>
+
+// フォーム全体を更新
+<button {...form.update.getButtonProps({
+  value: {
+    name: "new name",
+    email: "new@email.com"
+  }
+})}>
+  Update Form
+</button>
+```
+
+### 比較
+- React Hook FormはメソッドベースのAPI
+- React Hook Formは命令的なAPI設計
+- Conformは宣言的なAPI設計
+
+## 9. 各フィールドの更新
+
+### React Hook Form
+
+```tsx
+// React Hook Form
+const { setValue, trigger } = useForm();
+
+// 単一フィールドの更新
+setValue('username', 'newValue', {
+  shouldValidate: true,    // バリデーションを実行
+  shouldDirty: true,       // dirtyステータスを更新
+  shouldTouch: true        // touchedステータスを更新
+});
+
+// バリデーションの実行
+trigger('username');       // 特定のフィールド
+trigger();                // 全フィールド
+```
+
+### Conform
+
+```tsx
+// Conform
+const [form, fields] = useForm();
+
+// 特定フィールドの更新
+const updateEmailField = () => {
+  form.update({
+    name: "email",
+    value: "new@example.com",
+    validated: true  // バリデーションを実行
+  });
+}
+
+// フィールド更新ボタン
+<button {...form.update.getButtonProps({
+  name: fields.username.name,
+  value: 'newValue',
+  validated: true  // バリデーションを実行
+})}>
+  Update Username
+</button>
+
+// フィールドリセットボタン
+<button {...form.reset.getButtonProps({
+  name: fields.username.name
+})}>
+  Reset Username
+</button>
+
+// フィールドのバリデーション
+<button {...form.validate.getButtonProps({
+  name: fields.username.name
+})}>
+  Validate Username
+</button>
+```
+
+### 比較
+- Conformはより宣言的なアプローチを採用
+- React Hook Formは命令的な更新とバリデーション
