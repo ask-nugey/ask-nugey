@@ -709,6 +709,11 @@ export const themes: ArticleNode[] = [
 				children: [],
 			},
 			{
+				theme: 'Remix',
+				articles: ['remix-v2-routing'],
+				children: [],
+			},
+			{
 				theme: 'NestJS',
 				articles: ['learn-nestjs-with-moon-demo'],
 				children: [],

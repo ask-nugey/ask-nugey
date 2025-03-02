@@ -1,0 +1,162 @@
+## 目次
+
+## Remix v1, v2のrouting（ルーティング）
+
+**Remix v1**  
+v1ではフォルダベースのルーティングに対応していました↓
+
+```plain
+app/
+├── root.tsx
+└── routes/
+    ├── accounts.tsx
+    ├── dashboard.tsx
+    ├── expenses.tsx
+    ├── index.tsx
+    ├── reports.tsx
+    ├── sales/
+    │   ├── customers.tsx
+    │   ├── deposits.tsx
+    │   ├── index.tsx
+    │   ├── invoices/
+    │   │   ├── $invoiceId.tsx
+    │   │   └── index.tsx
+    │   ├── invoices.tsx
+    │   └── subscriptions.tsx
+    └── sales.tsx
+```
+
+**Remix v2**  
+v2では **Dot Delimiters（ドット分割）** というファイル名をドットで区切ることでURL構造を表します↓
+
+```plain
+app/
+├── root.tsx
+└── routes/
+    ├── _index.tsx
+    ├── accounts.tsx
+    ├── dashboard.tsx
+    ├── expenses.tsx
+    ├── reports.tsx
+    ├── sales._index.tsx
+    ├── sales.customers.tsx
+    ├── sales.deposits.tsx
+    ├── sales.invoices.$invoiceId._index.tsx
+    ├── sales.invoices.$invoiceId.tsx
+    ├── sales.invoices.tsx
+    ├── sales.subscriptions.tsx
+    └── sales.tsx
+```
+
+さらにフォルダ名もドット区切りを使用することもできます↓
+
+```plain
+app/
+├── root.tsx
+└── routes/
+    ├── _index/
+    │   ├── footer.tsx
+    │   └── route.tsx
+    ├── accounts.tsx
+    ├── dashboard.tsx
+    ├── expenses.tsx
+    ├── reports.tsx
+    ├── sales._index.tsx
+    ├── sales.customers/
+    │   ├── data.server.ts
+    │   └── route.tsx
+```
+
+## Remix v2でフォルダベースのルーティングに対応させる
+
+ルーティングの設定は remix.config.js にたとえば以下のように設定できます↓
+
+```js
+exports.routes = async (defineRoutes) => {
+  return defineRoutes((route) => {
+    // これのよくある使い方は catchall routes です。
+    // - 最初の引数はマッチするReact Routerのパスです
+    // - 2番目の引数はルートハンドラーの相対ファイル名です
+    route("/some/path/*", "catchall.tsx");
+
+    // ルートをネストしたい場合は、オプションのコールバック引数を使用します
+    route("some/:path", "some/route/file.js", () => {
+      // - パスは親パスからの相対パスです
+      // - ファイル名は常にappディレクトリからの相対パスです
+      route("relative/path", "some/other/file");
+    });
+  });
+};
+```
+
+Remix v2でv1のようなフォルダベースのルーティングをするとき、上記の設定を手動で設定してもよいですが、[remix-flat-routes](https://github.com/kiliman/remix-flat-routes)というライブラリを使用することが可能です↓
+
+
+```plain
+app/
+├── root.tsx
+└── routes/
+    ├── _index.tsx
+    ├── accounts+/
+    │   └── _index.tsx
+    ├── dashboard+/
+    │   └── _index.tsx
+    ├── expenses+/
+    │   └── _index.tsx
+    ├── reports+/
+    │   └── _index.tsx
+    └── sales+/
+        ├── customers+/
+        │   ├── _index.tsx
+        │   └── data.server.ts
+        ├── deposits+/
+        │   └── _index.tsx
+        ├── invoices+/
+        │   ├── $invoiceId+/
+        │   │   ├── _index.tsx
+        │   │   └── route.tsx
+        │   └── _index.tsx
+        ├── subscriptions+/
+        │   └── _index.tsx
+        └── _index.tsx
+```
+
+## Remixプロジェクトのルーティング定義の確認方法
+Remix v2のルーティングはReact Router v6で実装されています。
+
+つまり、 **Dot Delimiters（ドット分割）** の構成や[remix-flat-routes](https://github.com/kiliman/remix-flat-routes)を使用した構成もURLが同じであれば、  
+React Routerの実装としてみれば同じものを表していることになります。
+
+実際、Remixのプロジェクトで **npx remix routes** というコマンドを叩くことでReact Routerでのルーティング定義を確認できます。
+
+```plain
+app/
+├── entry.client.tsx
+├── entry.server.tsx
+├── root.tsx
+└── routes
+    ├── _index.tsx
+    └── todo+
+        ├── _index.tsx
+        ├── detail.$id+
+        │   └── _index.tsx
+        └── route.tsx
+```
+
+　↓  
+　↓　**npx remix routes** コマンドを叩くと  
+　↓  
+
+```jsx
+<Routes>
+  <Route file="root.tsx">
+    <Route index file="routes/_index.tsx" />
+    <Route path="todo" file="routes/todo+/route.tsx">
+      <Route index file="routes/todo+/_index.tsx" />
+      <Route path="detail/:id" index file="routes/todo+/detail.$id+/_index.tsx" />
+    </Route>
+  </Route>
+</Routes>
+```
+
+とReact Routerでの定義が出力されます。
