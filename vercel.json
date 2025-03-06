@@ -1,3 +1,7 @@
 {
-  "trailingSlash": false
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "trailingSlash": false,
+  "git": {
+    "deploymentEnabled": false
+  }
 }
