@@ -7,7 +7,7 @@ export type ArticleNode = {
 export const themes: ArticleNode[] = [
 	{
 		theme: 'AI',
-		articles: ['AI', 'AI-effect', 'g-jdla-syllabus-2024-11'],
+		articles: ['AI', 'g-jdla-syllabus-2024-11', 'AI-effect', 'chinese-room'],
 		children: [
 			{
 				theme: 'AIとは',
