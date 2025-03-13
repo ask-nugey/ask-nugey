@@ -4,34 +4,32 @@ import { Inter } from 'next/font/google';
 import React, { PropsWithChildren } from 'react';
 
 import AntdRegistry from '@/lib/nextjs-registry/AntdRegistry';
+import { siteConfig } from '@/src/constants';
 import { ThemeProvider } from '@/src/styles/AntdThemeProvider';
 import { BaseLayout } from '@/src/ui/components/layout/BaseLayout';
 import MergeProvider from '@/src/utils/MergeProvider';
 
 const inter = Inter({ subsets: ['latin'] });
-const siteName = 'Ask Nugey!（ヌギーにきいて!）';
-const description = 'Ask Nugey! → プログラミング、デザイン、AI、CSS...etc';
-const url = 'https://ask-nugey.com';
 
 export const metadata: Metadata = {
-	metadataBase: new URL('https://ask-nugey.com/'),
+	metadataBase: new URL(`https://${siteConfig.domain}`),
 	title: {
-		default: siteName,
-		template: `%s | ${siteName}`,
+		default: siteConfig.name,
+		template: `%s | ${siteConfig.name}`,
 	},
-	description,
+	description: siteConfig.description,
 	openGraph: {
-		title: siteName,
-		description,
-		url,
-		siteName,
+		title: siteConfig.name,
+		description: siteConfig.description,
+		url: `https://${siteConfig.domain}`,
+		siteName: siteConfig.name,
 		locale: 'ja_JP',
 		type: 'website',
 	},
 	twitter: {
 		card: 'summary_large_image',
-		title: siteName,
-		description,
+		title: siteConfig.name,
+		description: siteConfig.description,
 		site: '@ask_nugey',
 		creator: '@ask_nugey',
 	},
@@ -39,7 +37,7 @@ export const metadata: Metadata = {
 	//   google: "サーチコンソール",
 	// },
 	alternates: {
-		canonical: url,
+		canonical: `https://${siteConfig.domain}`,
 	},
 };
 

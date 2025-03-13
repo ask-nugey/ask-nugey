@@ -3,6 +3,7 @@ import { Route } from 'next';
 import Link from 'next/link';
 import { ComponentProps, isValidElement } from 'react';
 
+import { siteConfig } from '@/src/constants';
 import { LinkCard } from '@/src/ui/components/LinkCard';
 
 import type { MDXComponents } from 'mdx/types';
@@ -23,7 +24,7 @@ export const MdxComponents: MDXComponents = {
 			}
 
 			// 内部リンク
-			const internalDomain = 'ask-nugey.com';
+			const internalDomain = siteConfig.description;
 			const isInternalLink =
 				href?.startsWith('/') || href?.includes(internalDomain);
 			if (isInternalLink) return <Link href={href as Route}>{linkText}</Link>;
