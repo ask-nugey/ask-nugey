@@ -2,10 +2,8 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
 import { getAllPosts, getPostBySlug } from '@/src/app/_actions/posts';
+import { siteConfig } from '@/src/constants';
 import { PostDetailView } from '@/src/ui/view/posts/detail';
-
-const siteName = 'Ask Nugey!（ヌギーにきいて!）';
-const description = 'Ask Nugey! → プログラミング、デザイン、AI、CSS...etc';
 
 export async function generateStaticParams() {
 	const posts = await getAllPosts();
@@ -15,8 +13,7 @@ export async function generateStaticParams() {
 }
 
 // generateStaticParams で定義したパス以外でリクエストされた際、404ページへ
-export const dynamicParams = false
-
+export const dynamicParams = false;
 
 type Props = {
 	params: {
@@ -31,22 +28,25 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
 		title: post?.title,
 		description: post?.description,
 		openGraph: {
-			title: `${post?.title} | ${siteName}`,
-			description: `${post?.description} | ${siteName}`,
+			title: `${post?.title} | ${siteConfig.name}`,
+			description: `${post?.description} | ${siteConfig.name}`,
 			images: [
 				{
-					url: 'https://ask-nugey.com/opengraph-image.png',
+					url: `https://${siteConfig.domain}/opengraph-image.png`,
 				},
 			],
 		},
 		twitter: {
-			title: `${post?.title} | ${siteName}`,
-			description: `${post?.description} | ${description}`,
+			title: `${post?.title} | ${siteConfig.name}`,
+			description: `${post?.description} | ${siteConfig.name}`,
 			images: [
 				{
-					url: 'https://ask-nugey.com/opengraph-image.png',
+					url: `https://${siteConfig.domain}/opengraph-image.png`,
 				},
 			],
+		},
+		alternates: {
+			canonical: `https://${siteConfig.domain}/posts/${props.params.slug}`,
 		},
 	};
 }
