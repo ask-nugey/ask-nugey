@@ -50,7 +50,6 @@ export const BaseLayout = ({ children }: PropsWithChildren) => {
 				gridTemplateRows: 'auto 1fr auto',
 				width: '100vw',
 				minHeight: '100vh',
-				overflow: 'auto',
 			})}
 		>
 			<Header
