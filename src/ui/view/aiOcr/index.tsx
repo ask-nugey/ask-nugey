@@ -620,6 +620,14 @@ export const PageAiOcrView = () => {
 					})}
 				>
 					PDFや画像をアップロードすると、いい感じにテキスト化してくれます（無料）
+					<br />
+					<span
+						className={css({
+							fontWeight: 'normal',
+						})}
+					>
+						※機密情報や個人情報が入ったものはアップロードしないようご注意ください❗️
+					</span>
 				</p>
 			</div>
 
