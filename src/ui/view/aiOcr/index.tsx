@@ -33,6 +33,11 @@ export const PageAiOcrView = () => {
 		}
 	};
 
+	const previewURL = (() => {
+		if (!file) return;
+		return URL.createObjectURL(file);
+	})();
+
 	const FileUploader = () => (
 		<div
 			className={css({
@@ -147,6 +152,54 @@ export const PageAiOcrView = () => {
 		</div>
 	);
 
+	const FilePreview = () => (
+		<div
+			className={css({
+				display: 'grid',
+				border: '1px',
+				borderColor: 'gray.200',
+				borderRadius: 'lg',
+			})}
+		>
+			<div
+				className={css({
+					position: 'sticky',
+					top: 2,
+					display: 'grid',
+					gridTemplateRows: 'auto 1fr',
+					gap: 4,
+					height: '98dvh',
+					overflowY: 'auto',
+				})}
+			>
+				<p
+					className={css({
+						color: 'primary.500',
+						fontSize: 'lg',
+						fontWeight: 'bold',
+					})}
+				>
+					ファイルプレビュー
+				</p>
+
+				{/* 画像 */}
+				{getFileType(file) === 'image' && <img src={previewURL} alt="" />}
+
+				{/* PDF */}
+				{getFileType(file) === 'pdf' && (
+					<iframe
+						title="PDF"
+						src={previewURL}
+						className={css({
+							width: 'full',
+							height: 'full',
+						})}
+					/>
+				)}
+			</div>
+		</div>
+	);
+
 	return (
 		<div
 			className={css({
@@ -181,7 +234,39 @@ export const PageAiOcrView = () => {
 				</p>
 			</div>
 
-			<FileUploader />
+			{!previewURL && <FileUploader />}
+
+			{previewURL && (
+				<div
+					className={css({
+						display: 'grid',
+						gridTemplateColumns: '1fr 1fr',
+						gap: 2,
+					})}
+				>
+					<FilePreview />
+
+					<p
+						className={css({
+							display: 'grid',
+							justifyContent: 'center',
+							alignItems: 'center',
+							minHeight: '30vh',
+						})}
+					>
+						　生成中...
+					</p>
+				</div>
+			)}
 		</div>
 	);
+};
+
+const getFileType = (file?: File) => {
+	if (!file) return;
+
+	if (file.type === 'application/pdf') return 'pdf';
+
+	const imageTypes = ['image/jpeg', 'image/jpeg', 'image/png'];
+	if (imageTypes.includes(file.type)) return 'image';
 };
