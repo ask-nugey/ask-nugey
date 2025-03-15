@@ -15,10 +15,10 @@
     "format": "prettier --write --ignore-path .gitignore './src/**/*.{js,jsx,ts,tsx,json,css}'",
     "fix": "prettier --write --ignore-path .gitignore './src/**/*.{js,jsx,ts,tsx,json,css}' && next lint --fix --dir src",
     "----- worker -----": "",
-    "dev:worker": "wrangler dev --port 8772",
-    "build:worker": "cloudflare",
-    "deploy": "cloudflare && wrangler deploy",
-    "preview": "cloudflare && wrangler dev",
+    "build:worker": "opennextjs-cloudflare",
+    "dev:worker": "wrangler dev --port 8771",
+    "preview:worker": "pnpm run build:worker && pnpm run dev:worker",
+    "deploy:worker": "pnpm run build:worker && wrangler deploy",
     "cf-typegen": "wrangler types --env-interface CloudflareEnv env.d.ts",
     "----- other -----": "",
     "generate:posts": "node scripts/generatePostSlugs.js",
@@ -31,13 +31,19 @@
     "@giscus/react": "^3.0.0",
     "@mdx-js/loader": "^3.1.0",
     "@mdx-js/react": "^3.1.0",
+    "@mistralai/mistralai": "^1.5.1",
     "@next/mdx": "^14.2.18",
+    "@types/file-saver": "^2.0.7",
     "antd": "^5.22.3",
     "date-fns": "^3.6.0",
+    "file-saver": "^2.0.5",
+    "jszip": "^3.10.1",
     "next": "^14.2.18",
     "node-html-parser": "^6.1.13",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "react-markdown": "^10.1.0",
+    "uuidv4": "^6.2.13"
   },
   "devDependencies": {
     "@ant-design/icons": "^5.5.2",
@@ -47,8 +53,8 @@
     "@eslint/eslintrc": "^3.2.0",
     "@eslint/js": "^9.16.0",
     "@mapbox/rehype-prism": "^0.9.0",
+    "@opennextjs/cloudflare": "0.5.11",
     "@pandacss/dev": "^0.41.0",
-    "@opennextjs/cloudflare": "^0.2.1",
     "@types/node": "^20.17.9",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
@@ -71,6 +77,6 @@
     "remark-toc": "^9.0.0",
     "typescript": "^5.7.2",
     "typescript-eslint": "^8.17.0",
-    "wrangler": "^3.93.0"
+    "wrangler": "4.0.0"
   }
 }
