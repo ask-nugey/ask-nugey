@@ -1,6 +1,6 @@
 'use server';
 
-import { Document } from '@mistralai/mistralai/models/components';
+import { Document, FilePurpose } from '@mistralai/mistralai/models/components';
 
 import { createMistralClient } from '@/src/lib/mistral';
 import { getFileType } from '@/src/ui/view/aiOcr/_index/utils';
@@ -21,7 +21,7 @@ export const getOcrPages = async (formData: FormData) => {
 		},
 		// NOTE: 型にはないがこれが正しい
 		// https://docs.mistral.ai/capabilities/document/
-		purpose: 'ocr',
+		purpose: 'ocr' as FilePurpose,
 	});
 
 	const signedUrl = await mistral.files.getSignedUrl({
