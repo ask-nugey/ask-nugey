@@ -26,6 +26,7 @@ yarn-debug.log*
 yarn-error.log*
 
 # local env files
+.env
 .env*.local
 
 # vercel
@@ -47,3 +48,6 @@ styled-system-studio
 # wrangler files
 .wrangler
 .dev.vars
+
+# Opne Next
+.open-next
