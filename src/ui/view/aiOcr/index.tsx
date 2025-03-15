@@ -1,11 +1,15 @@
 'use client';
 
+import { OCRPageObject } from '@mistralai/mistralai/models/components';
 import { ChangeEvent, DragEvent, useRef, useState } from 'react';
 
 import { css } from '@/lib/styled-system/css';
+import { getOcrPages } from '@/src/app/_actions/ai-ocr/ocr';
+import { getFileType } from '@/src/ui/view/aiOcr/_index/utils';
 
 export const PageAiOcrView = () => {
 	const [file, setFile] = useState<File>();
+	const [pages, setPages] = useState<OCRPageObject[]>();
 	const [isDragging, setIsDragging] = useState(false);
 
 	const fileInputRef = useRef<HTMLInputElement>(null);
@@ -23,6 +27,8 @@ export const PageAiOcrView = () => {
 		if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
 			const newFile = e.dataTransfer.files[0];
 			setFile(newFile);
+
+			await processFileOcr(newFile);
 		}
 	};
 
@@ -30,7 +36,38 @@ export const PageAiOcrView = () => {
 		if (e.target.files && e.target.files.length > 0) {
 			const selectedFile = e.target.files[0];
 			setFile(selectedFile);
+			processFileOcr(selectedFile);
 		}
+	};
+
+	const processFileOcr = async (selectedFile: File) => {
+		const fileToUpload = selectedFile;
+
+		const formData = new FormData();
+		formData.append('file', fileToUpload);
+
+		const result = await getOcrPages(formData);
+
+		setPages(result?.ocrPages);
+	};
+
+	// すべてのページのマークダウンを結合してコピーする関数
+	const copyAllMarkdown = () => {
+		if (!pages) return;
+
+		const allMarkdown = pages
+			.map(page => {
+				const pageTitle = `# Page ${page.index + 1}\n\n`;
+				return pageTitle + (page.markdown || '（テキストなし）');
+			})
+			.join('\n\n---\n\n');
+
+		copyToClipboard(allMarkdown);
+	};
+
+	// クリップボードにコピーする関数
+	const copyToClipboard = async (text: string) => {
+		await navigator.clipboard.writeText(text);
 	};
 
 	const previewURL = (() => {
@@ -172,15 +209,44 @@ export const PageAiOcrView = () => {
 					overflowY: 'auto',
 				})}
 			>
-				<p
+				<div
 					className={css({
-						color: 'primary.500',
-						fontSize: 'lg',
-						fontWeight: 'bold',
+						display: 'flex',
+						alignItems: 'center',
 					})}
 				>
-					ファイルプレビュー
-				</p>
+					<p
+						className={css({
+							color: 'primary.500',
+							fontSize: 'lg',
+							fontWeight: 'bold',
+						})}
+					>
+						ファイルプレビュー
+					</p>
+					<button
+						onClick={copyAllMarkdown}
+						className={css({
+							display: 'inline-flex',
+							alignItems: 'center',
+							marginLeft: 'auto',
+							paddingX: 2,
+							paddingY: 2,
+							color: 'white',
+							fontSize: 'sm',
+							fontWeight: 'bold',
+							transition: 'all 0.3s',
+							backgroundColor: 'primary.500',
+							borderRadius: 'md',
+							cursor: 'pointer',
+							_hover: {
+								backgroundColor: 'primary.600',
+							},
+						})}
+					>
+						テキストをコピーする→
+					</button>
+				</div>
 
 				{/* 画像 */}
 				{getFileType(file) === 'image' && <img src={previewURL} alt="" />}
@@ -199,6 +265,38 @@ export const PageAiOcrView = () => {
 			</div>
 		</div>
 	);
+
+	const OcrPages = () => {
+		if (!pages) return;
+		return (
+			<div
+				className={css({
+					display: 'grid',
+					border: '1px solid',
+					borderColor: 'gray.300',
+					borderRadius: 'lg',
+				})}
+			>
+				{pages.map(
+					(page: OCRPageObject, index: number) =>
+						page.markdown && (
+							<div
+								key={index}
+								className={css({
+									maxWidth: 'full',
+									bg: 'white',
+									rounded: 'lg',
+									shadow: 'md',
+									p: 6,
+								})}
+							>
+								{page.markdown}
+							</div>
+						),
+				)}
+			</div>
+		);
+	};
 
 	return (
 		<div
@@ -246,27 +344,22 @@ export const PageAiOcrView = () => {
 				>
 					<FilePreview />
 
-					<p
-						className={css({
-							display: 'grid',
-							justifyContent: 'center',
-							alignItems: 'center',
-							minHeight: '30vh',
-						})}
-					>
-						　生成中...
-					</p>
+					{pages ? (
+						<OcrPages />
+					) : (
+						<p
+							className={css({
+								display: 'grid',
+								justifyContent: 'center',
+								alignItems: 'center',
+								minHeight: '30vh',
+							})}
+						>
+							　生成中...
+						</p>
+					)}
 				</div>
 			)}
 		</div>
 	);
-};
-
-const getFileType = (file?: File) => {
-	if (!file) return;
-
-	if (file.type === 'application/pdf') return 'pdf';
-
-	const imageTypes = ['image/jpeg', 'image/jpeg', 'image/png'];
-	if (imageTypes.includes(file.type)) return 'image';
 };
