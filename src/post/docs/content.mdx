@@ -1,0 +1,159 @@
+# Ask Nugeyドキュメント
+
+## プロジェクト概要
+
+Ask Nugeyは、技術的なトピックや知見を共有するためのブログサイトです。
+Markdown (MDX) を使用して記事を作成し、記事一覧表示や個別記事表示などの基本的な機能に加えて、
+Giscusを利用したコメント機能やAI OCR機能なども実装されています。
+
+サイトURL: [https://ask-nugey.com](https://ask-nugey.com)
+
+## 技術スタック
+
+### フロントエンド
+- Next.js (v14.2.18 - App Router)
+- TypeScript (v5.7.2)
+- Panda CSS (`@pandacss/dev` v0.41.0)
+- Ant Design (v5.22.3)
+- MDX (`@next/mdx`, `@mdx-js/loader`, `@mdx-js/react`)
+- Giscus (`@giscus/react`)
+
+### バックエンド
+- Cloudflare Workers (`wrangler`, `@opennextjs/cloudflare`)
+- Mistral AI (`@mistralai/mistralai`) - AI OCR機能で使用
+
+### 開発ツール
+- bun (パッケージ管理)
+- ESLint (v9.14.0)
+- Prettier (v3.4.1)
+
+## アーキテクチャ
+
+### ディレクトリ構造
+
+```plain
+.
+├── src/
+│   ├── app/          # Next.js App Routerのコア部分
+│   │   ├── page.tsx  # 各ルートのUIコンポーネント
+│   │   ├── layout.tsx # 共通レイアウト
+│   │   └── _actions/ # Server Actions
+│   ├── post/        # ブログ記事（MDX）
+│   ├── ui/          # 再利用可能なUIコンポーネント
+│   │   ├── components/ # 汎用的なコンポーネント
+│   │   └── view/    # 特定のページ用コンポーネント
+│   ├── lib/         # ユーティリティ関数
+│   ├── styles/      # スタイル関連設定
+│   ├── constants/   # 定数定義
+│   ├── generated/   # 自動生成ファイル
+│   ├── types/       # TypeScript型定義
+│   └── sitemap/     # サイトマップ
+├── public/          # 静的ファイル
+├── scripts/         # ユーティリティスクリプト
+└── docs/           # プロジェクトドキュメント
+```
+
+### 主要コンポーネントとルーティング
+
+- Next.js App Routerの規約に基づき、`src/app`ディレクトリ内のフォルダ構成がURLパスに対応
+- 例: `src/app/page.tsx` -> `/`, `src/app/posts/[slug]/page.tsx` -> `/posts/:slug`
+
+### スタイリング
+
+- **Panda CSS**: 型安全なスタイルユーティリティを生成
+- **Ant Design**: UIコンポーネントライブラリとしてカスタムテーマを適用
+
+## 機能一覧
+
+### 1. ブログ機能
+- MDXによる記事作成と表示
+- 記事一覧表示
+- 個別記事表示
+- カスタムMDXコンポーネントによるリッチな表現
+- 記事情報の自動生成（`scripts/generatePostSlugs.js`）
+
+### 2. コメント機能
+- Giscusを利用したGitHub Discussionsベースのコメントシステム
+
+### 3. AI OCR機能
+- Mistral AIを利用した画像からのテキスト抽出
+- OCR結果の表示と編集
+
+### 4. Server Actions
+- `src/app/_actions/`に定義された各種サーバーサイド関数
+- OGPデータ取得、ブログ記事操作、AI OCR処理など
+
+## ローカルセットアップ
+
+### 前提条件
+- Node.js v18.17.0以上
+- bun（パッケージマネージャー）
+
+### セットアップ手順
+
+1. リポジトリのクローン
+```bash
+git clone <repository-url>
+cd ask-nugey
+```
+
+2. 依存関係のインストール
+```bash
+bun install
+```
+
+3. 環境変数の設定
+```bash
+cp .env.sample .env
+```
+必要な環境変数（MISTRAL_API_KEY、GISCUS_*など）を設定
+
+4. ブログ記事スラッグの生成
+```bash
+bun run generate:posts
+```
+
+5. 開発サーバーの起動
+```bash
+bun run dev
+```
+
+## デプロイメント
+
+### Vercelへのデプロイ（Next.jsアプリケーション本体）
+
+- GitHubリポジトリのmainブランチへのプッシュで自動デプロイ
+- `vercel.json`による設定管理
+- `package.json`の`build`スクリプトでビルド
+
+### Cloudflare Workersへのデプロイ
+
+- `wrangler.toml`による設定管理
+- ビルドとデプロイ:
+```bash
+bun run build:worker   # Workersビルド
+bun run deploy:worker  # Workersデプロイ
+bun run preview:worker # ローカルプレビュー
+```
+
+## コーディング規約
+
+### 1. リンター（ESLint）
+- `eslint.config.mjs`による設定
+- 実行コマンド:
+```bash
+bun run lint      # リントチェック
+bun run fix       # 自動修正（Prettierも実行）
+```
+
+### 2. フォーマッター（Prettier）
+- `.prettierrc`による設定
+- 実行コマンド:
+```bash
+bun run format    # フォーマット実行
+```
+
+### 3. 基本方針
+- ESLintとPrettierの設定に従う
+- コミット前に`bun run fix`を実行
+- 既存コードの命名規則に従う（PascalCase、useCamelCaseなど）
