@@ -732,7 +732,12 @@ export const themes: ArticleNode[] = [
 	},
 	{
 		theme: 'nugey',
-		articles: ['nugey-personality', 'tech-stack-my-site', 'todo'],
+		articles: [
+			'nugey-personality',
+			'tech-stack-my-site',
+			'当サイトのドキュメント',
+			'todo',
+		],
 		children: [],
 	},
 ];
