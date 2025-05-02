@@ -1,5 +1,6 @@
 import rehypePrism from '@mapbox/rehype-prism';
 import nextMDX from '@next/mdx';
+import { initOpenNextCloudflareForDev } from "@opennextjs/cloudflare";
 import rehypeKatex from 'rehype-katex';
 import rehypeSlug from 'rehype-slug';
 import remarkGfm from 'remark-gfm';
@@ -64,3 +65,6 @@ const withMdx = nextMDX({
 });
 
 export default withMdx(nextConfig);
+
+// added by create cloudflare to enable calling `getCloudflareContext()` in `next dev`
+initOpenNextCloudflareForDev();
