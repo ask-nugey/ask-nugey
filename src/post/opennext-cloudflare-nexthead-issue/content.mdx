@@ -1,0 +1,84 @@
+## 目次
+
+## はじめに
+
+Next.js アプリケーションを Cloudflare Workers へデプロイする際、ページルーター（Pages Router）を採用しているプロジェクトで `next/head` コンポーネントが SSR（サーバーサイドレンダリング）時に正しく動作しない問題が報告されています。本記事では、該当 Issue（[#571](https://github.com/opennextjs/opennextjs-cloudflare/issues/571)）の内容を整理し、原因と解決策をわかりやすく解説します。
+
+## 問題の概要
+
+- **問題：**  
+  SSR で生成された HTML に `<title>` や `<meta>` など `next/head` が出力するべきタグが含まれない。ブラウザでページを表示するとクライアントハイドレーション後にタグが追加される。  
+- **影響：**  
+  検索エンジンのクローラーはクライアントサイド JavaScript を実行しない場合が多く、メタタグを取得できず SEO に悪影響を及ぼす。  
+- **対象：**  
+  Pages Router（`pages` ディレクトリ）を使用している SSR ページ。SSG ページでは設定次第で解消可能。
+
+## 再現環境
+
+| ライブラリ             | バージョン   |
+| ---------------------- | ------------ |
+| Next.js                | 15.2.5       |
+| @opennextjs/cloudflare | 1.0.0-beta.2 |
+| Wrangler               | 4.10.0       |
+| React / React-DOM      | 19.1.0       |
+
+特に **Next.js 15.2.x** のページルーター と **@opennextjs/cloudflare 1.0.0-beta.2** の組み合わせで顕著に発生します。
+
+## 原因の考察
+
+### 1. キャッシュ設定の不足
+
+SSG ページでは `incrementalCache` が未設定の場合、ビルド時に生成されたメタデータが取得できません。結果として `<head>` 内のタグが欠落します。
+
+### 2. React コンテキストの二重管理
+
+SSR ページでは `_document` とページ本体で **異なる `<Head>` プロバイダー** が読み込まれていました。複数のコンテキストが混在すると、サーバーレンダリング時にメタタグが正しく収集されません。
+
+## 再現手順（抜粋）
+
+1. `npm create cloudflare@latest -- my-next-app --framework=next --platform=workers` でリポジトリを作成。
+2. `npm run build && npm run start` でネイティブ Next.js サーバーを起動し、`curl` で HTML を取得。タイトルタグが含まれていることを確認。
+3. `npm run preview`（OpenNext）で起動し、同じ URL を `curl`。タイトルタグが欠落していることを確認。
+
+詳細は Issue スレッドの手順を参照してください。
+
+## 解決策
+
+### SSG ページの場合
+
+`open-next.config.ts` に `incrementalCache` を追加すると、ビルド時に生成されたメタデータがキャッシュされ解消されます。
+
+```ts
+import { defineCloudflareConfig } from "@opennextjs/cloudflare";
+import incrementalCache from "@opennextjs/cloudflare/overrides/incremental-cache/static-assets-incremental-cache";
+
+export default defineCloudflareConfig({
+  incrementalCache,
+});
+```
+
+### SSR ページの場合
+
+1. **Next.js を 15.3.0 以降へアップグレード**  
+   15.3 系では本バグが修正されています。
+2. **`@opennextjs/cloudflare` を beta-4 以降へアップグレード**  
+   古い Next.js（14.x など）を使い続ける場合でも、beta-4 に含まれるパッチで解消可能です。
+
+## 修正が含まれるバージョン
+
+| ライブラリ             | 最低バージョン |
+| ---------------------- | -------------- |
+| Next.js                | 15.3.0         |
+| @opennextjs/cloudflare | 1.0.0-beta.4   |
+
+## 技術的な詳細
+
+パッチ（PR [#607](https://github.com/opennextjs/opennextjs-cloudflare/pull/607)）では、ビルド時に生成される `pages-runtime.prod.js` にフックを追加し、**Head マネージャーのコンテキストを単一化** しています。これにより SSR 時にも正しくメタタグが収集されるようになりました（2025-04-28 マージ、beta-4 に同梱）。
+
+## まとめ
+
+- Pages Router + Cloudflare Workers 環境で `next/head` が SSR で動作しない場合は、**Next.js 15.3 以降または @opennextjs/cloudflare beta-4 以降** へアップグレードする。  
+- 併せて SSG ページでは **`incrementalCache`** を適切に設定する。  
+- これらの対応により、`next/head` による SEO メタタグがサーバー側で確実に出力され、検索エンジンに正しく認識されます。
+
+> ※ 本記事は 2025 年 4 月時点の情報を基にしています。最新の仕様やバージョンは公式ドキュメントを参照してください。

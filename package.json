@@ -10,7 +10,7 @@
     "dev": "rm -rf .next && next dev",
     "build": "next build",
     "start": "next start",
-    "dev:all": "bun --bun run-p dev watch:posts",
+    "dev:all": "run-p dev watch:posts",
     "----- format -----": "",
     "lint": "next lint --dir src",
     "format": "prettier --write --ignore-path .gitignore './src/**/*.{js,jsx,ts,tsx,json,css}'",

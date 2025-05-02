@@ -709,6 +709,11 @@ export const themes: ArticleNode[] = [
 				children: [],
 			},
 			{
+				theme: 'Next.js',
+				articles: ['opennext-cloudflare-nexthead-issue'],
+				children: [],
+			},
+			{
 				theme: 'Remix',
 				articles: ['remix-v2-routing'],
 				children: [],
