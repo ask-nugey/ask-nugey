@@ -526,7 +526,7 @@ pre.language-css::before {
 
 pre.language-ts::before,
 pre.language-tsx::before {
-	content: 'TypsScript';
+	content: 'TypeScript';
 }
 
 pre.language-php::before {
