@@ -1,11 +1,14 @@
-import rehypePrism from '@mapbox/rehype-prism';
 import nextMDX from '@next/mdx';
-import { initOpenNextCloudflareForDev } from "@opennextjs/cloudflare";
+import { initOpenNextCloudflareForDev } from '@opennextjs/cloudflare';
+import rehypeCodeTitles from 'rehype-code-titles';
 import rehypeKatex from 'rehype-katex';
+import rehypePrism from 'rehype-prism-plus';
 import rehypeSlug from 'rehype-slug';
 import remarkGfm from 'remark-gfm';
 import remarkMath from 'remark-math';
-import remarkToc from 'remark-toc';
+import {
+	remarkTableOfContents,
+} from 'remark-table-of-contents';
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -49,7 +52,22 @@ const nextConfig = {
 		 *   - https://zenn.dev/yarai/articles/e2476c2b39b0d5
 		 */
 		typedRoutes: true,
+		mdxRs: false,
+		serverActions: {
+			bodySizeLimit: 20 * 1024 * 1024, // 20MB
+		},
 	},
+};
+
+// https://github.com/chrisweb/remark-table-of-contents#options
+const remarkTableOfContentsOptions = {
+	containerAttributes: {
+		id: 'articleToc',
+	},
+	navAttributes: {
+		'aria-label': 'table of contents',
+	},
+	maxDepth: 4,
 };
 
 const withMdx = nextMDX({
@@ -58,9 +76,9 @@ const withMdx = nextMDX({
 		remarkPlugins: [
 			remarkGfm,
 			remarkMath,
-			[remarkToc, { maxDepth: 3, heading: '目次' }],
+			[remarkTableOfContents, remarkTableOfContentsOptions],
 		],
-		rehypePlugins: [rehypeKatex, rehypePrism, rehypeSlug],
+		rehypePlugins: [rehypeKatex, rehypePrism, rehypeCodeTitles, rehypeSlug],
 	},
 });
 

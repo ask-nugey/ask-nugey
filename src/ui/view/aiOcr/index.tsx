@@ -523,7 +523,7 @@ export const PageAiOcrView = () => {
 										},
 										img: ({ src, alt }) => {
 											// マークダウン内の画像参照とページの画像データを照合
-											const fileName = src?.split('/').pop() || '';
+											const fileName = src?.toString().split('/').pop() || '';
 											// 現在のページから一致する画像IDを持つ画像を探す
 											const matchedImage = page.images?.find(
 												img => img.id === fileName,

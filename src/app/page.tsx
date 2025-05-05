@@ -6,8 +6,6 @@ export type PageHomeProps = {
 	};
 };
 
-const PageHome = function PageHome(props: PageHomeProps) {
+export default async function PageHome(props: PageHomeProps) {
 	return <PageHomeView {...props} />;
-};
-
-export default PageHome;
+}
