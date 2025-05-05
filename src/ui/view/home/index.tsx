@@ -21,10 +21,12 @@ export const PageHomeView = async (props: PageHomeProps) => {
 			title: article.title,
 			description: '',
 			createdAt: new Date(article.published_at),
-			updatedAt: article.body_updated_at ? new Date(article.body_updated_at) : undefined,
+			updatedAt: article.body_updated_at
+				? new Date(article.body_updated_at)
+				: undefined,
 			tags: [],
 			slug: article.path,
-			host: 'zenn'
+			host: 'zenn',
 		});
 
 		const scrapRes = await fetch(
@@ -36,11 +38,13 @@ export const PageHomeView = async (props: PageHomeProps) => {
 			title: scrap.title,
 			description: '',
 			createdAt: new Date(scrap.created_at),
-			updatedAt: scrap.last_comment_created_at ? new Date(scrap.last_comment_created_at) : undefined,
+			updatedAt: scrap.last_comment_created_at
+				? new Date(scrap.last_comment_created_at)
+				: undefined,
 			// tags: scrap.topics.map(topic => topic.name),
 			tags: [],
 			slug: scrap.path,
-			host: 'zenn'
+			host: 'zenn',
 		});
 
 		const posts: Post[] = [
@@ -48,8 +52,8 @@ export const PageHomeView = async (props: PageHomeProps) => {
 			...scraps.map(convertScrapToPost),
 		];
 
-		return posts
-	})()
+		return posts;
+	})();
 
 	const qiitaPosts = await (async () => {
 		const res = await fetch(
@@ -64,17 +68,15 @@ export const PageHomeView = async (props: PageHomeProps) => {
 			updatedAt: data.updated_at && new Date(data.updated_at),
 			tags: data.tags.map(tag => tag.name),
 			slug: data.url,
-			host: 'qiita'
+			host: 'qiita',
 		});
 
-		const posts: Post[] = [
-			...data.map(convertDataToPost),
-		];
+		const posts: Post[] = [...data.map(convertDataToPost)];
 
-		return posts
-	})()
+		return posts;
+	})();
 
-	const allPosts = [...posts, ...zennPosts, ...qiitaPosts]
+	const allPosts = [...posts, ...zennPosts, ...qiitaPosts];
 
 	/**
 	 * **新しい順に並び替えた記事**
@@ -369,87 +371,83 @@ export const PageHomeView = async (props: PageHomeProps) => {
 					<ThemePosts posts={sortedPostsByNewest} />
 				)}
 
-				{props.searchParams.tab === 'zenn' && (
-					<AllPosts posts={zennPosts} />
-				)}
+				{props.searchParams.tab === 'zenn' && <AllPosts posts={zennPosts} />}
 
-				{props.searchParams.tab === 'qiita' && (
-					<AllPosts posts={qiitaPosts} />
-				)}
+				{props.searchParams.tab === 'qiita' && <AllPosts posts={qiitaPosts} />}
 			</div>
 		</>
 	);
 };
 
 type ZennArticle = {
-	id: number,
-	post_type: string,
-	title: string,
-	slug: string,
-	comments_count: number,
-	liked_count: number,
-	bookmarked_count: number,
-	body_letters_count: number,
-	article_type: string,
-	emoji: string,
-	is_suspending_private: boolean,
-	published_at: Date,
-	body_updated_at: Date,
-	source_repo_updated_at: Date | null,
-	pinned: boolean,
-	path: string,
-	user: ZennUser,
-	publication: string | null
-}
+	id: number;
+	post_type: string;
+	title: string;
+	slug: string;
+	comments_count: number;
+	liked_count: number;
+	bookmarked_count: number;
+	body_letters_count: number;
+	article_type: string;
+	emoji: string;
+	is_suspending_private: boolean;
+	published_at: Date;
+	body_updated_at: Date;
+	source_repo_updated_at: Date | null;
+	pinned: boolean;
+	path: string;
+	user: ZennUser;
+	publication: string | null;
+};
 
 type Zennscrap = {
-	id: number,
-	post_type: "Scrap",
-	user_id: number,
-	slug: string,
-	title: string,
-	closed: boolean,
-	closed_at: null,
-	archived: boolean,
-	liked_count: number,
-	can_others_post: boolean,
-	comments_count: number,
-	created_at: Date,
-	last_comment_created_at: Date,
-	should_noindex: boolean,
-	path: string,
-	topics: ZennTopic[],
-	user: ZennUser
-}
+	id: number;
+	post_type: 'Scrap';
+	user_id: number;
+	slug: string;
+	title: string;
+	closed: boolean;
+	closed_at: null;
+	archived: boolean;
+	liked_count: number;
+	can_others_post: boolean;
+	comments_count: number;
+	created_at: Date;
+	last_comment_created_at: Date;
+	should_noindex: boolean;
+	path: string;
+	topics: ZennTopic[];
+	user: ZennUser;
+};
 
 type ZennUser = {
-	id: number,
-	username: string,
-	name: string,
-	avatar_small_url: string,
-}
+	id: number;
+	username: string;
+	name: string;
+	avatar_small_url: string;
+};
 
 type ZennTopic = {
-	id: number,
-	name: string,
-	taggings_count: number,
-	image_url: string,
-	display_name: string,
-}
+	id: number;
+	name: string;
+	taggings_count: number;
+	image_url: string;
+	display_name: string;
+};
 
 type QiitaPost = {
-	comments_count: number,
-	created_at: Date,
-	id: string,
-	likes_count: number,
-	private: boolean,
-	reactions_count: number,
-	stocks_count: number,
+	comments_count: number;
+	created_at: Date;
+	id: string;
+	likes_count: number;
+	private: boolean;
+	reactions_count: number;
+	stocks_count: number;
 	tags: {
-		name: string,
-		versions: []
-	}[],
-	title: string,
-	updated_at: Date,
-	url: string,
-}
+		name: string;
+		versions: [];
+	}[];
+	title: string;
+	updated_at: Date;
+	url: string;
+};
