@@ -1,5 +1,6 @@
 import nextMDX from '@next/mdx';
 import { initOpenNextCloudflareForDev } from '@opennextjs/cloudflare';
+import mdxMermaid from 'mdx-mermaid'
 import rehypeCodeTitles from 'rehype-code-titles';
 import rehypeKatex from 'rehype-katex';
 import rehypePrism from 'rehype-prism-plus';
@@ -77,6 +78,7 @@ const withMdx = nextMDX({
 			remarkGfm,
 			remarkMath,
 			[remarkTableOfContents, remarkTableOfContentsOptions],
+			[mdxMermaid, { mermaid: { theme: 'neutral' }, output: 'svg' }]
 		],
 		rehypePlugins: [rehypeKatex, rehypePrism, rehypeCodeTitles, rehypeSlug],
 	},

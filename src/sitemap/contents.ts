@@ -705,7 +705,7 @@ export const themes: ArticleNode[] = [
 		children: [
 			{
 				theme: 'react',
-				articles: ['react-dev-blog-2024-02-15'],
+				articles: ['react-dev-blog-2024-02-15', 'mdx-mermaid'],
 				children: [],
 			},
 			{
