@@ -1,0 +1,360 @@
+%toc%
+
+<div className="article-content">
+
+## mdx-mermaidとは
+
+**mdx-mermaid**は、MDXファイル内でMermaid図を簡単に表示するためのライブラリです。MDXドキュメントやReactアプリケーションでMermaid図を描けるようになります。
+
+- 公式Doc: https://sjwall.github.io/mdx-mermaid/docs/intro/
+
+### 特徴
+
+- **シンプル**: 簡単な設定でMermaid図を表示
+- **MDX対応**: .mdx、.md、.jsx、.tsxファイルで使用可能
+- **SVG出力**: 高品質なSVG形式での図の出力
+- **React統合**: Reactコンポーネントとしても使用可能
+
+## インストール
+
+パッケージマネージャーを使用してインストールします：
+
+```bash
+# npm
+npm install mdx-mermaid
+
+# yarn
+yarn add mdx-mermaid
+
+# pnpm
+pnpm add mdx-mermaid
+```
+
+### バージョン対応
+
+- **@mdxjs/mdx v2**: `mdx-mermaid@^2.0.0`を使用
+- **@mdxjs/mdx v1**: `mdx-mermaid@^1.3.0`を使用
+- **Docusaurus**: `@docusaurus/theme-mermaid@^2.3.1`を使用
+
+## 基本設定
+
+### Next.jsでの設定例
+
+```javascript
+// next.config.js
+import mdxMermaid from 'mdx-mermaid'
+
+const nextConfig = {
+  pageExtensions: ['js', 'jsx', 'mdx', 'ts', 'tsx'],
+}
+
+const withMDX = require('@next/mdx')({
+  extension: /\.mdx?$/,
+  options: {
+    remarkPlugins: [
+      [mdxMermaid, { mermaid: { theme: 'neutral' }, output: 'svg' }]
+    ],
+    rehypePlugins: [],
+  },
+})
+
+module.exports = withMDX(nextConfig)
+```
+
+---
+
+❌公式ドキュメントでは以下のように書いてありましたが、ヌギーの環境ではうまく動作しませんでした↓
+```jsx
+import mdxMermaid from 'mdx-mermaid'
+import {Mermaid} from 'mdx-mermaid/lib/Mermaid'
+
+{
+  remarkPlugins: [[mdxMermaid.default, {output: 'svg'}]],
+  components: {mermaid: Mermaid, Mermaid}
+}
+```
+
+### MDXコンポーネントの設定
+
+```javascript
+// mdx-components.tsx
+import type { MDXComponents } from 'mdx/types';
+
+export function useMDXComponents(components: MDXComponents): MDXComponents {
+	return {
+		...components,
+	};
+}
+```
+
+## 使用方法
+
+### 1. MDXファイル内での使用
+
+MDXファイル内で```mermaid コードブロックを使用：
+
+````markdown
+```mermaid
+graph TD;
+    A-->B;
+    A-->C;
+    B-->D;
+    C-->D;
+```
+````
+
+### 2. Reactコンポーネントとしての使用
+
+JSX/TSXファイル内で直接使用：
+
+```jsx
+import { Mermaid } from 'mdx-mermaid/lib/Mermaid';
+
+function MyComponent() {
+  return (
+    <Mermaid chart={`
+      graph TD;
+        A-->B;
+        A-->C;
+        B-->D;
+        C-->D;
+    `} />
+  );
+}
+```
+
+## Mermaid図の種類と例
+
+### フローチャート
+
+基本的なフローチャートの例：
+
+```mermaid
+graph TD;
+    Start([開始])-->Input[入力データ]
+    Input-->Process{処理}
+    Process-->|成功|Output[出力結果]
+    Process-->|失敗|Error[エラー処理]
+    Output-->End([終了])
+    Error-->End
+```
+
+````markdown
+```mermaid
+graph TD;
+    Start([開始])-->Input[入力データ]
+    Input-->Process{処理}
+    Process-->|成功|Output[出力結果]
+    Process-->|失敗|Error[エラー処理]
+    Output-->End([終了])
+    Error-->End
+```
+````
+
+### シーケンス図
+
+API通信の流れを表現：
+
+```mermaid
+sequenceDiagram
+    participant Client as クライアント
+    participant API as APIサーバー
+    participant DB as データベース
+    
+    Client->>API: リクエスト送信
+    API->>DB: データ取得
+    DB-->>API: データ返却
+    API-->>Client: レスポンス返却
+    
+    Note right of Client: 処理完了
+```
+
+````markdown
+```mermaid
+sequenceDiagram
+    participant Client as クライアント
+    participant API as APIサーバー
+    participant DB as データベース
+    
+    Client->>API: リクエスト送信
+    API->>DB: データ取得
+    DB-->>API: データ返却
+    API-->>Client: レスポンス返却
+    
+    Note right of Client: 処理完了
+```
+````
+
+### ガントチャート
+
+プロジェクトのスケジュール管理：
+
+```mermaid
+gantt
+    title プロジェクトスケジュール
+    dateFormat YYYY-MM-DD
+    
+    section 設計フェーズ
+    要件定義    :done, req, 2024-01-01, 2024-01-10
+    設計       :done, design, after req, 10d
+    
+    section 開発フェーズ
+    フロントエンド開発 :active, frontend, 2024-01-21, 20d
+    バックエンド開発   :backend, 2024-01-25, 18d
+    
+    section テストフェーズ
+    単体テスト         :test1, after frontend, 5d
+    結合テスト         :test2, after backend, 7d
+```
+
+````markdown
+```mermaid
+gantt
+    title プロジェクトスケジュール
+    dateFormat YYYY-MM-DD
+    
+    section 設計フェーズ
+    要件定義    :done, req, 2024-01-01, 2024-01-10
+    設計       :done, design, after req, 10d
+    
+    section 開発フェーズ
+    フロントエンド開発 :active, frontend, 2024-01-21, 20d
+    バックエンド開発   :backend, 2024-01-25, 18d
+    
+    section テストフェーズ
+    単体テスト         :test1, after frontend, 5d
+    結合テスト         :test2, after backend, 7d
+```
+````
+
+### 状態遷移図
+
+アプリケーションの状態管理：
+
+```mermaid
+stateDiagram-v2
+    [*] --> Idle: アプリ起動
+    Idle --> Loading: データ取得開始
+    Loading --> Success: 取得成功
+    Loading --> Error: 取得失敗
+    Success --> Idle: リセット
+    Error --> Idle: リトライ
+    Error --> [*]: アプリ終了
+```
+
+````markdown
+```mermaid
+stateDiagram-v2
+    [*] --> Idle: アプリ起動
+    Idle --> Loading: データ取得開始
+    Loading --> Success: 取得成功
+    Loading --> Error: 取得失敗
+    Success --> Idle: リセット
+    Error --> Idle: リトライ
+    Error --> [*]: アプリ終了
+```
+````
+
+### クラス図
+
+オブジェクト指向設計の可視化：
+
+```mermaid
+classDiagram
+    class User {
+        +String name
+        +String email
+        +Date createdAt
+        +login()
+        +logout()
+    }
+    
+    class Post {
+        +String title
+        +String content
+        +Date publishedAt
+        +publish()
+        +unpublish()
+    }
+    
+    class Comment {
+        +String content
+        +Date createdAt
+        +reply()
+    }
+    
+    User "1" --o "many" Post : 作成
+    Post "1" --o "many" Comment : 持つ
+    User "1" --o "many" Comment : 投稿
+```
+
+````markdown
+```mermaid
+classDiagram
+    class User {
+        +String name
+        +String email
+        +Date createdAt
+        +login()
+        +logout()
+    }
+    
+    class Post {
+        +String title
+        +String content
+        +Date publishedAt
+        +publish()
+        +unpublish()
+    }
+    
+    class Comment {
+        +String content
+        +Date createdAt
+        +reply()
+    }
+    
+    User "1" --o "many" Post : 作成
+    Post "1" --o "many" Comment : 持つ
+    User "1" --o "many" Comment : 投稿
+```
+````
+
+## 設定オプション
+テーマや出力方式を変更することができます。
+
+```jsx
+const withMdx = nextMDX({
+	extension: /\.mdx?$/,
+	options: {
+		remarkPlugins: [
+			[mdxMermaid, { mermaid: { theme: 'neutral' }, output: 'svg' }]
+		],
+		rehypePlugins: [],
+	},
+});
+```
+
+- **theme**
+  - 種類：
+    - 'default' | 'base' | 'dark' | 'forest' | 'neutral' | 'null';
+  - ライトモード、ダークモード毎にテーマを個別に設定することもできる
+    - 例：`theme: { light: 'neutral', dark: 'forest' }`
+- **output**
+  - 種類：
+    - `'ast' | 'svg';`
+
+## 代替ライブラリ
+
+プロジェクトの要件によっては、以下のライブラリも検討してください：
+
+- **rehype-mermaidjs**: Rehypeプラグインとして使用
+- **remark-mermaidjs**: Remarkプラグインとして使用
+- **@mermaid-js/mermaid**: 直接Mermaidライブラリを使用
+
+## まとめ
+
+mdx-mermaidは、MDXドキュメントでMermaid図を簡単に表示するための優れたライブラリです。設定も簡単で、様々な図の種類に対応しているため、技術文書やドキュメンテーションに最適です。
+
+視覚的で分かりやすいドキュメントが作成できます。
+
+</div>
