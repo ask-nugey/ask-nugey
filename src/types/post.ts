@@ -11,6 +11,8 @@ type Tag =
 	| 'Cloudflare'
 	| 'Hono'
 	| 'AI'
+	| 'Claude'
+	| 'Claude Code'
 	| 'モノレポ'
 	| 'moonrepo'
 	| 'Mac'
@@ -24,7 +26,7 @@ export type Post = {
 	updatedAt?: Date;
 	tags: Tag[] | string[];
 	slug: string;
-	host?: 'zenn' | 'qiita' | 'note'
+	host?: 'zenn' | 'qiita' | 'note';
 };
 
 /**
