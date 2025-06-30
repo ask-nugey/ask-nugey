@@ -41,6 +41,11 @@ export const themes: ArticleNode[] = [
 		],
 	},
 	{
+		theme: 'Claude Code',
+		articles: ['claude-code-notification-sound'],
+		children: [],
+	},
+	{
 		theme: 'AIアプリ開発',
 		articles: [],
 		children: [

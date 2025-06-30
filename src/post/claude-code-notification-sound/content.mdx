@@ -1,0 +1,47 @@
+%toc%
+
+<div className="article-content">
+
+
+## なぜClaude Codeに通知音が必要か
+
+Claude Codeのタスク完了したときに音で知らせてくれたら便利だと思いませんか？
+
+別のことに集中しているとタスクが完了していることに気づか無いときがあると思います。
+
+Claude Codeは長いと5~10分作業を進める時があり、いちいちまだ終わってないか確認するのも面倒です。
+
+ですが、実は通知音は簡単に設定できます。
+
+## Claude Codeに通知音を出せる方法
+
+### 1. 通知音の許可コマンド
+
+実は最初からClaude Codeには通知音の許可コマンドがあります。  
+以下のコマンドを叩きましょう↓
+
+```bash
+claude config set --global preferredNotifChannel terminal_bell
+```
+
+### 2. VSCodeやCursorで通知音を許可する
+
+しかし、それだけでは通知音が鳴らない場合があるので、以下の設定を確認してください↓
+
+1. VSCodeやCursorの設定を開く（`Cmd/Ctrl` + `,` を同時押し）
+2. `accessibility.signals.terminalBell`を検索
+3. `sound`を`on`に変更
+   - おそらくデフォルトでは`auto`になっているはずです。
+4. 通知音が鳴るか `echo "\a"` コマンドを叩く
+   - これで音が鳴ればOK‼️
+
+![VSCodeやCursorでのClaude Codeの通知音設定](/images/ask-nugey_accessibility-signals-terminalBell.png)
+
+## 実際にClaude Codeで通知音が鳴るか確認！
+
+最終確認として、VSCodeまたはCursorでClaude Codeに簡単なタスクをやらせてみましょう！  
+タスクが完了してから体感4〜5秒で音がなります（少しラグがある）。
+
+音はそこまで大きくは無いものの知らせてくれるのはとてもありがたいです。
+
+</div>
