@@ -2,31 +2,37 @@
 
 <div className="article-content">
 
-# proto完全ガイド：開発環境を統一する次世代ツールチェーンマネージャー
+## asdfやvoltaを超えるツール「proto」
 
-皆さんの開発環境には、いくつのバージョンマネージャーが入っていますか？
+皆さんの開発環境には、いくつのパッケージマネージャーが入っていますか？
 
 Node.jsのための`nvm`、Pythonのための`pyenv`、Rubyのための`rbenv`... プロジェクトごとに異なる言語やツールを使う現代の開発では、これらの管理が煩雑になりがちです。
 
 「Nodeのバージョン管理は何でしているんだっけ？ nodebrew？ nvm？？」  
 「新しいPCに環境を再現するのが大変！」  
-といった経験は誰にでもあるでしょう。
+...といった経験は誰にでもあるでしょう。
 
-`proto`を入れておけばそういった面倒な管理がなくなる便利ツールです。  
+そういった無駄な時間を減らす便利なアプリが`proto`です。  
+
+これ1つさえ入れておけば大体のものに対応でき、一元管理できる優れものです。  
 protoがサポートしているツール（言語やパッケージマネージャ）一覧は以下より確認できます↓
-- [Supported tools](https://moonrepo.dev/docs/proto/tools)
+- [**Supported tools**](https://moonrepo.dev/docs/proto/tools)
 
-この記事では、`proto`の導入方法から基本的な使い方まで紹介します。
+この記事では`proto`の導入方法、基本〜実践的な使い方を具体的に解説します。
 
 ## `proto`とは？ - モノレポ管理ツール「moonrepo」から生まれた統一ツール
 
-`proto`は、一言で言えば「**あらゆるプログラミング言語やツールのためのバージョン管理アプリ**」です。
+![バージョン管理ツール「proto」を解説（asdfやvoltaasdfやvoltaよりも便利） - ask-nugey, ヌギー](/images/proto-moonrepo_ask-nugey.png)
+
+`proto`は、一言で言えば「**あらゆるプログラミング言語やパッケージマネージャのためのバージョン管理アプリ**」です。
 
 `nvm`や`pyenv`がそれぞれ特定の言語のバージョンを管理するのに対し、`proto`は単一のCLIで、Node.js, Python, Go, Rustなど、さまざまなツールのバージョン管理を統一的に行います。
 
 元々`proto`は、モノレポ管理ツールである[`moon`](https://moonrepo.dev/moon)のツールチェーン機能として開発されました。
 
-- 関連記事：[モノレポツールのmoonで構築したNestJSのデモアプリ](/posts/nestjs-with-moon-learn-demo)
+- 関連記事：
+  - [**モノレポツールのmoonで構築したNestJSのデモアプリ**](/posts/nestjs-with-moon-learn-demo)
+  -  [**moonrepoの解説（モノレポ / monorepoのツール、デモをgithubに公開）**](/posts/moonrepo-learn-demo/)
 
 `moon`リポジトリ内で複数のプロジェクトや言語を扱う際に、一貫した開発環境を提供する必要があったのです。
 
@@ -38,7 +44,8 @@ graph LR
         direction LR
         moon[moon<br>Monorepo管理ツール] --> proto[proto<br>ツールチェーン機能]
     end
-    proto --> standalone[スタンドアロンの`proto`として独立]
+    proto --> standalone["スタンドアロンの
+      `proto`として独立"]
     standalone --> User[開発者が利用]
 ```
 
@@ -49,7 +56,7 @@ graph LR
 - **⚡ 超高速:** RustとWASM（WebAssembly）で作られており、非常に高速
 - **🌐 マルチ言語対応:** 単一のCLIで、様々な言語のバージョンを管理可能
 - **💻 クロスプラットフォーム:** macOS, Linux, Windowsに対応
-- **🔌 asdfとも互換性アリ:** **[asdf](https://asdf-vm.com/)の800を超えるパッケージマネージャ換性がある
+- **🔌 asdfとも互換性アリ:** [asdf](https://asdf-vm.com/)の800を超えるパッケージマネージャ換性がある
 - **🔎 他のバージョン管理システムとも連動:** `.prototools`ファイルや、`.nvmrc`, `.node-version`, `.python-version`のような各言語のエコシステムが持つ設定ファイルを自動で検出し切り替える
 
 ## 【基本編】`proto`コマンドを使ってみよう
@@ -66,11 +73,21 @@ bash <(curl -fsSL https://moonrepo.dev/install/proto.sh)
 irm https://moonrepo.dev/install/proto.ps1 | iex
 ```
 
-`proto`自身を最新版に保つには、`upgrade`コマンドを使います。
+インストールされた確認↓
+```bash
+proto --version
+```
+
+`proto`自身を最新版に保つには、`upgrade`コマンドを使います↓
 
 ```bash
 proto upgrade
 ```
+
+---
+
+brewでインストールしたい場合は下記の記事を参考にしてください↓
+- [JSのツールチェーン管理ツール「proto」を使ってみる](https://zenn.dev/smartcamp/articles/d185f46f603858#%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB)
 
 ### 2. ツールの検索とインストール
 
@@ -78,14 +95,13 @@ proto upgrade
 
 ```bash
 # インストール可能なツールの一覧
-proto list-remote
+proto versions
 
-# 特定のツールで利用可能なバージョン一覧 (例: Bun)
-proto list-remote bun
+# 特定のツールで利用可能なバージョン一覧 (例: node)
+proto versions node
 ```
 
 - [protoがサポートしているツール（言語やパッケージマネージャ）一覧](https://moonrepo.dev/docs/proto/tools)
-
 
 使いたいツールとバージョンが見つかったらインストール↓
 
@@ -124,7 +140,9 @@ proto pin node 20 --pin local
 proto pin node 20 --to global
 ```
 
-`status`コマンドで、今いるディレクトリでどのツールとバージョンが有効かを確認できます。
+また、protoは`package.json`, `.nvmrc`, `.node-version`, `.python-version`といった他のバージョン管理の設定ファイルとも連動するので、既存のプロジェクトでもすぐに導入できます！
+
+そして、`status`コマンドで、今いるディレクトリでどのツールとバージョンが有効かを確認できます↓
 
 ```bash
 proto status
@@ -137,7 +155,7 @@ proto status
 ╰──────────────────────────────────────────────────────────────────────────────────────────────────────────╯
 ```
 
-また、protoは`package.json`, `.nvmrc`, `.node-version`, `.python-version`といった他のバージョン管理の設定ファイルとも連動するので、既存のプロジェクトでもすぐに導入できます！
+上記では、`package.json`で設定されたnodeのバージョンをprotoが自動で読み取っていることがわかります。
 
 ### 4. ツールの実行
 
@@ -304,10 +322,10 @@ eval "$(proto activate zsh)"  # Shell activationも有効
   - 複数バージョンの共存・自動切り替えに強い
   - `.prototools` で定義されたバージョンに従って切り替わる
 
-- 実行例：
-  ```bash
-  $ node --version  # 実体は ~/.proto/shims/node 経由で proto run node 実行
-  ```
+実行例：
+```bash
+$ node --version  # 実体は ~/.proto/shims/node 経由で proto run node 実行
+```
 
 ### 2. Binary linking（バイナリリンク）
 **「直接指定」方式**
@@ -322,10 +340,10 @@ eval "$(proto activate zsh)"  # Shell activationも有効
   - バージョン自動切り替えはできない
   - `PATH` に `~/.proto/bin/` を通す必要あり
 
-- 実行例：
-  ```bash
-  $ node-20 --version
-  ```
+実行例：
+```bash
+$ node-20 --version
+```
 
 ### 3. Shell activation（シェルアクティベーション）
 **「シェル特化」方式**
@@ -338,11 +356,10 @@ eval "$(proto activate zsh)"  # Shell activationも有効
   - PATHの自動設定
   - グローバルパッケージも含まれる
 
-- 設定例：
-  `.zshrc`ファイルに以下を記述
-  ```bash
-  eval "$(proto activate zsh)"
-  ```
+設定例： `.zshrc`ファイルに以下を記述
+```bash
+eval "$(proto activate zsh)"
+```
 
 ### 比較表
 
