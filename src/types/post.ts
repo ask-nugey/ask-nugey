@@ -15,6 +15,8 @@ type Tag =
 	| 'Claude Code'
 	| 'モノレポ'
 	| 'moonrepo'
+	| 'proto'
+	| 'バージョン管理'
 	| 'Mac'
 	| '技術スタック'
 	| 'ヌギー';

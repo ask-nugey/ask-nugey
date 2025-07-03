@@ -288,9 +288,11 @@ export const MdxComponents: MDXComponents = {
 								display: 'block',
 								textDecoration: 'none',
 								lineHeight: 1.8,
-								whiteSpace: 'nowrap',
-								overflow: 'hidden',
-								textOverflow: 'ellipsis',
+								md: {
+									whiteSpace: 'nowrap',
+									overflow: 'hidden',
+									textOverflow: 'ellipsis',
+								},
 								'&:hover': {
 									textDecoration: 'underline',
 								},
