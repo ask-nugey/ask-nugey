@@ -734,7 +734,7 @@ export const themes: ArticleNode[] = [
 	{ theme: 'golang', articles: ['go-api-sql'], children: [] },
 	{ theme: 'rust', articles: ['rust-build-environment'], children: [] },
 	{ theme: 'html-css', articles: ['css-grid'], children: [] },
-	{ theme: 'モノレポ', articles: ['moonrepo-learn-demo'], children: [] },
+	{ theme: 'モノレポ', articles: ['moonrepo-learn-demo', 'proto-moonrepo'], children: [] },
 	{
 		theme: 'mac',
 		articles: ['app-mac', 'mac-emulator-for-windows'],
