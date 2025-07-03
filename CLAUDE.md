@@ -1,77 +1,76 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+このファイルは、Claude Code（claude.ai/code）がこのリポジトリのコードを扱う際のガイダンスを提供します。
 
-## Project Overview
+## プロジェクト概要
 
-This is a Next.js 14 blog/content site built with App Router, deployed on Cloudflare Workers using OpenNext.js. The site uses MDX for content with custom components and supports both Vercel and Cloudflare deployments.
+このプロジェクトは、App Routerを用いたNext.js 14のブログ／コンテンツサイトです。OpenNext.jsを使ってCloudflare Workers上にデプロイされています。MDXによるコンテンツ管理、カスタムコンポーネントの利用、VercelとCloudflareの両方でのデプロイに対応しています。
 
-## Common Development Commands
+## よく使う開発コマンド
 
-### Development
+### 開発
 ```bash
-npm run dev          # Start development server (cleans .next first)
-npm run dev:all      # Run dev server + watch posts in parallel
+npm run dev          # 開発サーバーを起動（.nextをクリーンしてから）
+npm run dev:all      # 開発サーバー＋投稿監視を並列実行
 ```
 
-### Build & Deploy
+### ビルド＆デプロイ
 ```bash
-npm run build                # Standard Next.js build
-npm run deploy:worker        # Full Cloudflare deployment (generates posts, builds, deploys)
-npm run deploy-dry:worker    # Dry run Cloudflare deployment
-npm run preview:worker       # Build and preview locally for Cloudflare
+npm run build                # 標準のNext.jsビルド
+npm run deploy:worker        # Cloudflareへの本番デプロイ（投稿生成、ビルド、デプロイ）
+npm run deploy-dry:worker    # Cloudflareデプロイのドライラン
+npm run preview:worker       # Cloudflare用のローカルプレビュー
 ```
 
-### Code Quality
+### コード品質
 ```bash
-npm run lint         # Run ESLint
-npm run format       # Run Prettier
-npm run fix          # Run both Prettier and ESLint fix
+npm run lint         # ESLint実行
+npm run format       # Prettier実行
+npm run fix          # PrettierとESLintの自動修正を両方実行
 ```
 
-### Utilities
+### ユーティリティ
 ```bash
-npm run generate:posts    # Generate post slugs JSON
-npm run watch:posts       # Watch for post changes
+npm run generate:posts    # 投稿スラッグJSONの生成
+npm run watch:posts       # 投稿の変更を監視
 ```
 
-## Architecture & Key Patterns
+## アーキテクチャと主要パターン
 
-### Content Management
-- Blog posts are stored in `/src/post/[post-name]/` with:
-  - `content.mdx` - MDX content with `%toc%` placeholder for table of contents
-  - `meta.ts` - Metadata exports (title, description, createdAt, tags, thumbnail)
-- Posts are wrapped in `<div className="article-content">` in the MDX files
-- Custom MDX components defined in `/src/ui/components/MDX/MdxComponents.tsx`
+### コンテンツ管理
+- ブログ投稿は `/src/post/[post-name]/` に保存：
+  - `content.mdx` - 目次用の `%toc%` プレースホルダー付きMDXコンテンツ
+  - `meta.ts` - メタデータ（タイトル、説明、作成日、タグ、サムネイル）
+- 投稿はMDXファイル内で `<div className="article-content">` でラップ
+- カスタムMDXコンポーネントは `/src/ui/components/MDX/MdxComponents.tsx` に定義
 
-### Styling System
-- **Panda CSS** for utility-first styling with custom theme tokens
-- **Ant Design v5** for UI components with custom theme configuration
-- Custom styled MDX components (headings, tables, code blocks)
+### スタイリングシステム
+- **Panda CSS**：ユーティリティファーストなスタイリングとカスタムテーマトークン
+- **Ant Design v5**：UIコンポーネントとカスタムテーマ設定
+- カスタムスタイルのMDXコンポーネント（見出し、テーブル、コードブロック）
 
-### Deployment Architecture
-- **Cloudflare Workers**: Primary deployment target using OpenNext.js
-  - KV namespace for Next.js caching (binding: `NEXT_CACHE_WORKERS_KV`)
-  - Custom domain: ask-nugey.com
-- **Vercel**: Alternative deployment option
-- Server Actions enabled with 20MB body size limit
+### デプロイアーキテクチャ
+- **Cloudflare Workers**：OpenNext.jsを使った主要なデプロイ先
+  - KVネームスペースによるNext.jsキャッシュ(バインディング: `NEXT_CACHE_WORKERS_KV`)
+  - カスタムドメイン: ask-nugey.com
+- **Vercel**：代替デプロイオプション
+- サーバーアクション有効（ボディサイズ上限20MB）
 
-### Key Features
-- MDX with plugins: rehype-katex (math), rehype-highlight (code), mdx-mermaid (diagrams)
-- Table of Contents with scroll highlighting
-- LinkCard component for URL previews
-- AI OCR functionality in `/src/app/_actions/ai-ocr/`
-- Incremental Static Regeneration with edge caching
+### 主な機能
+- MDXプラグイン：rehype-katex（数式）、rehype-highlight（コード）、mdx-mermaid（ダイアグラム）
+- スクロールハイライト付き目次
+- URLプレビュー用LinkCardコンポーネント
+- `/src/app/_actions/ai-ocr/` のAI OCR機能
+- エッジキャッシュ付きインクリメンタル・スタティック・リジェネレーション
 
-### TypeScript Configuration
-- Path aliases configured:
-  - `@/*` → `./src/*`
-  - `@@/*` → `./*`
-- Typed routes experimental feature enabled
+### TypeScript設定
+- パスエイリアス設定：
+  - `./src/*` → `@/src/*`
+  - `./lib/*` → `@/lib/*`
+- 型付きルートの実験的機能有効
 
-## Important Notes
-- No testing framework is currently set up
-- When adding new posts, run `npm run generate:posts` to update the post slugs
-- The project uses Bun's lockfile (`bun.lockb`) but npm commands for consistency
-- MDX content requires the article wrapper div for proper styling
-- External links automatically open in new tabs via MDX component configuration
+## 注意事項
+- テストフレームワークは未導入
+- 新しい投稿を追加したら `npm run generate:posts` を実行してスラッグを更新
+- MDXコンテンツはスタイル適用のためarticleラッパーdivが必須
+- 外部リンクはMDXコンポーネント設定により自動で新しいタブで開く
