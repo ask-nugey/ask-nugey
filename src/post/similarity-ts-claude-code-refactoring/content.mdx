@@ -6,9 +6,14 @@
 
 similarity-tsを使えば重複コードの分析ができ、それをClaude Codeなどに食わせることでリファクタが捗るらしいので、導入方法から実践方法まで書いてみました（AIじゃなくて人力💪だよ）。
 
-https://zenn.dev/mizchi/articles/introduce-ts-similarity#%E4%BD%BF%E3%81%A3%E3%81%A6%E3%81%BF%E3%82%8B
+https://zenn.dev/mizchi/articles/introduce-ts-similarity
 
-特にVibe CodingでAIにコードを書かせていると類似コードが生産されがちということなので、定期的にsimilarity-tsを使うのが良さそうです。
+[![similarity-tsのgithub](/images/similarity-ts-claude-code-refactoring-github_ask-nugey.png)](https://github.com/mizchi/similarity)
+
+特にVibe CodingでAIにコードを書かせていると類似コードが生産されがちということなので、定期的にsimilarity-tsを使うと良さそうです。
+
+X上でも効果を実感している人を見かけます↓
+![similarity-tsの使用者](/images/similarity-ts-claude-code-refactoring-usecase_ask-nugey.png)
 
 ## similarity-tsのセットアップ
 
@@ -33,7 +38,9 @@ rustup update stable
 
 ## similarity-tsの基本的な使い方
 
-一番簡単な使い方は[github上でも紹介](https://github.com/mizchi/similarity?tab=readme-ov-file#3-refactor-with-ai)されていますが、以下のプロンプトをClaude Codeなどにそのまま投げればいいです↓
+![similarity-tsの使い方やベストプラクティス](/images/similarity-ts-claude-code-refactoring-guide_ask-nugey.png)
+
+一番簡単な使い方は[github上でも紹介](https://github.com/mizchi/similarity/blob/main/.claude/commands/check-similarity.md)されていますが、以下のプロンプトをClaude Codeなどにそのまま投げればいいです↓
 
 ```bash
 Run `similarity-ts` to detect semantic code similarities. Execute this command, analyze the duplicate code patterns, and create a refactoring plan. Check `similarity-ts -h` for detailed options.
@@ -41,7 +48,7 @@ Run `similarity-ts` to detect semantic code similarities. Execute this command, 
 
 （日本語訳↓）
 ```bash
-`similarity-ts`コマンドを実行して、セマンティックなコードの類似性を検出してください。このコマンドを実行し、重複しているコードパターンを分析し、リファクタリングの計画を作成してください。詳細なオプションについては`similarity-ts -h`を確認してください。
+`similarity-ts .` でコードの意味的な類似が得られます。あなたはこれを実行し、ソースコードの重複を検知して、リファクタリング計画を立てます。細かいオプションは similarity-ts -h で確認してください。
 ```
 
 まったくリファクタ提案されなかった場合、以下のように類似度の判定閾値（threshold）を**0.5**にゆるくすると検出される範囲が広がるのでおすすめです↓  
@@ -56,6 +63,8 @@ similarity-ts -t 0.5
 ### Claude Codeのコマンドに登録
 
 Claude Codeでは手軽に使えるように「refactor-similar-code」などの命名でcommandsに登録するとさらに便利です。
+
+![similarity-tsをclaude code commandsで使用](/images/similarity-ts-claude-code-refactoring-commands_ask-nugey.png)
 
 コマンドは`~/.claude/commands`配下に `refactor-similar-code.md`のようにmdファイルで設置すれば登録できます。
 
