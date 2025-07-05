@@ -1,0 +1,172 @@
+%toc%
+
+<div className="article-content">
+
+## similarity-tsでリファクタ
+
+similarity-tsを使えば重複コードの分析ができ、それをClaude Codeなどに食わせることでリファクタが捗るらしいので、導入方法から実践方法まで書いてみました（AIじゃなくて人力💪だよ）。
+
+https://zenn.dev/mizchi/articles/introduce-ts-similarity#%E4%BD%BF%E3%81%A3%E3%81%A6%E3%81%BF%E3%82%8B
+
+特にVibe CodingでAIにコードを書かせていると類似コードが生産されがちということなので、定期的にsimilarity-tsを使うのが良さそうです。
+
+## similarity-tsのセットアップ
+
+### cargoをインストール
+similarity-tsはcargoでインストール・実行する必要があります。
+
+cargoのインストール手順は以下に詳しく解説しているので参考にしてください↓
+
+https://ask-nugey.com/posts/rust-build-environment#rust-%E3%83%84%E3%83%BC%E3%83%AB%E3%83%81%E3%82%A7%E3%83%BC%E3%83%B3%E3%81%AE%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB
+
+### similarity-tsをインストール
+
+```bash
+cargo install similarity-ts
+```
+
+cargoのバージョンは最新である必要があるので、もしうまくいかなかった人は以下のコマンドでアップデートしてみてください。
+
+```bash
+rustup update stable
+```
+
+## similarity-tsの基本的な使い方
+
+一番簡単な使い方は[github上でも紹介](https://github.com/mizchi/similarity?tab=readme-ov-file#3-refactor-with-ai)されていますが、以下のプロンプトをClaude Codeなどにそのまま投げればいいです↓
+
+```bash
+Run `similarity-ts` to detect semantic code similarities. Execute this command, analyze the duplicate code patterns, and create a refactoring plan. Check `similarity-ts -h` for detailed options.
+```
+
+（日本語訳↓）
+```bash
+`similarity-ts`コマンドを実行して、セマンティックなコードの類似性を検出してください。このコマンドを実行し、重複しているコードパターンを分析し、リファクタリングの計画を作成してください。詳細なオプションについては`similarity-ts -h`を確認してください。
+```
+
+まったくリファクタ提案されなかった場合、以下のように類似度の判定閾値（threshold）を**0.5**にゆるくすると検出される範囲が広がるのでおすすめです↓  
+（デフォルトは0.87）
+
+```bash
+similarity-ts -t 0.5
+```
+
+→ [similarity-tsのオプション詳細はこちら](/posts/similarity-ts-claude-code-refactoring#%E5%BC%95%E6%95%B0%E4%B8%80%E8%A6%A7)
+
+### Claude Codeのコマンドに登録
+
+Claude Codeでは手軽に使えるように「refactor-similar-code」などの命名でcommandsに登録するとさらに便利です。
+
+コマンドは`~/.claude/commands`配下に `refactor-similar-code.md`のようにmdファイルで設置すれば登録できます。
+
+- コマンドファイルをダウンロードする↓
+  - <a href="/claude-commands/refactor-similar-code.md" download="refactor-similar-code.md">英語版</a>  
+  - <a href="/claude-commands/refactor-similar-code_ja.md" download="refactor-similar-code.md">日本語版</a>  
+  （内容は以下のとおり↓）
+
+```md
+---
+description: "類似コードをリファクタ - 引数例：`-t 5`（ゆるく重複検知）"
+---
+
+## 実行手順
+
+`similarity-ts $ARGUMENTS`コマンドを実行して、セマンティックなコードの類似性を検出してください。このコマンドを実行し、重複しているコードパターンを分析し、リファクタリングの計画を作成してください。詳細なオプションについては`similarity-ts -h`を確認してください。
+
+<!--
+ユーザー向けの説明
+
+引数の例：
+- （無し）
+  - 現在のディレクトリを分析（デフォルト閾値0.87）
+- `-t 0.9 src/`
+  - src/ディレクトリを閾値0.5（ゆるい）で分析
+- `-t 0.95 -p`
+  - 閾値0.95（厳しい）でコード表示付きで分析
+-->
+```
+
+## similarity-tsのオプション概要
+
+similarity-tsのv0.3.1でのオプションを紹介します。
+
+### 基本構文
+
+```bash
+similarity-ts [OPTIONS] [PATHS]...
+```
+
+### 引数一覧
+
+#### 基本オプション
+
+| オプション                    | 説明                                       | デフォルト値 |
+| ----------------------------- | ------------------------------------------ | ------------ |
+| `[PATHS]...`                  | 分析するパス（ファイルまたはディレクトリ） | `.`          |
+| `-p, --print`                 | 出力にコードを表示                         | -            |
+| `-t, --threshold <THRESHOLD>` | 類似度閾値（0.0-1.0）                      | `0.87`       |
+| `-h, --help`                  | ヘルプを表示                               | -            |
+| `-V, --version`               | バージョンを表示                           | -            |
+
+#### 機能制御オプション
+
+| オプション                | 説明                                             | デフォルト値 |
+| ------------------------- | ------------------------------------------------ | ------------ |
+| `--no-functions`          | 関数の類似性チェックを無効化                     | -            |
+| `--experimental-types`    | 型の類似性チェックを有効化（実験的）             | -            |
+| `--include-types`         | インターフェースと型エイリアスの両方を含める     | -            |
+| `--types-only`            | 型エイリアスのみチェック（インターフェース除外） | -            |
+| `--interfaces-only`       | インターフェースのみチェック（型エイリアス除外） | -            |
+| `--allow-cross-kind`      | インターフェースと型エイリアス間の比較を許可     | -            |
+| `--include-type-literals` | 型リテラルを含める（関数戻り値型、パラメータ等） | -            |
+
+#### フィルタリングオプション
+
+| オプション                                      | 説明                                       | デフォルト値 |
+| ----------------------------------------------- | ------------------------------------------ | ------------ |
+| `-e, --extensions <EXTENSIONS>`                 | チェックするファイル拡張子                 | -            |
+| `-m, --min-lines <MIN_LINES>`                   | 関数の最小行数                             | `3`          |
+| `--min-tokens <MIN_TOKENS>`                     | 関数の最小トークン数                       | -            |
+| `--filter-function <FILTER_FUNCTION>`           | 関数名でフィルタ（部分一致）               | -            |
+| `--filter-function-body <FILTER_FUNCTION_BODY>` | 関数本体でフィルタ（部分一致）             | -            |
+| `--exclude <EXCLUDE>`                           | 指定パターンにマッチするディレクトリを除外 | -            |
+
+#### アルゴリズム調整オプション
+
+| オプション                                | 説明                                                   | デフォルト値 |
+| ----------------------------------------- | ------------------------------------------------------ | ------------ |
+| `-r, --rename-cost <RENAME_COST>`         | APTEDアルゴリズムのリネームコスト                      | `0.3`        |
+| `--no-size-penalty`                       | サイズが大きく異なる関数のサイズペナルティを無効化     | -            |
+| `--structural-weight <STRUCTURAL_WEIGHT>` | 構造的類似性の重み（0.0-1.0）                          | `0.6`        |
+| `--naming-weight <NAMING_WEIGHT>`         | 命名類似性の重み（0.0-1.0）                            | `0.4`        |
+| `--no-fast`                               | ブルームフィルタ事前フィルタリングの高速モードを無効化 | -            |
+
+#### 実験的機能
+
+| オプション                                          | 説明                                                 | デフォルト値 |
+| --------------------------------------------------- | ---------------------------------------------------- | ------------ |
+| `--experimental-overlap`                            | 実験的オーバーラップ検出モードを有効化               | -            |
+| `--overlap-min-window <OVERLAP_MIN_WINDOW>`         | オーバーラップ検出の最小ウィンドウサイズ（ノード数） | `8`          |
+| `--overlap-max-window <OVERLAP_MAX_WINDOW>`         | オーバーラップ検出の最大ウィンドウサイズ（ノード数） | `25`         |
+| `--overlap-size-tolerance <OVERLAP_SIZE_TOLERANCE>` | オーバーラップ検出のサイズ許容度（0.0-1.0）          | `0.25`       |
+
+### 使用例
+
+```bash
+# 基本的な使用
+similarity-ts
+
+# 閾値を下げてより多くの類似コードを検出
+similarity-ts -t 0.5 src/
+
+# コードを表示して厳密な類似性を検出
+similarity-ts -t 0.95 -p
+
+# 特定のディレクトリを除外
+similarity-ts --exclude node_modules --exclude dist
+
+# 型の類似性もチェック（実験的）
+similarity-ts --experimental-types --include-types
+```
+
+</div>

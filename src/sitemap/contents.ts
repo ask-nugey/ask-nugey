@@ -42,7 +42,7 @@ export const themes: ArticleNode[] = [
 	},
 	{
 		theme: 'Claude Code',
-		articles: ['claude-code-notification-sound'],
+		articles: ['claude-code-notification-sound', 'similarity-ts-claude-code-refactoring'],
 		children: [],
 	},
 	{
