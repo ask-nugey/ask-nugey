@@ -9,8 +9,9 @@ import Link from 'next/link';
 import { PropsWithChildren } from 'react';
 
 import { css } from '@/lib/styled-system/css';
+import { Container } from '@/src/ui/components/layout/Container';
 
-const { Header, Content, Footer } = Layout;
+const { Header, Content } = Layout;
 
 const IconFont = createFromIconfontCN({
 	scriptUrl: '//at.alicdn.com/t/font_8d5l8fzk5b87iudi.js',
@@ -139,9 +140,50 @@ export const BaseLayout = ({ children }: PropsWithChildren) => {
 				</div>
 			</Header>
 			<Content>{children}</Content>
-			<Footer className={css({ color: 'primary.500', textAlign: 'center' })}>
-				Ask Nugey ©{new Date().getFullYear()} Created by Nugey
-			</Footer>
+			<footer>
+				<Container
+					wrapperStyles={css.raw({
+						mt: 12,
+						mb: 4,
+						mx: 'auto',
+					})}
+					contentStyles={css.raw({
+						color: 'primary.500',
+						fontSize: 'sm',
+						display: 'flex',
+						justifyContent: 'space-between',
+						mdDown: {
+							flexDirection: 'column',
+							textAlign: 'center',
+						},
+					})}
+				>
+					<div>
+						<Link
+							href="/privacy"
+							className={css({
+								mx: 2,
+								color: 'inherit',
+								_hover: { textDecoration: 'underline' },
+							})}
+						>
+							プライバシーポリシー
+						</Link>
+						<span> | </span>
+						<Link
+							href="/contact"
+							className={css({
+								mx: 2,
+								color: 'inherit',
+								_hover: { textDecoration: 'underline' },
+							})}
+						>
+							お問い合わせ
+						</Link>
+					</div>
+					<div>Ask Nugey ©{new Date().getFullYear()} Created by Nugey</div>
+				</Container>
+			</footer>
 		</Layout>
 	);
 };
