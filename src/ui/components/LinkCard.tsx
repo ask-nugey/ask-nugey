@@ -1,15 +1,44 @@
 import { css } from '@/lib/styled-system/css';
-import { getOGPData } from '@/src/app/_actions/getOGPData';
+import { getOGPData, OGPData } from '@/src/app/_actions/getOGPData';
+import { getPostBySlug } from '@/src/app/_actions/posts';
+import postSlugs from '@/src/generated/postSlugs.json';
 
 type Props = {
 	url?: string;
 };
 
 export const LinkCard = async (props: Props) => {
-	if (!props.url) return null;
+	const urlString = props.url ?? '';
 
-	// TODO: 内部リンクの場合は、getPostBySlug関数で情報を取得
-	const ogp = await getOGPData(props.url);
+	if (!urlString) return;
+
+	const isPostSlugs = postSlugs.includes(urlString);
+
+	const ogp = await (async (): Promise<OGPData | undefined> => {
+		// 内部記事のOGP取得
+		if (isPostSlugs) {
+			const post = await getPostBySlug(urlString);
+			if (!post) return;
+
+			return {
+				title: post.title,
+				description: post.description,
+				url: `/posts/${urlString}`,
+				image: '/opengraph-image.png',
+			};
+		}
+
+		// URLからOGP取得
+		try {
+			return await getOGPData(urlString);
+		} catch (error) {
+			console.error('🔥 Failed to fetch OGP data:', error);
+			return;
+		}
+	})();
+
+	if (!ogp) return;
+
 	return (
 		<div
 			className={css({
@@ -76,21 +105,23 @@ export const LinkCard = async (props: Props) => {
 					>
 						{ogp.description}
 					</p>
-					<p
-						className={css({
-							display: '-webkit-box',
-							color: 'gray.800',
-							fontSize: 12,
-							overflow: 'hidden',
-							textOverflow: 'ellipsis',
-							WebkitBoxOrient: 'vertical',
-							WebkitLineClamp: 1,
-						})}
-					>
-						{/* TODO: https〜〜などを除去 */}
-						{/* TODO: ファビコンを付ける */}
-						<span>{ogp.url}</span>
-					</p>
+					{!isPostSlugs && (
+						<p
+							className={css({
+								display: '-webkit-box',
+								color: 'gray.800',
+								fontSize: 12,
+								overflow: 'hidden',
+								textOverflow: 'ellipsis',
+								WebkitBoxOrient: 'vertical',
+								WebkitLineClamp: 1,
+							})}
+						>
+							{/* TODO: https〜〜などを除去 */}
+							{/* TODO: ファビコンを付ける */}
+							<span>{ogp.url}</span>
+						</p>
+					)}
 				</div>
 				{ogp.image && (
 					<div

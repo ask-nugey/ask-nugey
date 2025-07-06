@@ -9,6 +9,7 @@ import {
 
 import { css } from '@/lib/styled-system/css';
 import { siteConfig } from '@/src/constants';
+import postSlugs from '@/src/generated/postSlugs.json';
 import { LinkCard } from '@/src/ui/components/LinkCard';
 import { TocHighlight } from '@/src/ui/components/Toc/TocHighlight';
 
@@ -106,6 +107,11 @@ export const MdxComponents: MDXComponents = {
 	),
 
 	p: ({ children }) => {
+		// 内部記事ならリンクカードで表示
+		if (typeof children === 'string' && postSlugs.includes(children)) {
+			return <LinkCard url={children} />;
+		}
+
 		/* aタグのカスタマイズ */
 		// NOTE: `a: async ({ href, children }) => {~~}`でカスタマイズしてしまうと、
 		//        親のpタグを無くしたり、divタグなどに変更できない
