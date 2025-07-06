@@ -1,8 +1,8 @@
-// 'use server';
+'use server';
 
 import { parse } from 'node-html-parser';
 
-type OGPData = {
+export type OGPData = {
 	title?: string;
 	description?: string;
 	image?: string;
