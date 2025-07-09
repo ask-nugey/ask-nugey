@@ -6,6 +6,7 @@ import dynamic from 'next/dynamic';
 import { css } from '@/lib/styled-system/css';
 import { Post } from '@/src/types/post';
 import { CommentCard } from '@/src/ui/components/CommentCard';
+import { GoogleAd } from '@/src/ui/components/GoogleAd';
 
 type Props = {
 	post: Post;
@@ -85,6 +86,7 @@ export const PostDetailView = (props: Props) => {
 			>
 				<PostContent />
 			</div>
+			<GoogleAd styles={css.raw({ mt: 4 })} />
 			<footer>
 				<div
 					className={css({
