@@ -21,6 +21,9 @@
 			"id": "c5afee89f9aa48f295c88240a191d530",
 		},
 	],
+	"vars": {
+		"ENV": "production",
+	},
 	"observability": {
 		"logs": {
 			"enabled": true,
