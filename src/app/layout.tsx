@@ -6,6 +6,7 @@ import React, { PropsWithChildren } from 'react';
 import AntdRegistry from '@/lib/nextjs-registry/AntdRegistry';
 import { siteConfig } from '@/src/constants';
 import { ThemeProvider } from '@/src/styles/AntdThemeProvider';
+import { GoogleAdScript } from '@/src/ui/components/GoogleAdSenseScript';
 import { BaseLayout } from '@/src/ui/components/layout/BaseLayout';
 import MergeProvider from '@/src/utils/MergeProvider';
 
@@ -56,6 +57,7 @@ export default function RootLayout({ children }: PropsWithChildren) {
 			</head>
 			<body className={inter.className}>
 				<MergeProvider items={providers}>{children}</MergeProvider>
+				<GoogleAdScript />
 			</body>
 		</html>
 	);
