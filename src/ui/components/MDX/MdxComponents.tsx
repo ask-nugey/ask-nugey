@@ -11,7 +11,7 @@ import { css } from '@/lib/styled-system/css';
 import { siteConfig } from '@/src/constants';
 import postSlugs from '@/src/generated/postSlugs.json';
 import { LinkCard } from '@/src/ui/components/LinkCard';
-import { TocHighlight } from '@/src/ui/components/Toc/TocHighlight';
+import { TocCard } from '@/src/ui/components/Toc/TocCard';
 
 import type { MDXComponents } from 'mdx/types';
 
@@ -242,78 +242,7 @@ export const MdxComponents: MDXComponents = {
 	aside: ({ children, ...props }: ComponentPropsWithoutRef<'aside'>) => (
 		<>
 			{props.id === 'articleToc' ? (
-				<>
-					<aside
-						id="articleToc"
-						className={css({
-							marginTop: 6,
-
-							md: {
-								position: 'sticky',
-								top: 6,
-								flex: 'none',
-								display: 'flex',
-								justifyContent: 'flex-end',
-								maxHeight: '100dvh',
-								overflowX: 'hidden',
-								overflowY: 'auto',
-							},
-
-							'& .is-active': {
-								color: 'red.400',
-								fontWeight: 'bold',
-							},
-
-							'& nav': {
-								mdDown: {
-									maxHeight: '300px',
-									overflowY: 'auto',
-								},
-							},
-
-							'& ul': {
-								width: '100%',
-								listStyleType: 'disc',
-								margin: 0,
-								paddingLeft: '1.5em',
-								md: {
-									maxWidth: '200px',
-								},
-							},
-							'& ul ul': {
-								paddingLeft: '1.1em',
-							},
-							'& li': {
-								listStyleType: 'disc',
-							},
-							'& ul ul li': {
-								listStyleType: 'disc',
-							},
-							'& ul li a': {
-								width: '100%',
-								display: 'block',
-								textDecoration: 'none',
-								lineHeight: 1.8,
-								md: {
-									whiteSpace: 'nowrap',
-									overflow: 'hidden',
-									textOverflow: 'ellipsis',
-								},
-								'&:hover': {
-									textDecoration: 'underline',
-								},
-							},
-						})}
-					>
-						<div>
-							<p>目次</p>
-							<div>
-								<TocHighlight>{children}</TocHighlight>
-								{/* <AsideContent /> */}
-							</div>
-						</div>
-					</aside>
-				</>
+				<TocCard>{children}</TocCard>
 			) : (
 				<aside {...props}>{children}</aside>
 			)}

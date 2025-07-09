@@ -7,6 +7,8 @@ import { css } from '@/lib/styled-system/css';
 import { Post } from '@/src/types/post';
 import { CommentCard } from '@/src/ui/components/CommentCard';
 import { GoogleAd } from '@/src/ui/components/GoogleAd';
+import { Loading } from '@/src/ui/components/Loading';
+import { TocCard } from '@/src/ui/components/Toc/TocCard';
 
 type Props = {
 	post: Post;
@@ -15,6 +17,55 @@ type Props = {
 export const PostDetailView = (props: Props) => {
 	const PostContent = dynamic(
 		() => import(`/src/post/${props.post.slug}/content.mdx`),
+		{
+			loading: () => (
+				<Loading
+					tip="　Loading..."
+					wrapperStyles={css.raw({ mb: '50vh', p: 0 })}
+				>
+					<div
+						className={css({
+							gap: 4,
+							md: {
+								display: 'flex',
+								flexDirection: 'row-reverse',
+							},
+						})}
+					>
+						<TocCard>
+							<nav>
+								<ul>
+									<li>
+										<a>{props.post.title}</a>
+									</li>
+								</ul>
+							</nav>
+						</TocCard>
+						<div className="article-content">
+							<h2
+								className={css({
+									marginTop: 6,
+									padding: 4,
+									color: 'white',
+									fontSize: 'xl',
+									fontWeight: 'bold',
+									backgroundColor: 'primary.500',
+									borderRadius: 'xl',
+									overflow: 'hidden',
+									whiteSpace: 'nowrap',
+									'& a': {
+										color: 'inherit',
+									},
+								})}
+							>
+								{props.post.title}
+							</h2>
+							<p>{props.post.description}</p>
+						</div>
+					</div>
+				</Loading>
+			),
+		},
 	);
 
 	return (
@@ -81,6 +132,7 @@ export const PostDetailView = (props: Props) => {
 					'& .article-content': {
 						display: 'grid',
 						gap: 4,
+						w: '100%',
 					},
 				})}
 			>
