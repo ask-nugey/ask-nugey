@@ -1,28 +1,33 @@
 {
-  /* Linter and Formatter */
-  // linter
-  "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": "explicit"
-  },
-  "eslint.useESLintClass": true,
-  "[javascript]": {
-    "editor.defaultFormatter": "vscode.typescript-language-features"
-  },
-  // formatter
-  "editor.defaultFormatter": "dbaeumer.vscode-eslint", // デフォルトフォーマッターをPrettierに設定
-  "editor.formatOnSave": true,
-  "editor.formatOnPaste": true,
-  "editor.formatOnType": true,
-  "[typescript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[markdown]": {
-    "files.trimTrailingWhitespace": false,
-    "editor.defaultFormatter": "yzhang.markdown-all-in-one"
-  },
+	"editor.defaultFormatter": "biomejs.biome",
+	// NOTE: 拡張子をまとめて指定すると、個人のsettings.jsonの設定を上書きできない
+	"[json]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	},
+	"[javascript]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	},
+	"[typescript]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	},
+	"[typescriptreact]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	},
+	"editor.codeActionsOnSave": {
+		"quickfix.biome": "explicit",
+		"source.organizeImports.biome": "explicit"
+	},
+	"[markdown]": {
+		"files.trimTrailingWhitespace": false,
+		"editor.defaultFormatter": "yzhang.markdown-all-in-one"
+	},
+	"editor.formatOnSave": true,
 
-  /* Typescript */
-  // プロジェクトのtsバージョンを優先
-  // 公式URL: https://code.visualstudio.com/docs/typescript/typescript-compiling#_using-the-workspace-version-of-typescript
-  "typescript.tsdk": "node_modules/typescript/lib"
+	/* Typescript */
+	// プロジェクトのtsバージョンを優先
+	// 公式URL: https://code.visualstudio.com/docs/typescript/typescript-compiling#_using-the-workspace-version-of-typescript
+	"typescript.tsdk": "node_modules/typescript/lib",
+	"[jsonc]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	}
 }

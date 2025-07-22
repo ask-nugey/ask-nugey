@@ -1,38 +1,36 @@
-'use client';
+"use client";
 
-import { OCRImageObject } from '@mistralai/mistralai/src/models/components/ocrimageobject.js';
-import { OCRPageObject } from '@mistralai/mistralai/src/models/components/ocrpageobject.js';
-import { OCRResponse } from '@mistralai/mistralai/src/models/components/ocrresponse.js';
-import { saveAs } from 'file-saver';
-import JSZip from 'jszip';
+import type { OCRResponse } from "@mistralai/mistralai/src/models/components/ocrresponse.js";
+import { saveAs } from "file-saver";
+import JSZip from "jszip";
 
 export const downloadAsZip = async (
 	ocrResult: OCRResponse,
-	fileName: string = 'ocr-export',
-	markdownOnly: boolean = false,
+	fileName = "ocr-export",
+	markdownOnly = false
 ) => {
 	// Argument validation
 	if (!ocrResult || !ocrResult.pages || ocrResult.pages.length === 0) {
-		throw new Error('No valid OCR results available');
+		throw new Error("No valid OCR results available");
 	}
 
 	try {
 		// Markdown file combining all pages
-		let allMarkdown = '';
+		let allMarkdown = "";
 
 		// Loop through each page to combine markdown
-		ocrResult.pages.forEach((page: OCRPageObject) => {
+		for (const page of ocrResult.pages) {
 			// Add page's markdown
 			if (page.markdown) {
 				// Add to the combined markdown
-				allMarkdown += page.markdown + '\n\n';
+				allMarkdown += `${page.markdown}\n\n`;
 			}
-		});
+		}
 
 		// If downloading markdown only
 		if (markdownOnly) {
 			const blob = new Blob([allMarkdown], {
-				type: 'text/markdown;charset=utf-8',
+				type: "text/markdown;charset=utf-8",
 			});
 			saveAs(blob, `${fileName}.md`);
 			return Promise.resolve();
@@ -43,19 +41,19 @@ export const downloadAsZip = async (
 		const zip = new JSZip();
 
 		// Loop through each page to add markdown and images
-		ocrResult.pages.forEach((page: OCRPageObject) => {
+		for (const page of ocrResult.pages) {
 			// Add images included in the page to the ZIP
 			if (page.images && page.images.length > 0) {
-				page.images.forEach((image: OCRImageObject) => {
+				for (const image of page.images) {
 					if (image.imageBase64) {
 						try {
 							// Extract Base64 data
 							let base64Data = image.imageBase64;
-							let contentType = 'image/png'; // Default
+							let contentType = "image/png"; // Default
 
 							// Extract Base64 part and MIME type directly from data URL
-							if (base64Data.startsWith('data:')) {
-								const parts = base64Data.split(',');
+							if (base64Data.startsWith("data:")) {
+								const parts = base64Data.split(",");
 								const matches = parts[0].match(/^data:(.+);base64$/);
 								if (matches && matches.length > 1) {
 									contentType = matches[1];
@@ -82,32 +80,32 @@ export const downloadAsZip = async (
 							console.error(`Image processing error: ${error}`);
 						}
 					}
-				});
+				}
 			}
-		});
+		}
 
 		// Add the combined markdown of all pages to the ZIP
-		zip.file('main.md', allMarkdown);
+		zip.file("main.md", allMarkdown);
 
 		// Generate ZIP file
-		const zipBlob = await zip.generateAsync({ type: 'blob' });
+		const zipBlob = await zip.generateAsync({ type: "blob" });
 
 		// Download ZIP file
 		saveAs(zipBlob, `${fileName}.zip`);
 
 		return Promise.resolve();
 	} catch (error) {
-		console.error('Error occurred while generating ZIP file:', error);
+		console.error("Error occurred while generating ZIP file:", error);
 		return Promise.reject(error);
 	}
 };
 
 const getExtensionFromMimeType = (mimeType: string) => {
 	const mimeToExt: { [key: string]: string } = {
-		'image/jpeg': '.jpg',
-		'image/jpg': '.jpg',
-		'image/png': '.png',
+		"image/jpeg": ".jpg",
+		"image/jpg": ".jpg",
+		"image/png": ".png",
 	};
 
-	return mimeToExt[mimeType] || '.png'; // Default is PNG
+	return mimeToExt[mimeType] || ".png"; // Default is PNG
 };

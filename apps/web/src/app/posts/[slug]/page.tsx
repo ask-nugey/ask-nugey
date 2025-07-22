@@ -1,13 +1,13 @@
-import { Metadata } from 'next';
-import { notFound } from 'next/navigation';
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 
-import { getAllPosts, getPostBySlug } from '@/src/app/_actions/posts';
-import { siteConfig } from '@/src/constants';
-import { PostDetailView } from '@/src/ui/view/posts/detail';
+import { getAllPosts, getPostBySlug } from "@/src/app/_actions/posts";
+import { siteConfig } from "@/src/constants";
+import { PostDetailView } from "@/src/ui/view/posts/detail";
 
 export async function generateStaticParams() {
 	const posts = await getAllPosts();
-	return posts.map(post => ({
+	return posts.map((post) => ({
 		slug: post?.slug,
 	}));
 }

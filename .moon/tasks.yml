@@ -1,0 +1,15 @@
+# https://moonrepo.dev/docs/config/tasks
+$schema: "https://moonrepo.dev/schemas/tasks.json"
+
+fileGroups:
+  sources:
+    - "src/**/*.{ts,tsx,js,jsx}"
+  tests:
+    - "**/*.test.{ts,tsx}"
+    - "**/*.spec.{ts,tsx}"
+  configs:
+    - "*.json"
+    - "*.yml"
+    - "*.yaml"
+    - "tsconfig.json"
+    - "biome.json"

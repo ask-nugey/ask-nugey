@@ -1,14 +1,14 @@
-import { css } from '@/lib/styled-system/css';
-import { getOGPData, OGPData } from '@/src/app/_actions/getOGPData';
-import { getPostBySlug } from '@/src/app/_actions/posts';
-import postSlugs from '@/src/generated/postSlugs.json';
+import { css } from "@/lib/styled-system/css";
+import { getOGPData, type OGPData } from "@/src/app/_actions/getOGPData";
+import { getPostBySlug } from "@/src/app/_actions/posts";
+import postSlugs from "@/src/generated/postSlugs.json";
 
 type Props = {
 	url?: string;
 };
 
 export const LinkCard = async (props: Props) => {
-	const urlString = props.url ?? '';
+	const urlString = props.url ?? "";
 
 	if (!urlString) return;
 
@@ -24,7 +24,7 @@ export const LinkCard = async (props: Props) => {
 				title: post.title,
 				description: post.description,
 				url: `/posts/${urlString}`,
-				image: '/opengraph-image.png',
+				image: "/opengraph-image.png",
 			};
 		}
 
@@ -32,7 +32,7 @@ export const LinkCard = async (props: Props) => {
 		try {
 			return await getOGPData(urlString);
 		} catch (error) {
-			console.error('🔥 Failed to fetch OGP data:', error);
+			console.error("🔥 Failed to fetch OGP data:", error);
 			return;
 		}
 	})();
@@ -43,13 +43,13 @@ export const LinkCard = async (props: Props) => {
 		<div
 			className={css({
 				maxWidth: 720,
-				border: '1px solid rgba(187, 140, 92, .2)',
+				border: "1px solid rgba(187, 140, 92, .2)",
 				borderRadius: 10,
-				overflow: 'hidden',
-				transition: 'all .1s ease',
+				overflow: "hidden",
+				transition: "all .1s ease",
 				_hover: {
-					borderColor: 'primary.200',
-					boxShadow: 'xs',
+					borderColor: "primary.200",
+					boxShadow: "xs",
 				},
 			})}
 		>
@@ -58,20 +58,20 @@ export const LinkCard = async (props: Props) => {
 				target="_blank"
 				rel="noopener noreferrer"
 				className={css({
-					display: 'flex',
-					alignItems: 'center',
+					display: "flex",
+					alignItems: "center",
 					height: 120,
-					color: 'gray.600',
+					color: "gray.600",
 					fontSize: 16.5,
-					background: 'white',
-					lineHeight: '1.5',
-					transition: '.2s',
+					background: "white",
+					lineHeight: "1.5",
+					transition: ".2s",
 				})}
 			>
 				<div
 					className={css({
-						display: 'grid',
-						flex: '1 1',
+						display: "grid",
+						flex: "1 1",
 						gap: 1,
 						paddingBlock: 2,
 						paddingInline: 5,
@@ -80,13 +80,13 @@ export const LinkCard = async (props: Props) => {
 				>
 					<h6
 						className={css({
-							display: '-webkit-box',
-							color: 'gray.800',
+							display: "-webkit-box",
+							color: "gray.800",
 							fontSize: 16,
-							fontWeight: 'bold',
-							overflow: 'hidden',
-							textOverflow: 'ellipsis',
-							WebkitBoxOrient: 'vertical',
+							fontWeight: "bold",
+							overflow: "hidden",
+							textOverflow: "ellipsis",
+							WebkitBoxOrient: "vertical",
 							WebkitLineClamp: 2,
 						})}
 					>
@@ -94,12 +94,12 @@ export const LinkCard = async (props: Props) => {
 					</h6>
 					<p
 						className={css({
-							display: '-webkit-box',
-							color: 'gray.500',
+							display: "-webkit-box",
+							color: "gray.500",
 							fontSize: 14,
-							overflow: 'hidden',
-							textOverflow: 'ellipsis',
-							WebkitBoxOrient: 'vertical',
+							overflow: "hidden",
+							textOverflow: "ellipsis",
+							WebkitBoxOrient: "vertical",
 							WebkitLineClamp: 1,
 						})}
 					>
@@ -108,12 +108,12 @@ export const LinkCard = async (props: Props) => {
 					{!isPostSlugs && (
 						<p
 							className={css({
-								display: '-webkit-box',
-								color: 'gray.800',
+								display: "-webkit-box",
+								color: "gray.800",
 								fontSize: 12,
-								overflow: 'hidden',
-								textOverflow: 'ellipsis',
-								WebkitBoxOrient: 'vertical',
+								overflow: "hidden",
+								textOverflow: "ellipsis",
+								WebkitBoxOrient: "vertical",
 								WebkitLineClamp: 1,
 							})}
 						>
@@ -138,11 +138,11 @@ export const LinkCard = async (props: Props) => {
 							src={ogp.image}
 							alt={ogp.title}
 							className={css({
-								width: '100%',
-								height: '100%',
-								objectFit: 'contain',
+								width: "100%",
+								height: "100%",
+								objectFit: "contain",
 								smDown: {
-									objectFit: 'cover',
+									objectFit: "cover",
 								},
 							})}
 						/>

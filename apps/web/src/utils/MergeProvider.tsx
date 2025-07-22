@@ -1,9 +1,9 @@
-import {
-	PropsWithChildren,
-	ReactNode,
-	ReactElement,
+import type {
 	ComponentType,
-} from 'react';
+	PropsWithChildren,
+	ReactElement,
+	ReactNode,
+} from "react";
 
 // Define a type that expects children to be a required prop
 type ComponentWithRequiredChildren = ComponentType<{ children: ReactNode }>;
@@ -18,7 +18,7 @@ const MergeProvider = ({
 }: PropsWithChildren<MergeProviderProps>): ReactElement => {
 	const renderProviders = (
 		providers: ComponentWithRequiredChildren[],
-		content: ReactNode,
+		content: ReactNode
 	): ReactNode => {
 		if (providers.length === 0) {
 			return content;

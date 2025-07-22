@@ -1,8 +1,8 @@
-import { PageHomeView } from '@/src/ui/view/home';
+import { PageHomeView } from "@/src/ui/view/home";
 
 export type PageHomeProps = {
 	searchParams: {
-		tab?: 'all' | 'theme' | 'zenn' | 'qiita';
+		tab?: "all" | "theme" | "zenn" | "qiita";
 	};
 };
 

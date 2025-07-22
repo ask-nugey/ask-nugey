@@ -1,11 +1,11 @@
-import { Metadata } from 'next';
+import type { Metadata } from "next";
 
-import { siteConfig } from '@/src/constants';
-import { PageAiOcrView } from '@/src/ui/view/aiOcr';
+import { siteConfig } from "@/src/constants";
+import { PageAiOcrView } from "@/src/ui/view/aiOcr";
 
 const page = {
-	title: 'AIでPDFをテキスト変換くん',
-	description: 'PDFをマークダウン形式に変換する無料アプリ',
+	title: "AIでPDFをテキスト変換くん",
+	description: "PDFをマークダウン形式に変換する無料アプリ",
 };
 
 export const metadata: Metadata = {

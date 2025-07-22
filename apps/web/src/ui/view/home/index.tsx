@@ -1,42 +1,42 @@
-import Image from 'next/image';
-import Link from 'next/link';
+import Image from "next/image";
+import Link from "next/link";
 
-import { css } from '@/lib/styled-system/css';
-import { getAllPosts } from '@/src/app/_actions/posts';
-import { PageHomeProps } from '@/src/app/page';
-import { Post } from '@/src/types/post';
-import { AllPosts } from '@/src/ui/view/home/_index/AllPosts';
-import { ThemePosts } from '@/src/ui/view/home/_index/ThemePosts';
+import { css } from "@/lib/styled-system/css";
+import { getAllPosts } from "@/src/app/_actions/posts";
+import type { PageHomeProps } from "@/src/app/page";
+import type { Post } from "@/src/types/post";
+import { AllPosts } from "@/src/ui/view/home/_index/AllPosts";
+import { ThemePosts } from "@/src/ui/view/home/_index/ThemePosts";
 
 export const PageHomeView = async (props: PageHomeProps) => {
 	const posts = await getAllPosts();
 
 	const zennPosts = await (async () => {
 		const articleRes = await fetch(
-			'https://zenn.dev/api/articles?username=ask_nugey&order=latest',
+			"https://zenn.dev/api/articles?username=ask_nugey&order=latest"
 		);
 		const { articles }: { articles: ZennArticle[] } = await articleRes.json();
 
 		const convertArticleToPost = (article: ZennArticle): Post => ({
 			title: article.title,
-			description: '',
+			description: "",
 			createdAt: new Date(article.published_at),
 			updatedAt: article.body_updated_at
 				? new Date(article.body_updated_at)
 				: undefined,
 			tags: [],
 			slug: article.path,
-			host: 'zenn',
+			host: "zenn",
 		});
 
 		const scrapRes = await fetch(
-			'https://zenn.dev/api/scraps?username=ask_nugey&order=latest',
+			"https://zenn.dev/api/scraps?username=ask_nugey&order=latest"
 		);
 		const { scraps }: { scraps: Zennscrap[] } = await scrapRes.json();
 
 		const convertScrapToPost = (scrap: Zennscrap): Post => ({
 			title: scrap.title,
-			description: '',
+			description: "",
 			createdAt: new Date(scrap.created_at),
 			updatedAt: scrap.last_comment_created_at
 				? new Date(scrap.last_comment_created_at)
@@ -44,7 +44,7 @@ export const PageHomeView = async (props: PageHomeProps) => {
 			// tags: scrap.topics.map(topic => topic.name),
 			tags: [],
 			slug: scrap.path,
-			host: 'zenn',
+			host: "zenn",
 		});
 
 		const posts: Post[] = [
@@ -57,18 +57,18 @@ export const PageHomeView = async (props: PageHomeProps) => {
 
 	const qiitaPosts = await (async () => {
 		const res = await fetch(
-			'https://qiita.com/api/v2/users/ask_nugey/items?page=1&per_page=100',
+			"https://qiita.com/api/v2/users/ask_nugey/items?page=1&per_page=100"
 		);
 		const data: QiitaPost[] = await res.json();
 
 		const convertDataToPost = (data: QiitaPost): Post => ({
 			title: data.title,
-			description: '',
+			description: "",
 			createdAt: new Date(data.created_at),
 			updatedAt: data.updated_at && new Date(data.updated_at),
-			tags: data.tags.map(tag => tag.name),
+			tags: data.tags.map((tag) => tag.name),
 			slug: data.url,
-			host: 'qiita',
+			host: "qiita",
 		});
 
 		const posts: Post[] = [...data.map(convertDataToPost)];
@@ -95,10 +95,10 @@ export const PageHomeView = async (props: PageHomeProps) => {
 			{/* メインビジュアル */}
 			<div
 				className={css({
-					display: 'grid',
-					justifyContent: 'center',
+					display: "grid",
+					justifyContent: "center",
 					paddingRight: 8,
-					overflow: 'hidden',
+					overflow: "hidden",
 					mdDown: {
 						margin: 4,
 						paddingRight: 0,
@@ -111,22 +111,22 @@ export const PageHomeView = async (props: PageHomeProps) => {
 					width={400}
 					height={400}
 					className={css({
-						marginBottom: '-4vw',
-						marginLeft: 'auto',
+						marginBottom: "-4vw",
+						marginLeft: "auto",
 						mdDown: {
-							width: '60vw',
-							height: '60vw',
-							marginBottom: '-10vw',
+							width: "60vw",
+							height: "60vw",
+							marginBottom: "-10vw",
 						},
 					})}
 				/>
 				<p
 					className={css({
-						color: 'gray.300',
-						fontSize: '1.5vw',
-						fontWeight: 'bold',
+						color: "gray.300",
+						fontSize: "1.5vw",
+						fontWeight: "bold",
 						mdDown: {
-							fontSize: '3.6vw',
+							fontSize: "3.6vw",
 						},
 					})}
 				>
@@ -134,7 +134,7 @@ export const PageHomeView = async (props: PageHomeProps) => {
 					<br
 						className={css({
 							md: {
-								display: 'none',
+								display: "none",
 							},
 						})}
 					/>
@@ -142,23 +142,23 @@ export const PageHomeView = async (props: PageHomeProps) => {
 				</p>
 				<p
 					className={css({
-						display: 'flex',
-						flexWrap: 'wrap',
+						display: "flex",
+						flexWrap: "wrap",
 						columnGap: 4,
-						alignItems: 'baseline',
-						color: 'primary.500',
-						fontWeight: 'bold',
+						alignItems: "baseline",
+						color: "primary.500",
+						fontWeight: "bold",
 					})}
 				>
 					<span
 						className={css({
-							display: 'inline-block',
-							color: 'inherit',
-							fontSize: '8vw',
+							display: "inline-block",
+							color: "inherit",
+							fontSize: "8vw",
 							lineHeight: 1.2,
 							mdDown: {
 								marginTop: 2,
-								fontSize: '12vw',
+								fontSize: "12vw",
 							},
 						})}
 					>
@@ -166,11 +166,11 @@ export const PageHomeView = async (props: PageHomeProps) => {
 					</span>
 					<span
 						className={css({
-							display: 'inline-block',
-							color: 'inherit',
-							fontSize: '2vw',
+							display: "inline-block",
+							color: "inherit",
+							fontSize: "2vw",
 							mdDown: {
-								fontSize: '5vw',
+								fontSize: "5vw",
 							},
 						})}
 					>
@@ -182,31 +182,31 @@ export const PageHomeView = async (props: PageHomeProps) => {
 			{/* タブ */}
 			<div
 				className={css({
-					position: 'relative',
-					display: 'flex',
-					justifyContent: 'center',
+					position: "relative",
+					display: "flex",
+					justifyContent: "center",
 					marginTop: 8,
 
 					_before: {
 						content: '""',
-						position: 'absolute',
+						position: "absolute",
 						bottom: 0,
 						right: 0,
 						left: 0,
 						zIndex: 0,
 
-						height: '1px',
-						backgroundColor: '#cfc5ae',
+						height: "1px",
+						backgroundColor: "#cfc5ae",
 					},
 				})}
 			>
 				<div
 					className={css({
-						display: 'flex',
+						display: "flex",
 						gap: 0.5,
-						width: '100%',
-						maxWidth: '1200px',
-						margin: 'auto',
+						width: "100%",
+						maxWidth: "1200px",
+						margin: "auto",
 						paddingInline: 4,
 						mdDown: {
 							paddingInline: 2,
@@ -216,31 +216,31 @@ export const PageHomeView = async (props: PageHomeProps) => {
 					<div
 						className={css(
 							{
-								position: 'relative',
+								position: "relative",
 								zIndex: 1,
-								color: 'primary.300',
-								backgroundColor: 'bg.base',
-								border: '1px solid',
-								borderColor: '#cfc5ae',
-								borderRadius: '16px 16px 0 0',
-								fontWeight: 'bold',
+								color: "primary.300",
+								backgroundColor: "bg.base",
+								border: "1px solid",
+								borderColor: "#cfc5ae",
+								borderRadius: "16px 16px 0 0",
+								fontWeight: "bold",
 								_hover: {
-									color: 'primary.500',
+									color: "primary.500",
 								},
 							},
-							(!props.searchParams.tab || props.searchParams.tab === 'all') && {
-								color: 'primary.500',
+							(!props.searchParams.tab || props.searchParams.tab === "all") && {
+								color: "primary.500",
 								borderBottom: 0,
-							},
+							}
 						)}
 					>
 						<Link
 							href="/?tab=all"
 							scroll={false}
 							className={css({
-								display: 'block',
-								padding: '8px 16px',
-								color: 'inherit',
+								display: "block",
+								padding: "8px 16px",
+								color: "inherit",
 							})}
 						>
 							一覧
@@ -250,31 +250,31 @@ export const PageHomeView = async (props: PageHomeProps) => {
 					<div
 						className={css(
 							{
-								position: 'relative',
+								position: "relative",
 								zIndex: 1,
-								color: 'primary.300',
-								backgroundColor: 'bg.base',
-								border: '1px solid',
-								borderColor: '#cfc5ae',
-								borderRadius: '16px 16px 0 0',
-								fontWeight: 'bold',
+								color: "primary.300",
+								backgroundColor: "bg.base",
+								border: "1px solid",
+								borderColor: "#cfc5ae",
+								borderRadius: "16px 16px 0 0",
+								fontWeight: "bold",
 								_hover: {
-									color: 'primary.500',
+									color: "primary.500",
 								},
 							},
-							props.searchParams.tab === 'theme' && {
-								color: 'primary.500',
+							props.searchParams.tab === "theme" && {
+								color: "primary.500",
 								borderBottom: 0,
-							},
+							}
 						)}
 					>
 						<Link
 							href="/?tab=theme"
 							scroll={false}
 							className={css({
-								display: 'block',
-								padding: '8px 16px',
-								color: 'inherit',
+								display: "block",
+								padding: "8px 16px",
+								color: "inherit",
 							})}
 						>
 							テーマ別
@@ -284,31 +284,31 @@ export const PageHomeView = async (props: PageHomeProps) => {
 					<div
 						className={css(
 							{
-								position: 'relative',
+								position: "relative",
 								zIndex: 1,
-								color: 'primary.300',
-								backgroundColor: 'bg.base',
-								border: '1px solid',
-								borderColor: '#cfc5ae',
-								borderRadius: '16px 16px 0 0',
-								fontWeight: 'bold',
+								color: "primary.300",
+								backgroundColor: "bg.base",
+								border: "1px solid",
+								borderColor: "#cfc5ae",
+								borderRadius: "16px 16px 0 0",
+								fontWeight: "bold",
 								_hover: {
-									color: 'primary.500',
+									color: "primary.500",
 								},
 							},
-							props.searchParams.tab === 'zenn' && {
-								color: 'primary.500',
+							props.searchParams.tab === "zenn" && {
+								color: "primary.500",
 								borderBottom: 0,
-							},
+							}
 						)}
 					>
 						<Link
 							href="/?tab=zenn"
 							scroll={false}
 							className={css({
-								display: 'block',
-								padding: '8px 16px',
-								color: 'inherit',
+								display: "block",
+								padding: "8px 16px",
+								color: "inherit",
 							})}
 						>
 							Zenn
@@ -318,31 +318,31 @@ export const PageHomeView = async (props: PageHomeProps) => {
 					<div
 						className={css(
 							{
-								position: 'relative',
+								position: "relative",
 								zIndex: 1,
-								color: 'primary.300',
-								backgroundColor: 'bg.base',
-								border: '1px solid',
-								borderColor: '#cfc5ae',
-								borderRadius: '16px 16px 0 0',
-								fontWeight: 'bold',
+								color: "primary.300",
+								backgroundColor: "bg.base",
+								border: "1px solid",
+								borderColor: "#cfc5ae",
+								borderRadius: "16px 16px 0 0",
+								fontWeight: "bold",
 								_hover: {
-									color: 'primary.500',
+									color: "primary.500",
 								},
 							},
-							props.searchParams.tab === 'qiita' && {
-								color: 'primary.500',
+							props.searchParams.tab === "qiita" && {
+								color: "primary.500",
 								borderBottom: 0,
-							},
+							}
 						)}
 					>
 						<Link
 							href="/?tab=qiita"
 							scroll={false}
 							className={css({
-								display: 'block',
-								padding: '8px 16px',
-								color: 'inherit',
+								display: "block",
+								padding: "8px 16px",
+								color: "inherit",
 							})}
 						>
 							Qiita
@@ -354,26 +354,26 @@ export const PageHomeView = async (props: PageHomeProps) => {
 			{/* コンテンツ */}
 			<div
 				className={css({
-					width: '100%%',
-					maxWidth: '1200px',
-					margin: 'auto',
+					width: "100%%",
+					maxWidth: "1200px",
+					margin: "auto",
 					paddingInline: 5,
 					mdDown: {
 						paddingInline: 2,
 					},
 				})}
 			>
-				{(!props.searchParams.tab || props.searchParams.tab === 'all') && (
+				{(!props.searchParams.tab || props.searchParams.tab === "all") && (
 					<AllPosts posts={sortedPostsByNewest} />
 				)}
 
-				{props.searchParams.tab === 'theme' && (
+				{props.searchParams.tab === "theme" && (
 					<ThemePosts posts={sortedPostsByNewest} />
 				)}
 
-				{props.searchParams.tab === 'zenn' && <AllPosts posts={zennPosts} />}
+				{props.searchParams.tab === "zenn" && <AllPosts posts={zennPosts} />}
 
-				{props.searchParams.tab === 'qiita' && <AllPosts posts={qiitaPosts} />}
+				{props.searchParams.tab === "qiita" && <AllPosts posts={qiitaPosts} />}
 			</div>
 		</>
 	);
@@ -402,7 +402,7 @@ type ZennArticle = {
 
 type Zennscrap = {
 	id: number;
-	post_type: 'Scrap';
+	post_type: "Scrap";
 	user_id: number;
 	slug: string;
 	title: string;

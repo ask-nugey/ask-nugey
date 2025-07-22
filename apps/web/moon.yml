@@ -1,0 +1,103 @@
+project:
+  name: "Web Application (Next.js)"
+  description: "Next.js 15アプリケーション。App Router、TypeScript、Tailwind CSSを使用したモダンなWebアプリ。"
+
+type: "application"
+language: "node"
+stack: "frontend"
+tags:
+  - "typescript"
+  - "react"
+  - "nextjs"
+  - "tailwind"
+  - "web"
+  - "frontend"
+
+tasks:
+  dev:
+    description: "Next.js開発サーバーを起動"
+    command: "bun"
+    args: ["run", "dev"]
+    inputs:
+      - "src/**/*.{ts,tsx,js,jsx}"
+      - "next.config.mjs"
+      - "tailwind.config.js"
+      - "package.json"
+    #   - "shared:src/**/*.{ts,tsx}"
+    #   - "shared:dist/**/*"
+    # deps:
+    #   - "shared:build"
+    options:
+      persistent: true
+      cache: false
+      runFromWorkspaceRoot: false
+      runInCI: false
+
+  build:
+    description: "Next.jsプロダクション用ビルド"
+    command: "bun"
+    args: ["run", "build"]
+    inputs:
+      - "src/**/*.{ts,tsx,js,jsx}"
+      - "public/**/*"
+      - "next.config.mjs"
+      - "package.json"
+    # deps:
+    #   - "shared:build"
+
+  start:
+    description: "Next.jsプロダクションサーバーを起動"
+    command: "bun"
+    args: ["run", "start"]
+    deps:
+      - "build"
+    options:
+      persistent: true
+      cache: false
+
+  typecheck:
+    description: "TypeScript型チェック（ビルドファイル生成なし）"
+    command: "tsc"
+    args: ["--noEmit"]
+    inputs:
+      - "src/**/*.{ts,tsx}"
+      - "tsconfig.json"
+      - "next.config.mjs"
+    # deps:
+    #   - "shared:build"
+
+  lint:
+    description: "Biomeでコード品質チェック"
+    command: "bun"
+    args: ["biome", "lint", "src"]
+    inputs:
+      - "src/**/*.{ts,tsx,js,jsx}"
+    options:
+      runFromWorkspaceRoot: false
+
+  format:
+    description: "Biomeでコードフォーマット"
+    command: "bun"
+    args: ["biome", "format", "--write", "src"]
+    inputs:
+      - "src/**/*.{ts,tsx,js,jsx}"
+    options:
+      runFromWorkspaceRoot: false
+
+  check:
+    description: "Biomeでlint + formatチェック"
+    command: "bun"
+    args: ["biome", "check", "src"]
+    inputs:
+      - "src/**/*.{ts,tsx,js,jsx}"
+    options:
+      runFromWorkspaceRoot: false
+
+  fix:
+    description: "Biomeで自動修正"
+    command: "bun"
+    args: ["biome", "check", "--write", "src"]
+    inputs:
+      - "src/**/*.{ts,tsx,js,jsx}"
+    options:
+      runFromWorkspaceRoot: false

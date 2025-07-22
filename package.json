@@ -1,0 +1,28 @@
+{
+	"name": "moon-ts",
+	"version": "1.0.0",
+	"private": true,
+	"description": "TypeScript monorepo template using moon and bun",
+	"type": "module",
+	"engines": {
+		"node": "22.1.0",
+		"bun": ">=1.0.0"
+	},
+	"workspaces": ["apps/*", "packages/*"],
+	"devDependencies": {
+		"@biomejs/biome": "^2.1.2",
+		"@moonrepo/cli": "^1.38.6",
+		"@types/node": "^22.1.0",
+		"typescript": "^5"
+	},
+	"scripts": {
+		"build": "moon run :build",
+		"dev": "moon run :dev",
+		"test": "moon run :test",
+		"check": "moon run :check",
+		"format": "moon run :format",
+		"lint": "moon run :lint",
+		"typecheck": "moon run :typecheck",
+		"clean": "moon clean"
+	}
+}

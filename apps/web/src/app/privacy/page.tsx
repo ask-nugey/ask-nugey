@@ -1,10 +1,9 @@
-import { PagePrivacyView } from '@/src/ui/view/privacy';
-
-import type { Metadata } from 'next';
+import type { Metadata } from "next";
+import { PagePrivacyView } from "@/src/ui/view/privacy";
 
 export const metadata: Metadata = {
-	title: 'プライバシーポリシー | ask-nugey',
-	description: 'ask-nugeyのプライバシーポリシーについて説明します。',
+	title: "プライバシーポリシー | ask-nugey",
+	description: "ask-nugeyのプライバシーポリシーについて説明します。",
 };
 
 const PagePrivacy = function PagePrivacy() {

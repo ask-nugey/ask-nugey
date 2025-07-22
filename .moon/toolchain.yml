@@ -1,0 +1,8 @@
+# https://moonrepo.dev/docs/config/toolchain
+$schema: "https://moonrepo.dev/schemas/toolchain.json"
+
+# TypeScriptの設定
+typescript:
+  # プロジェクトリファレンスとインクリメンタルビルドの有効化
+  createMissingConfig: true
+  routeOutDirToCache: true

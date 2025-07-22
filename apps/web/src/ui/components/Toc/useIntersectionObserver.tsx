@@ -1,23 +1,23 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useRef, useState } from "react";
 
 export const useIntersectionObserver = (
 	querySelector: string,
 	rootMargin: string,
-	threshold: number,
+	threshold: number
 ) => {
-	const [activeIdState, setActiveIdState] = useState('');
+	const [activeIdState, setActiveIdState] = useState("");
 	const observerRef = useRef<IntersectionObserver | null>(null);
 
 	useEffect(() => {
 		const handleObserver = (entries: IntersectionObserverEntry[]) => {
-			entries.forEach(entry => {
+			for (const entry of entries) {
 				if (entry.isIntersecting) {
 					setActiveIdState(entry.target.id);
 				}
-			});
+			}
 		};
 
-		if (typeof observerRef !== 'undefined') {
+		if (typeof observerRef !== "undefined") {
 			observerRef.current = new IntersectionObserver(handleObserver, {
 				rootMargin,
 				threshold,
@@ -25,10 +25,10 @@ export const useIntersectionObserver = (
 
 			const elements = document.querySelectorAll(querySelector);
 
-			elements.forEach(elem => {
+			for (const elem of elements) {
 				if (observerRef.current === null) return;
 				observerRef.current.observe(elem);
-			});
+			}
 		}
 
 		return () => {

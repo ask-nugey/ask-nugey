@@ -1,7 +1,7 @@
-import { PropsWithChildren } from 'react';
+import type { PropsWithChildren } from "react";
 
-import { css } from '@/lib/styled-system/css';
-import { SystemStyleObject } from '@/lib/styled-system/types';
+import { css } from "@/lib/styled-system/css";
+import type { SystemStyleObject } from "@/lib/styled-system/types";
 
 type Props = {
 	wrapperStyles?: SystemStyleObject;
@@ -27,14 +27,14 @@ export const Container = (props: Props) => {
 	return (
 		<div
 			className={css({
-				px: { base: '64px', mdDown: '12px' },
+				px: { base: "64px", mdDown: "12px" },
 				...props.wrapperStyles,
 			})}
 		>
 			<div
 				className={css({
 					maxWidth: 1024,
-					mx: 'auto',
+					mx: "auto",
 					...props.contentStyles,
 				})}
 			>

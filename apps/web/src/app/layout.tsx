@@ -1,16 +1,16 @@
-import './globals.css';
-import { Metadata } from 'next';
-import { Inter } from 'next/font/google';
-import React, { PropsWithChildren } from 'react';
+import "./globals.css";
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
+import type { PropsWithChildren } from "react";
 
-import AntdRegistry from '@/lib/nextjs-registry/AntdRegistry';
-import { siteConfig } from '@/src/constants';
-import { ThemeProvider } from '@/src/styles/AntdThemeProvider';
-import { GoogleAdScript } from '@/src/ui/components/GoogleAdSenseScript';
-import { BaseLayout } from '@/src/ui/components/layout/BaseLayout';
-import MergeProvider from '@/src/utils/MergeProvider';
+import AntdRegistry from "@/lib/nextjs-registry/AntdRegistry";
+import { siteConfig } from "@/src/constants";
+import { ThemeProvider } from "@/src/styles/AntdThemeProvider";
+import { GoogleAdScript } from "@/src/ui/components/GoogleAdSenseScript";
+import { BaseLayout } from "@/src/ui/components/layout/BaseLayout";
+import MergeProvider from "@/src/utils/MergeProvider";
 
-const inter = Inter({ subsets: ['latin'] });
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
 	metadataBase: new URL(`https://${siteConfig.domain}`),
@@ -24,15 +24,15 @@ export const metadata: Metadata = {
 		description: siteConfig.description,
 		url: `https://${siteConfig.domain}`,
 		siteName: siteConfig.name,
-		locale: 'ja_JP',
-		type: 'website',
+		locale: "ja_JP",
+		type: "website",
 	},
 	twitter: {
-		card: 'summary_large_image',
+		card: "summary_large_image",
 		title: siteConfig.name,
 		description: siteConfig.description,
-		site: '@ask_nugey',
-		creator: '@ask_nugey',
+		site: "@ask_nugey",
+		creator: "@ask_nugey",
 	},
 	// verification: {
 	//   google: "サーチコンソール",

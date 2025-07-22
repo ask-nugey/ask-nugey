@@ -1,8 +1,8 @@
-import Link from 'next/link';
+import Link from "next/link";
 
-import { css } from '@/lib/styled-system/css';
-import { ArticleNode, themes } from '@/src/sitemap/contents';
-import { Post } from '@/src/types/post';
+import { css } from "@/lib/styled-system/css";
+import { type ArticleNode, themes } from "@/src/sitemap/contents";
+import type { Post } from "@/src/types/post";
 
 type Props = {
 	posts: Post[];
@@ -12,10 +12,10 @@ export const ThemePosts = (props: Props) => {
 	return (
 		<div
 			className={css({
-				display: 'grid',
-				gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))',
-				justifyContent: 'center',
-				alignItems: 'stretch',
+				display: "grid",
+				gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))",
+				justifyContent: "center",
+				alignItems: "stretch",
 				gap: 3,
 				marginTop: 4,
 				mdDown: {
@@ -24,7 +24,7 @@ export const ThemePosts = (props: Props) => {
 				},
 			})}
 		>
-			{themes.filter(hasValidArticles).map(item => (
+			{themes.filter(hasValidArticles).map((item) => (
 				<ThemeItem key={item.theme} themeItem={item} posts={props.posts} />
 			))}
 		</div>
@@ -40,15 +40,15 @@ const ThemeItem = ({ themeItem, posts }: ThemeItemProps) => {
 		<div
 			className={css({
 				padding: 2,
-				bgColor: 'white',
-				border: '1px solid',
-				borderColor: 'gray.300',
-				borderRadius: 'xl',
+				bgColor: "white",
+				border: "1px solid",
+				borderColor: "gray.300",
+				borderRadius: "xl",
 
-				'& ul': {
+				"& ul": {
 					marginTop: 1.5,
 				},
-				'& ul + div': {
+				"& ul + div": {
 					marginTop: 2.5,
 				},
 			})}
@@ -57,20 +57,20 @@ const ThemeItem = ({ themeItem, posts }: ThemeItemProps) => {
 				<>
 					<p
 						className={css({
-							fontSize: 'sm',
+							fontSize: "sm",
 						})}
 					>
 						[ {themeItem.theme} ]
 					</p>
 					<ul>
-						{themeItem.articles.map(article => (
+						{themeItem.articles.map((article) => (
 							<li
 								key={article}
 								className={css({
-									marginLeft: '1.5em',
-									listStyle: 'circle',
-									lineHeight: '1.4',
-									'& + li': {
+									marginLeft: "1.5em",
+									listStyle: "circle",
+									lineHeight: "1.4",
+									"& + li": {
 										marginTop: 2,
 									},
 								})}
@@ -78,23 +78,24 @@ const ThemeItem = ({ themeItem, posts }: ThemeItemProps) => {
 								<Link
 									href={`/posts/${article}`}
 									className={css({
-										display: 'inline-flex',
-										color: 'primary.500',
-										fontWeight: 'bold',
-										textDecoration: 'none',
+										display: "inline-flex",
+										color: "primary.500",
+										fontWeight: "bold",
+										textDecoration: "none",
 										_hover: {
-											textDecoration: 'underline',
+											textDecoration: "underline",
 										},
 									})}
 								>
-									{posts.find(post => post.slug === article)?.title || article}
+									{posts.find((post) => post.slug === article)?.title ||
+										article}
 								</Link>
 							</li>
 						))}
 					</ul>
 				</>
 			)}
-			{themeItem.children.filter(hasValidArticles).map(child => (
+			{themeItem.children.filter(hasValidArticles).map((child) => (
 				<ThemeItem key={child.theme} themeItem={child} posts={posts} />
 			))}
 		</div>

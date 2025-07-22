@@ -1,14 +1,14 @@
-import { HomeFilled, QuestionCircleFilled } from '@ant-design/icons';
-import { Button, Tag } from 'antd';
-import { format } from 'date-fns';
-import dynamic from 'next/dynamic';
+import { HomeFilled, QuestionCircleFilled } from "@ant-design/icons";
+import { Button, Tag } from "antd";
+import { format } from "date-fns";
+import dynamic from "next/dynamic";
 
-import { css } from '@/lib/styled-system/css';
-import { Post } from '@/src/types/post';
-import { CommentCard } from '@/src/ui/components/CommentCard';
-import { GoogleAd } from '@/src/ui/components/GoogleAd';
-import { Loading } from '@/src/ui/components/Loading';
-import { TocCard } from '@/src/ui/components/Toc/TocCard';
+import { css } from "@/lib/styled-system/css";
+import type { Post } from "@/src/types/post";
+import { CommentCard } from "@/src/ui/components/CommentCard";
+import { GoogleAd } from "@/src/ui/components/GoogleAd";
+import { Loading } from "@/src/ui/components/Loading";
+import { TocCard } from "@/src/ui/components/Toc/TocCard";
 
 type Props = {
 	post: Post;
@@ -21,14 +21,14 @@ export const PostDetailView = (props: Props) => {
 			loading: () => (
 				<Loading
 					tip="　Loading..."
-					wrapperStyles={css.raw({ mb: '50vh', p: 0 })}
+					wrapperStyles={css.raw({ mb: "50vh", p: 0 })}
 				>
 					<div
 						className={css({
 							gap: 4,
 							md: {
-								display: 'flex',
-								flexDirection: 'row-reverse',
+								display: "flex",
+								flexDirection: "row-reverse",
 							},
 						})}
 					>
@@ -36,7 +36,7 @@ export const PostDetailView = (props: Props) => {
 							<nav>
 								<ul>
 									<li>
-										<a>{props.post.title}</a>
+										<a href={`#${props.post.slug}`}>{props.post.title}</a>
 									</li>
 								</ul>
 							</nav>
@@ -46,15 +46,15 @@ export const PostDetailView = (props: Props) => {
 								className={css({
 									marginTop: 6,
 									padding: 4,
-									color: 'white',
-									fontSize: 'xl',
-									fontWeight: 'bold',
-									backgroundColor: 'primary.500',
-									borderRadius: 'xl',
-									overflow: 'hidden',
-									whiteSpace: 'nowrap',
-									'& a': {
-										color: 'inherit',
+									color: "white",
+									fontSize: "xl",
+									fontWeight: "bold",
+									backgroundColor: "primary.500",
+									borderRadius: "xl",
+									overflow: "hidden",
+									whiteSpace: "nowrap",
+									"& a": {
+										color: "inherit",
 									},
 								})}
 							>
@@ -65,23 +65,23 @@ export const PostDetailView = (props: Props) => {
 					</div>
 				</Loading>
 			),
-		},
+		}
 	);
 
 	return (
 		<article
 			className={css({
-				display: 'grid',
+				display: "grid",
 				gap: 2,
 
 				maxWidth: 1024,
-				width: 'calc(100% - 16px)',
-				margin: ' 1rem auto',
+				width: "calc(100% - 16px)",
+				margin: " 1rem auto",
 				padding: 8,
-				backgroundColor: 'white',
-				border: '1px solid',
-				borderColor: 'gray.200',
-				borderRadius: 'xl',
+				backgroundColor: "white",
+				border: "1px solid",
+				borderColor: "gray.200",
+				borderRadius: "xl",
 
 				mdDown: {
 					padding: 4,
@@ -92,28 +92,28 @@ export const PostDetailView = (props: Props) => {
 				<time
 					dateTime={props.post.createdAt.toDateString()}
 					className={css({
-						display: 'block',
-						color: 'gray.400',
+						display: "block",
+						color: "gray.400",
 					})}
 				>
-					{format(props.post.createdAt, 'yyyy/MM/d')}
+					{format(props.post.createdAt, "yyyy/MM/d")}
 				</time>
 				<h1
 					className={css({
-						fontSize: '3xl',
-						fontWeight: 'bold',
+						fontSize: "3xl",
+						fontWeight: "bold",
 					})}
 				>
 					{props.post.title}
 				</h1>
 				<div
 					className={css({
-						display: 'flex',
-						flexWrap: 'wrap',
+						display: "flex",
+						flexWrap: "wrap",
 						marginBottom: 4,
 					})}
 				>
-					{props.post.tags.map(tag => (
+					{props.post.tags.map((tag) => (
 						<Tag key={tag} color="gold">
 							# {tag}
 						</Tag>
@@ -125,14 +125,14 @@ export const PostDetailView = (props: Props) => {
 					gap: 4,
 
 					md: {
-						display: 'flex',
-						flexDirection: 'row-reverse',
+						display: "flex",
+						flexDirection: "row-reverse",
 					},
 
-					'& .article-content': {
-						display: 'grid',
+					"& .article-content": {
+						display: "grid",
 						gap: 4,
-						w: '100%',
+						w: "100%",
 					},
 				})}
 			>
@@ -142,11 +142,11 @@ export const PostDetailView = (props: Props) => {
 			<footer>
 				<div
 					className={css({
-						display: 'grid',
+						display: "grid",
 						gap: 4,
 						marginTop: 8,
 						marginBottom: 4,
-						marginInline: 'auto',
+						marginInline: "auto",
 					})}
 				>
 					<a
@@ -158,11 +158,11 @@ export const PostDetailView = (props: Props) => {
 							type="primary"
 							icon={<QuestionCircleFilled />}
 							className={css({
-								display: 'flex',
-								justifyContent: 'center',
-								alignItems: 'center',
-								width: '100%',
-								fontWeight: 'bold',
+								display: "flex",
+								justifyContent: "center",
+								alignItems: "center",
+								width: "100%",
+								fontWeight: "bold",
 							})}
 						>
 							Ask Nugey!（マシュマロで質問）
@@ -173,11 +173,11 @@ export const PostDetailView = (props: Props) => {
 							type="primary"
 							icon={<HomeFilled />}
 							className={css({
-								display: 'flex',
-								justifyContent: 'center',
-								alignItems: 'center',
-								width: '100%',
-								fontWeight: 'bold',
+								display: "flex",
+								justifyContent: "center",
+								alignItems: "center",
+								width: "100%",
+								fontWeight: "bold",
 							})}
 						>
 							トップに戻る

@@ -1,6 +1,6 @@
-import { css } from '@/lib/styled-system/css';
-import { Container } from '@/src/ui/components/layout/Container';
-import { PageHeader } from '@/src/ui/components/layout/PageHeader';
+import { css } from "@/lib/styled-system/css";
+import { Container } from "@/src/ui/components/layout/Container";
+import { PageHeader } from "@/src/ui/components/layout/PageHeader";
 
 export const PagePrivacyView = () => {
 	return (
@@ -12,21 +12,21 @@ export const PagePrivacyView = () => {
 
 			<Container
 				wrapperStyles={css.raw({
-					mx: 'auto',
-					py: '8',
+					mx: "auto",
+					py: "8",
 				})}
 				contentStyles={css.raw({
-					display: 'grid',
+					display: "grid",
 					gap: 8,
 
-					'& p': {
-						mb: '4',
+					"& p": {
+						mb: "4",
 					},
 
-					'& h2': {
-						fontSize: '2xl',
-						fontWeight: 'bold',
-						mb: '4',
+					"& h2": {
+						fontSize: "2xl",
+						fontWeight: "bold",
+						mb: "4",
 					},
 				})}
 			>
@@ -58,9 +58,9 @@ export const PagePrivacyView = () => {
 					</p>
 					<ol
 						className={css({
-							mb: '4',
-							pl: '6',
-							listStyle: 'decimal',
+							mb: "4",
+							pl: "6",
+							listStyle: "decimal",
 						})}
 					>
 						<li>ユーザーからのお問い合わせへの対応</li>
@@ -96,8 +96,8 @@ export const PagePrivacyView = () => {
 							target="_blank"
 							rel="noopener noreferrer"
 							className={css({
-								color: 'blue.600',
-								textDecoration: 'underline',
+								color: "blue.600",
+								textDecoration: "underline",
 							})}
 						>
 							Google広告設定
@@ -116,8 +116,8 @@ export const PagePrivacyView = () => {
 							target="_blank"
 							rel="noopener noreferrer"
 							className={css({
-								color: 'blue.600',
-								textDecoration: 'underline',
+								color: "blue.600",
+								textDecoration: "underline",
 							})}
 						>
 							Googleの広告ポリシー
@@ -179,8 +179,8 @@ export const PagePrivacyView = () => {
 						<a
 							href="/contact"
 							className={css({
-								color: 'blue.600',
-								textDecoration: 'underline',
+								color: "blue.600",
+								textDecoration: "underline",
 							})}
 						>
 							お問い合わせ

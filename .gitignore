@@ -10,7 +10,7 @@
 /coverage
 
 # next.js
-/.next/
+.next/
 /out/
 
 # production
@@ -51,3 +51,6 @@ styled-system-studio
 
 # Opne Next
 .open-next
+
+# moon
+.moon/cache

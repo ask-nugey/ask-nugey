@@ -1,42 +1,41 @@
-'use client';
+"use client";
 
-import { createFromIconfontCN } from '@ant-design/icons';
-import { GithubOutlined } from '@ant-design/icons';
-import { Layout, Menu } from 'antd';
-import { MenuItemType } from 'antd/es/menu/interface';
-import Image from 'next/image';
-import Link from 'next/link';
-import { PropsWithChildren } from 'react';
+import { createFromIconfontCN, GithubOutlined } from "@ant-design/icons";
+import { Layout, Menu } from "antd";
+import type { MenuItemType } from "antd/es/menu/interface";
+import Image from "next/image";
+import Link from "next/link";
+import type { PropsWithChildren } from "react";
 
-import { css } from '@/lib/styled-system/css';
-import { Container } from '@/src/ui/components/layout/Container';
+import { css } from "@/lib/styled-system/css";
+import { Container } from "@/src/ui/components/layout/Container";
 
 const { Header, Content } = Layout;
 
 const IconFont = createFromIconfontCN({
-	scriptUrl: '//at.alicdn.com/t/font_8d5l8fzk5b87iudi.js',
+	scriptUrl: "//at.alicdn.com/t/font_8d5l8fzk5b87iudi.js",
 });
 
 const MenuItems: MenuItemType[] = [
 	{
-		key: '/author',
-		label: '',
+		key: "/author",
+		label: "",
 		// icon: <SmileTwoTone twoToneColor="#d97706" />,
 	},
 ];
 const SnsItems = [
 	{
-		key: 'https://twitter.com/ask_nugey',
+		key: "https://twitter.com/ask_nugey",
 		icon: (
 			<IconFont
 				type="icon-twitter"
-				className={css({ '& svg': { fill: 'sky.400' } })}
+				className={css({ "& svg": { fill: "sky.400" } })}
 			/>
 		),
 	},
 	{
-		key: 'https://github.com/ask-nugey',
-		icon: <GithubOutlined className={css({ '& svg': { fill: 'black' } })} />,
+		key: "https://github.com/ask-nugey",
+		icon: <GithubOutlined className={css({ "& svg": { fill: "black" } })} />,
 	},
 ];
 
@@ -47,46 +46,46 @@ export const BaseLayout = ({ children }: PropsWithChildren) => {
 	return (
 		<Layout
 			className={css({
-				display: 'grid',
-				gridTemplateRows: 'auto 1fr auto',
-				width: '100vw',
-				minHeight: '100vh',
+				display: "grid",
+				gridTemplateRows: "auto 1fr auto",
+				width: "100vw",
+				minHeight: "100vh",
 			})}
 		>
 			<Header
 				className={css({
-					width: '100%',
+					width: "100%",
 					// boxShadow:
 					//   `0 1px 2px 0 rgba(0, 0, 0, 0.03), 0 1px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px 0 rgba(0, 0, 0, 0.02)`,
-					borderBottom: '1px solid',
-					borderColor: 'gray.200',
+					borderBottom: "1px solid",
+					borderColor: "gray.200",
 
 					smDown: {
-						padding: '0 8px',
+						padding: "0 8px",
 					},
 				})}
 			>
 				<div
 					className={css({
-						display: 'flex',
-						alignItems: 'center',
+						display: "flex",
+						alignItems: "center",
 
 						maxWidth: 1024,
-						height: 'inherit',
-						marginInline: 'auto',
+						height: "inherit",
+						marginInline: "auto",
 					})}
 				>
 					<Link
 						href="/"
 						className={css({
-							display: 'grid',
-							gridTemplateColumns: 'auto 1fr',
+							display: "grid",
+							gridTemplateColumns: "auto 1fr",
 							gap: 2,
-							alignItems: 'center',
+							alignItems: "center",
 
-							color: 'primary.600',
-							fontSize: 'xl',
-							fontWeight: 'bold',
+							color: "primary.600",
+							fontSize: "xl",
+							fontWeight: "bold",
 						})}
 					>
 						<Image alt="ヌギー(nugey)" src="/logo.png" width={56} height={56} />
@@ -102,34 +101,34 @@ export const BaseLayout = ({ children }: PropsWithChildren) => {
 						items={MenuItems}
 						className={css({
 							flex: 1,
-							justifyContent: 'flex-end',
+							justifyContent: "flex-end",
 							minWidth: 0,
 							borderWidth: 0,
-							'& li': {
-								display: 'flex',
-								justifySelf: 'center',
-								alignItems: 'center',
-								color: 'primary.500',
-								fontWeight: 'bold',
+							"& li": {
+								display: "flex",
+								justifySelf: "center",
+								alignItems: "center",
+								color: "primary.500",
+								fontWeight: "bold",
 							},
 						})}
 					/>
 					<div
 						className={css({
-							display: 'flex',
+							display: "flex",
 						})}
 					>
-						{SnsItems.map(item => (
+						{SnsItems.map((item) => (
 							<a
 								key={item.key}
 								href={item.key}
 								target="_blank"
 								className={css({
 									padding: 2,
-									fontSize: 'lg',
-									transition: 'all 0.1s ease',
+									fontSize: "lg",
+									transition: "all 0.1s ease",
 									_hover: {
-										transform: 'scale(1.2)',
+										transform: "scale(1.2)",
 									},
 								})}
 							>
@@ -145,16 +144,16 @@ export const BaseLayout = ({ children }: PropsWithChildren) => {
 					wrapperStyles={css.raw({
 						mt: 12,
 						mb: 4,
-						mx: 'auto',
+						mx: "auto",
 					})}
 					contentStyles={css.raw({
-						color: 'primary.500',
-						fontSize: 'sm',
-						display: 'flex',
-						justifyContent: 'space-between',
+						color: "primary.500",
+						fontSize: "sm",
+						display: "flex",
+						justifyContent: "space-between",
 						mdDown: {
-							flexDirection: 'column',
-							textAlign: 'center',
+							flexDirection: "column",
+							textAlign: "center",
 						},
 					})}
 				>
@@ -163,8 +162,8 @@ export const BaseLayout = ({ children }: PropsWithChildren) => {
 							href="/privacy"
 							className={css({
 								mx: 2,
-								color: 'inherit',
-								_hover: { textDecoration: 'underline' },
+								color: "inherit",
+								_hover: { textDecoration: "underline" },
 							})}
 						>
 							プライバシーポリシー
@@ -174,8 +173,8 @@ export const BaseLayout = ({ children }: PropsWithChildren) => {
 							href="/contact"
 							className={css({
 								mx: 2,
-								color: 'inherit',
-								_hover: { textDecoration: 'underline' },
+								color: "inherit",
+								_hover: { textDecoration: "underline" },
 							})}
 						>
 							お問い合わせ

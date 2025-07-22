@@ -14,15 +14,17 @@
 		"isolatedModules": true,
 		"jsx": "preserve",
 		"incremental": true,
+		"composite": true,
 		"plugins": [
 			{
 				"name": "next"
 			}
 		],
 		"paths": {
-			"@/src/*": ["./src/*"],
-			"@/lib/*": ["./lib/*"]
-		}
+			"@/src/*": ["src/*"],
+			"@/lib/*": ["lib/*"]
+		},
+		"outDir": "../../.moon/cache/types/apps/web"
 	},
 	"include": [
 		"next.config.mjs",
