@@ -18,8 +18,7 @@
 ├── docs/                   # ドキュメント
 ├── biome.json             # コード品質設定
 ├── package.json           # ルートパッケージ設定
-├── pnpm-workspace.yaml    # pnpmワークスペース定義
-└── tsconfig.json          # TypeScript基本設定
+└── tsconfig.json          # TypeScript基本設定 / ワークスペース定義
 ```
 
 ## 🔧 技術スタック詳細
@@ -54,11 +53,9 @@
 
 **設定ファイル**: `biome.json`（ルートレベル）
 
-### pnpm (パッケージ管理)
+### bun (パッケージ管理)
 
 **役割**: 依存関係管理、ワークスペース
-
-**設定ファイル**: `pnpm-workspace.yaml`
 
 ## 🚀 新しいプロジェクト・パッケージの追加
 

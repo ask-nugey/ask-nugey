@@ -33,7 +33,7 @@ moon run projectA:dev
 
 ```bash
 # 全プロジェクトのビルド
-moon run :build-all
+moon run :build
 
 # 特定プロジェクトのビルド
 moon run web:build          # webプロジェクトのみ
@@ -112,11 +112,11 @@ moon task-graph
 
 ```bash
 # 依存関係のインストール
-pnpm install
+bun install
 
 # パッケージの追加
-pnpm add --filter web [パッケージ名]        # webプロジェクトに追加
-pnpm add --filter shared [パッケージ名]     # sharedプロジェクトに追加
+bun i --filter web [パッケージ名]        # webプロジェクトに追加
+bun i --filter shared [パッケージ名]     # sharedプロジェクトに追加
 ```
 
 ### キャッシュ管理

@@ -12,10 +12,10 @@
 ```bash
 # 1. リポジトリのクローン
 git clone <repository-url>
-cd moon-ts
+cd ask-nugey
 
 # 2. 依存関係のインストール
-pnpm install
+bun install
 ```
 
 ## 🚀 日常的な開発フロー
@@ -86,8 +86,8 @@ moon run :build
 ```bash
 # node_modulesとlockファイルを削除して再インストール
 rm -rf node_modules
-rm pnpm-lock.yaml
-pnpm install
+rm bun.lockb
+bun install
 ```
 
 #### 4. Biome設定の問題
@@ -98,7 +98,7 @@ moon run :check --log debug
 
 # 特定ファイルのみチェック
 cd apps/web
-npx biome check src/index.ts
+bun biome check src/index.ts
 ```
 
 ### デバッグコマンド
