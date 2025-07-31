@@ -1,38 +1,49 @@
 {
-	"compilerOptions": {
-		"baseUrl": ".",
-		"target": "ES2017",
-		"lib": ["dom", "dom.iterable", "esnext"],
-		"allowJs": true,
-		"skipLibCheck": true,
-		"strict": true,
-		"esModuleInterop": true,
-		"module": "esnext",
-		"moduleResolution": "bundler",
-		"resolveJsonModule": true,
-		"isolatedModules": true,
-		"jsx": "preserve",
-		"incremental": true,
-		"composite": true,
-		"declaration": true,
-		"plugins": [
-			{
-				"name": "next"
-			}
-		],
-		"paths": {
-			"@/src/*": ["src/*"],
-			"@/lib/*": ["lib/*"]
-		},
-		"outDir": "../../.moon/cache/types/apps/web"
-	},
-	"include": [
-		"next.config.mjs",
-		"next-env.d.ts",
-		"**/*.ts",
-		"**/*.tsx",
-		".next/types/**/*.ts",
-		"src/generated/postSlugs.json"
-	],
-	"exclude": ["node_modules"]
+  "compilerOptions": {
+    "baseUrl": ".",
+    "target": "ES2017",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "composite": true,
+    "declaration": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+      "@/src/*": [
+        "src/*"
+      ],
+      "@/lib/*": [
+        "lib/*"
+      ]
+    },
+    "outDir": "../../.moon/cache/types/apps/web",
+    "noEmit": true
+  },
+  "include": [
+    "next.config.mjs",
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "src/generated/postSlugs.json"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }
