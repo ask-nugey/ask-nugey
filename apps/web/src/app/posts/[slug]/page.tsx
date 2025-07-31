@@ -32,7 +32,10 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
 			description: `${post?.description} | ${siteConfig.name}`,
 			images: [
 				{
-					url: `https://${siteConfig.domain}/opengraph-image.png`,
+					url: '/opengraph-image.png',
+					width: 1200,
+					height: 630,
+					alt: post?.title,
 				},
 			],
 		},
@@ -41,7 +44,10 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
 			description: `${post?.description} | ${siteConfig.name}`,
 			images: [
 				{
-					url: `https://${siteConfig.domain}/opengraph-image.png`,
+					url: '/opengraph-image.png',
+					width: 1200,
+					height: 630,
+					alt: post?.title,
 				},
 			],
 		},

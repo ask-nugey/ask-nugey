@@ -26,6 +26,14 @@ export const metadata: Metadata = {
 		siteName: siteConfig.name,
 		locale: "ja_JP",
 		type: "website",
+		images: [
+			{
+				url: "/opengraph-image.png",
+				width: 1200,
+				height: 630,
+				alt: siteConfig.name,
+			},
+		],
 	},
 	twitter: {
 		card: "summary_large_image",
@@ -33,6 +41,14 @@ export const metadata: Metadata = {
 		description: siteConfig.description,
 		site: "@ask_nugey",
 		creator: "@ask_nugey",
+		images: [
+			{
+				url: "/opengraph-image.png",
+				width: 1200,
+				height: 630,
+				alt: siteConfig.name,
+			},
+		],
 	},
 	// verification: {
 	//   google: "サーチコンソール",
