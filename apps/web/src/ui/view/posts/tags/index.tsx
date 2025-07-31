@@ -1,11 +1,12 @@
 import Link from "next/link";
 import { css } from "@/lib/styled-system/css";
 import type { Post } from "@/src/models/post";
+import type { Tag } from "@/src/models/tag";
 import { Container } from "@/src/ui/components/layout/Container";
 import { AllPosts } from "@/src/ui/view/home/_index/AllPosts";
 
 type Props = {
-	tag: string;
+	tag: Tag;
 	posts: (Post | undefined)[];
 };
 
@@ -15,8 +16,9 @@ export const PostsByTagView = ({ tag, posts }: Props) => {
 	return (
 		<Container wrapperStyles={wrapperStyles}>
 			<div className={header}>
+				<p className={tagDescription}>{tag.description}</p>
 				<h1 className={title}>
-					<span className={tagText}>#{tag}</span> の記事
+					<span className={tagText}>#{tag.name}</span> の記事
 				</h1>
 				<p className={description}>
 					{validPosts.length}件の記事が見つかりました
@@ -32,7 +34,7 @@ export const PostsByTagView = ({ tag, posts }: Props) => {
 };
 
 const wrapperStyles = css.raw({
-	paddingTop: 4,
+	paddingTop: 6,
 });
 
 const header = css({
@@ -40,11 +42,17 @@ const header = css({
 	textAlign: "center",
 });
 
+const tagDescription = css({
+	fontSize: "lg",
+	color: "primary.500",
+});
+
 const title = css({
 	fontSize: "4xl",
 	fontWeight: "bold",
-	marginBottom: 4,
+	marginBottom: 6,
 	color: "primary.500",
+	lineHeight: 1,
 });
 
 const tagText = css({
@@ -53,14 +61,14 @@ const tagText = css({
 });
 
 const description = css({
-	fontSize: "xl",
+	fontSize: "md",
 	color: "primary.600",
-	marginBottom: 4,
+	marginBottom: 8,
 });
 
 const backLink = css({
 	display: "inline-block",
-	color: "primary.600",
+	color: "primary.500",
 	textDecoration: "none",
 	fontSize: "md",
 	"&:hover": {

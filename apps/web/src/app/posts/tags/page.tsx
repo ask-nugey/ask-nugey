@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-import { getAllTags } from "@/src/app/_actions/posts";
+import { getAllPosts } from "@/src/app/_actions/posts";
 import { siteConfig } from "@/src/constants";
 import { TagsListView } from "@/src/ui/view/posts/tags/list";
 
@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 		description: `投稿されたすべてのタグ一覧 | ${siteConfig.name}`,
 		images: [
 			{
-				url: '/opengraph-image.png',
+				url: "/opengraph-image.png",
 				width: 1200,
 				height: 630,
 				alt: "タグ一覧",
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
 		description: `投稿されたすべてのタグ一覧 | ${siteConfig.name}`,
 		images: [
 			{
-				url: '/opengraph-image.png',
+				url: "/opengraph-image.png",
 				width: 1200,
 				height: 630,
 				alt: "タグ一覧",
@@ -37,7 +37,6 @@ export const metadata: Metadata = {
 };
 
 export default async function Page() {
-	const tags = await getAllTags();
-
-	return <TagsListView tags={tags} />;
+	const posts = await getAllPosts();
+	return <TagsListView posts={posts} />;
 }

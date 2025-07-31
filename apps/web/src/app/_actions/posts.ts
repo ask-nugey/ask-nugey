@@ -31,20 +31,20 @@ export const getAllPosts = async () => {
 	return posts;
 };
 
-export const getAllTags = async () => {
-	const posts = await getAllPosts();
-	const tagsSet = new Set<string>();
+// export const getAllTags = async () => {
+// 	const posts = await getAllPosts();
+// 	const tagsSet = new Set<string>();
 
-	for (const post of posts) {
-		if (post?.tags) {
-			for (const tag of post.tags) {
-				tagsSet.add(String(tag));
-			}
-		}
-	}
+// 	for (const post of posts) {
+// 		if (post?.tags) {
+// 			for (const tag of post.tags) {
+// 				tagsSet.add(String(tag));
+// 			}
+// 		}
+// 	}
 
-	return Array.from(tagsSet).sort();
-};
+// 	return Array.from(tagsSet).sort();
+// };
 
 export const getPostsByTag = async (tag: string) => {
 	const posts = await getAllPosts();

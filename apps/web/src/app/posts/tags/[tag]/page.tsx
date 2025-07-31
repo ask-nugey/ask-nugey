@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { getAllTags, getPostsByTag } from "@/src/app/_actions/posts";
+import { getPostsByTag } from "@/src/app/_actions/posts";
 import { siteConfig } from "@/src/constants";
+import { tags } from "@/src/models/tag";
 import { PostsByTagView } from "@/src/ui/view/posts/tags";
 
 export async function generateStaticParams() {
-	const tags = await getAllTags();
 	return tags.map((tag) => ({
-		tag: encodeURIComponent(tag),
+		tag: encodeURIComponent(tag.name),
 	}));
 }
 
@@ -39,7 +39,7 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
 			description: `${tag}に関する記事一覧（${posts.length}件） | ${siteConfig.name}`,
 			images: [
 				{
-					url: '/opengraph-image.png',
+					url: "/opengraph-image.png",
 					width: 1200,
 					height: 630,
 					alt: `${tag}の記事`,
@@ -51,7 +51,7 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
 			description: `${tag}に関する記事一覧（${posts.length}件） | ${siteConfig.name}`,
 			images: [
 				{
-					url: '/opengraph-image.png',
+					url: "/opengraph-image.png",
 					width: 1200,
 					height: 630,
 					alt: `${tag}の記事`,
@@ -65,12 +65,13 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
 }
 
 export default async function Page(props: Props) {
-	const tag = decodeURIComponent(props.params.tag);
-	const posts = await getPostsByTag(tag);
+	const tagName = decodeURIComponent(props.params.tag);
+	const posts = await getPostsByTag(tagName);
+	const tagData = tags.find((tag) => tag.name === tagName);
 
-	if (posts.length === 0) {
+	if (posts.length === 0 || !tagData) {
 		notFound();
 	}
 
-	return <PostsByTagView tag={tag} posts={posts} />;
+	return <PostsByTagView tag={tagData} posts={posts} />;
 }
