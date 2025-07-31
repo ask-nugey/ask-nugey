@@ -1,0 +1,77 @@
+{
+	"$schema": "https://biomejs.dev/schemas/2.1.2/schema.json",
+	"assist": { "actions": { "source": { "organizeImports": "on" } } },
+	"vcs": {
+		"enabled": false,
+		"clientKind": "git",
+		"useIgnoreFile": true
+	},
+	"linter": {
+		"enabled": true, // リンターを有効化
+		"rules": {
+			"recommended": true, // Biomeの推奨ルールセットを有効化
+			"a11y": {
+				"useKeyWithClickEvents": "info", // クリックイベントにキーボードイベントも追加することを推奨
+				"useSemanticElements": "info", // 意味的に正しいHTML要素の使用を推奨
+				"noStaticElementInteractions": "info" // 静的要素へのインタラクティブハンドラーの使用を警告
+			},
+			"complexity": {
+				"noForEach": "info", // forEachの代わりにfor-ofループの使用を推奨
+				"noBannedTypes": "info" // 非推奨の型（String、Numberなど）の使用を警告
+			},
+			"correctness": {
+				"noUnusedImports": "error" // 未使用のimport文を禁止
+			},
+			"style": {
+				"noUselessElse": "info", // 不要なelse文の使用を警告
+				"noNonNullAssertion": "info", // 非null演算子（!）の使用を警告
+				"noParameterAssign": "info", // 関数パラメータへの再代入を警告
+				"useAsConstAssertion": "error", // オブジェクトリテラルにはas constを使用することを強制
+				"useSelfClosingElements": "error", // 子要素のない要素は自己終了タグを使用することを強制
+				"useSingleVarDeclarator": "error", // 複数の変数宣言を個別に行うことを強制
+				"noUnusedTemplateLiteral": "error", // 不要なテンプレートリテラルの使用を禁止
+				"useNumberNamespace": "error", // グローバルのisNaN等の代わりにNumber.isNaN等の使用を強制
+				"noInferrableTypes": "error" // 推論可能な型注釈の明示を禁止
+			},
+			"suspicious": {
+				"noExplicitAny": "error", // any型の明示的な使用を禁止
+				"noArrayIndexKey": "info" // 配列のインデックスをReactのkeyとして使用することを警告
+			}
+		}
+	},
+	"formatter": {
+		"enabled": true, // フォーマッターを有効化
+		"formatWithErrors": false, // 構文エラーがある場合はフォーマットしない
+		"indentStyle": "tab", // インデントにタブ文字を使用
+		"lineEnding": "lf", // 改行コードをLF（Unix形式）に統一
+		"lineWidth": 80, // 1行の最大文字数を80文字に設定
+		"attributePosition": "auto" // JSX属性の配置を自動判定
+	},
+	"javascript": {
+		"formatter": {
+			"quoteStyle": "double", // 文字列リテラルはダブルクォートを使用
+			"jsxQuoteStyle": "double", // JSX属性値もダブルクォートを使用
+			"trailingCommas": "es5", // ES5準拠の末尾カンマ（オブジェクト・配列では許可、関数引数では禁止）
+			"semicolons": "always" // 文末のセミコロンを必須にする
+		}
+	},
+	"json": {
+		"formatter": {
+			"enabled": true // JSONファイルのフォーマットを有効化
+		}
+	},
+	"files": {
+		"ignoreUnknown": false,
+		"includes": [
+			"**",
+			"!**/.next/**",
+			"!**/node_modules/**",
+			"!**/build/**",
+			"!**/dist/**",
+			"!**/.turbo/**",
+			"!**/coverage/**",
+			"!**/*.min.js",
+			"!**/*.generated.*"
+		]
+	}
+}
