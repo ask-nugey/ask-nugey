@@ -1,4 +1,4 @@
-import type { PostMeta } from "@/src/types/post";
+import type { PostMeta } from "@/src/models/post";
 
 export const meta: PostMeta = {
 	title: "MacでWindows環境を無料で構築する方法",

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { css } from "@/lib/styled-system/css";
-import type { Post } from "@/src/types/post";
+import type { Post } from "@/src/models/post";
 import { Container } from "@/src/ui/components/layout/Container";
 import { AllPosts } from "@/src/ui/view/home/_index/AllPosts";
 

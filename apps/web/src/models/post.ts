@@ -1,32 +1,11 @@
-type Tag =
-	| "Go"
-	| "Rust"
-	| "Python"
-	| "js"
-	| "TypeScript"
-	| "React"
-	| "NestJS"
-	| "CSS"
-	| "grid"
-	| "Cloudflare"
-	| "Hono"
-	| "AI"
-	| "Claude"
-	| "Claude Code"
-	| "モノレポ"
-	| "moonrepo"
-	| "proto"
-	| "バージョン管理"
-	| "Mac"
-	| "技術スタック"
-	| "ヌギー";
+import type { TagName } from "@/src/models/tag";
 
 export type Post = {
 	title: string;
 	description: string;
 	createdAt: Date;
 	updatedAt?: Date;
-	tags: Tag[] | string[];
+	tags: TagName[] | string[];
 	slug: string;
 	host?: "zenn" | "qiita" | "note";
 };

@@ -7,7 +7,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { css } from "@/lib/styled-system/css";
-import type { Post } from "@/src/types/post";
+import type { Post } from "@/src/models/post";
 
 type Props = {
 	post?: Post;

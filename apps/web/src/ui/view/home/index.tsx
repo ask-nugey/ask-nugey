@@ -4,7 +4,7 @@ import Link from "next/link";
 import { css } from "@/lib/styled-system/css";
 import { getAllPosts } from "@/src/app/_actions/posts";
 import type { PageHomeProps } from "@/src/app/page";
-import type { Post } from "@/src/types/post";
+import type { Post } from "@/src/models/post";
 import { AllPosts } from "@/src/ui/view/home/_index/AllPosts";
 import { ThemePosts } from "@/src/ui/view/home/_index/ThemePosts";
 

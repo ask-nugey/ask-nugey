@@ -1,7 +1,7 @@
 "use server";
 
 import postSlugs from "@/src/generated/postSlugs.json";
-import type { Post, PostMeta } from "@/src/types/post";
+import type { Post, PostMeta } from "@/src/models/post";
 
 const getPostMeta = async (slug: string) => {
 	try {

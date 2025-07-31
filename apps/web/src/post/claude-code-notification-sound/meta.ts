@@ -1,4 +1,4 @@
-import type { PostMeta } from "@/src/types/post";
+import type { PostMeta } from "@/src/models/post";
 
 export const meta: PostMeta = {
 	title: "Claude Codeがタスク完了したときに通知音を鳴らす方法",

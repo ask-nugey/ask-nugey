@@ -4,7 +4,7 @@ import { format } from "date-fns";
 import dynamic from "next/dynamic";
 
 import { css } from "@/lib/styled-system/css";
-import type { Post } from "@/src/types/post";
+import type { Post } from "@/src/models/post";
 import { CommentCard } from "@/src/ui/components/CommentCard";
 import { GoogleAd } from "@/src/ui/components/GoogleAd";
 import { Loading } from "@/src/ui/components/Loading";
