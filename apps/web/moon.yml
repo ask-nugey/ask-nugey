@@ -1,0 +1,184 @@
+$schema: "https://moonrepo.dev/schemas/project.json"
+
+project:
+  name: "Web App (Ask Nugey)"
+  description: "Ask Nugey is a web app that allows you to ask questions and get answers."
+
+type: "application"
+language: "node"
+stack: "frontend"
+tags:
+  - "typescript"
+  - "react"
+  - "nextjs"
+  - "web"
+  - "frontend"
+
+tasks:
+  # 基本コマンド
+  dev:
+    description: "Next.js開発サーバーを起動"
+    command:
+      - "sh"
+      - "-c"
+      - "rm -rf .next && bun next dev & bun scripts/watchPostSlugs.js & wait"
+    inputs:
+      - "src/**/*.{ts,tsx,js,jsx}"
+      - "next.config.mjs"
+      - "tailwind.config.js"
+      - "package.json"
+    #   - "shared:src/**/*.{ts,tsx}"
+    #   - "shared:dist/**/*"
+    deps:
+      - "panda"
+      - "generate-posts"
+      # - "shared:build"
+    options:
+      persistent: true
+      cache: false
+      runFromWorkspaceRoot: false
+      runInCI: false
+    local: true
+
+  build:
+    description: "Next.jsプロダクション用ビルド"
+    command: "bun next build"
+    inputs:
+      - "src/**/*.{ts,tsx,js,jsx}"
+      - "public/**/*"
+      - "next.config.mjs"
+      - "package.json"
+    deps:
+      - "panda"
+      # - "shared:build"
+
+  start:
+    description: "Next.jsプロダクションサーバーを起動"
+    command: "bun next start"
+    deps:
+      - "build"
+    options:
+      persistent: true
+      cache: false
+
+  # リント系
+  typecheck:
+    description: "TypeScript型チェック（ビルドファイル生成なし）"
+    command: "bun tsc --noEmit"
+    inputs:
+      - "src/**/*.{ts,tsx}"
+      - "tsconfig.json"
+      - "next.config.mjs"
+    # deps:
+    #   - "shared:build"
+
+  lint:
+    description: "Biomeでコード品質チェック"
+    command: "bun biome lint src"
+    inputs:
+      - "src/**/*.{ts,tsx,js,jsx}"
+    options:
+      runFromWorkspaceRoot: false
+
+  format:
+    description: "Biomeでコードフォーマット"
+    command: "bun biome format --write src"
+    inputs:
+      - "src/**/*.{ts,tsx,js,jsx}"
+    options:
+      runFromWorkspaceRoot: false
+
+  check:
+    description: "Biomeでlint + formatチェック"
+    command: "bun biome check src"
+    inputs:
+      - "src/**/*.{ts,tsx,js,jsx}"
+    options:
+      runFromWorkspaceRoot: false
+
+  fix:
+    description: "Biomeで自動修正"
+    command: "bun biome check --write src"
+    inputs:
+      - "src/**/*.{ts,tsx,js,jsx}"
+    options:
+      runFromWorkspaceRoot: false
+
+  # Cloudflare
+  build-worker:
+    description: "Cloudflare Worker ビルド"
+    command: "bun opennextjs-cloudflare build"
+    deps:
+      - "panda"
+      - "generate-posts"
+      - "cf-typegen"
+    options:
+      persistent: false
+      cache: false
+
+  deploy:
+    description: "Cloudflare デプロイ"
+    command: "bun opennextjs-cloudflare deploy -- --minify"
+    deps:
+      - "build-worker"
+    options:
+      persistent: false
+      cache: false
+
+  deploy-dry:
+    description: "Cloudflare デプロイ（ドライラン）"
+    command: "bun opennextjs-cloudflare deploy -- --minify --dry-run"
+    deps:
+      - "build-worker"
+    options:
+      persistent: false
+      cache: false
+    local: true
+
+  cf-typegen:
+    description: "Cloudflare 型生成"
+    command: "bun wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts"
+    options:
+      persistent: false
+      cache: false
+
+  preview-worker:
+    description: "Cloudflare Worker用プレビュー"
+    command: "bun opennextjs-cloudflare preview"
+    inputs:
+      - "src/**/*.{ts,tsx,js,jsx}"
+      - "public/**/*"
+      - "next.config.mjs"
+      - "package.json"
+    deps:
+      - "build-worker"
+    local: true
+
+  # その他
+  generate-posts:
+    description: "投稿スラグ生成"
+    command: "bun"
+    args: ["scripts/generatePostSlugs.js"]
+    inputs:
+      - "scripts/generatePostSlugs.js"
+      - "src/post/**/*"
+
+  watch-posts:
+    description: "投稿ファイル監視"
+    command: "bun"
+    args: ["scripts/watchPostSlugs.js"]
+    inputs:
+      - "scripts/watchPostSlugs.js"
+      - "src/post/**/*"
+    options:
+      persistent: true
+      cache: false
+      runFromWorkspaceRoot: false
+      runInCI: false
+    local: true
+
+  panda:
+    description: "Panda CSSコード生成"
+    command: "bun panda codegen"
+    inputs:
+      - "panda.config.ts"

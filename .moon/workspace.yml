@@ -1,0 +1,20 @@
+# https://moonrepo.dev/docs/config/workspace
+$schema: "https://moonrepo.dev/schemas/workspace.json"
+
+# moonのバージョン制約
+versionConstraint: ">=1.33.0"
+
+# プロジェクトの場所を指定
+projects:
+  - "apps/*"
+  - "packages/*"
+
+# VCS（バージョン管理システム）設定
+vcs:
+  provider: "github"
+  defaultBranch: "main"
+
+# ランナー設定
+runner:
+  # 並列実行の設定
+  inheritColorsForPipedTasks: true
