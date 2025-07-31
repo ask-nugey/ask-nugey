@@ -23,12 +23,18 @@ export const PostsByTagView = ({ tag, posts }: Props) => {
 				<p className={description}>
 					{validPosts.length}件の記事が見つかりました
 				</p>
-				<Link href="/" className={backLink}>
-					← ホームに戻る
+				<Link href="/posts/tags" className={backLink}>
+					← タグ一覧へ
 				</Link>
 			</div>
 
 			<AllPosts posts={validPosts} />
+
+			<div className={backLinkContainer}>
+				<Link href="/" className={backLink}>
+					← ホームに戻る
+				</Link>
+			</div>
 		</Container>
 	);
 };
@@ -66,11 +72,17 @@ const description = css({
 	marginBottom: 8,
 });
 
+const backLinkContainer = css({
+	marginTop: 12,
+	textAlign: "center",
+});
+
 const backLink = css({
 	display: "inline-block",
 	color: "primary.500",
-	textDecoration: "none",
 	fontSize: "md",
+	fontWeight: "bold",
+	textDecoration: "none",
 	"&:hover": {
 		textDecoration: "underline",
 	},
