@@ -19,12 +19,15 @@
 		"noEmit": true,
 		"baseUrl": ".",
 		"paths": {
-			"@app/*": [
+			"@/src/*": [
 				"apps/*/src"
 			],
-			"@packages/*": [
-				"packages/*/src"
-			]
+			"@/lib/*": [
+				"apps/*/src"
+			],
+			// "@packages/*": [
+			// 	"packages/*/src"
+			// ]
 		}
 	},
 	"exclude": [
