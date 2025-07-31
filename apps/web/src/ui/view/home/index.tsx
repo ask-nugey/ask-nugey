@@ -5,6 +5,7 @@ import { css } from "@/lib/styled-system/css";
 import { getAllPosts } from "@/src/app/_actions/posts";
 import type { PageHomeProps } from "@/src/app/page";
 import type { Post } from "@/src/models/post";
+import { TagNavigation } from "@/src/ui/components/TagNavigation";
 import { AllPosts } from "@/src/ui/view/home/_index/AllPosts";
 import { ThemePosts } from "@/src/ui/view/home/_index/ThemePosts";
 
@@ -364,7 +365,18 @@ export const PageHomeView = async (props: PageHomeProps) => {
 				})}
 			>
 				{(!props.searchParams.tab || props.searchParams.tab === "all") && (
-					<AllPosts posts={sortedPostsByNewest} />
+					// タグナビ
+					<>
+						<div
+							className={css({
+								marginTop: 8,
+								marginBottom: 6,
+							})}
+						>
+							<TagNavigation />
+						</div>
+						<AllPosts posts={sortedPostsByNewest} />
+					</>
 				)}
 
 				{props.searchParams.tab === "theme" && (

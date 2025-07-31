@@ -7,6 +7,7 @@ export type TagName =
 	| "js"
 	| "TypeScript"
 	| "React"
+	| "Next.js"
 	| "NestJS"
 	| "CSS"
 	| "grid"
@@ -61,6 +62,11 @@ export const tags: Tag[] = [
 		categories: ["フレームワーク"],
 	},
 	{
+		name: "Next.js",
+		description: "Next.jsフレームワーク",
+		categories: ["フレームワーク"],
+	},
+	{
 		name: "NestJS",
 		description: "NestJSフレームワーク",
 		categories: ["フレームワーク"],
@@ -112,7 +118,7 @@ export const tags: Tag[] = [
 	},
 	{
 		name: "proto",
-		description: "protoツール",
+		description: "moonのprotoツール",
 		categories: ["技術"],
 	},
 	{
