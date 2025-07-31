@@ -42,7 +42,10 @@ export const themes: ArticleNode[] = [
 	},
 	{
 		theme: 'Claude Code',
-		articles: ['claude-code-notification-sound', 'similarity-ts-claude-code-refactoring'],
+		articles: [
+			'claude-code-notification-sound',
+			'similarity-ts-claude-code-refactoring',
+		],
 		children: [],
 	},
 	{
@@ -710,7 +713,11 @@ export const themes: ArticleNode[] = [
 		children: [
 			{
 				theme: 'react',
-				articles: ['react-dev-blog-2024-02-15', 'mdx-mermaid'],
+				articles: [
+					'react-dev-blog-2024-02-15',
+					'mdx-mermaid',
+					'react19-useactionstate-hook',
+				],
 				children: [],
 			},
 			{
@@ -734,7 +741,11 @@ export const themes: ArticleNode[] = [
 	{ theme: 'golang', articles: ['go-api-sql'], children: [] },
 	{ theme: 'rust', articles: ['rust-build-environment'], children: [] },
 	{ theme: 'html-css', articles: ['css-grid'], children: [] },
-	{ theme: 'モノレポ', articles: ['moonrepo-learn-demo', 'proto-moonrepo'], children: [] },
+	{
+		theme: 'モノレポ',
+		articles: ['moonrepo-learn-demo', 'proto-moonrepo'],
+		children: [],
+	},
 	{
 		theme: 'mac',
 		articles: ['app-mac', 'mac-emulator-for-windows'],
