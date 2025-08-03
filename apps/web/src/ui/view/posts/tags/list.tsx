@@ -11,9 +11,9 @@ type Props = {
 
 export const TagsListView = ({ posts }: Props) => {
 	// 各タグの記事件数を計算
-	const getPostCount = (tagName: string) => {
+	const getPostCount = (tagSlug: string) => {
 		return posts.filter((post) =>
-			post?.tags?.some((postTag) => String(postTag) === tagName)
+			post?.tags?.some((postTag) => String(postTag) === tagSlug)
 		).length;
 	};
 
@@ -38,11 +38,11 @@ export const TagsListView = ({ posts }: Props) => {
 					<p className={categoryDescription}>{category.description}</p>
 					<div className={tagsGrid}>
 						{categoryTags.map((tag) => {
-							const postCount = getPostCount(tag.name);
+							const postCount = getPostCount(tag.slug);
 							return (
 								<Link
-									key={tag.name}
-									href={`/posts/tags/${encodeURIComponent(tag.name)}`}
+									key={tag.slug}
+									href={`/posts/tags/${tag.slug}`}
 									className={tagCard}
 								>
 									<p className={tagName}>#{tag.name}</p>

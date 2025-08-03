@@ -6,5 +6,6 @@ export const meta: PostMeta = {
 		"React Hook FormとConformの具体的なコードも紹介しつつ比較して解説",
 	createdAt: new Date("2025-02-11"),
 	// updatedAt: new Date("2025-01-01"),
-	tags: ["React Hook Form", "Conform"],
+	tags: [],
+	otherTags: ["React Hook Form", "Conform"],
 };

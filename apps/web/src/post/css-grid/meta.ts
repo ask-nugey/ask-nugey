@@ -5,5 +5,5 @@ export const meta: PostMeta = {
 	description: "CSS Gridで均等配置する具体的な方法などを解説",
 	createdAt: new Date("2024-01-18"),
 	// updatedAt: new Date("2024-01-01"),
-	tags: ["CSS", "grid"],
+	tags: ["css", "grid"],
 };

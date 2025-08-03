@@ -5,5 +5,5 @@ export const meta: PostMeta = {
 	description: "AIの基本的な仕組みや機械学習によるモデルの生成過程、活用方法",
 	createdAt: new Date("2024-01-25"),
 	// updatedAt: new Date("2024-01-01"),
-	tags: ["AI"],
+	tags: ["ai"],
 };

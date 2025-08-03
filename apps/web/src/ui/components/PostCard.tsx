@@ -8,6 +8,7 @@ import Link from "next/link";
 
 import { css } from "@/lib/styled-system/css";
 import type { Post } from "@/src/models/post";
+import { tags } from "@/src/models/tag";
 
 type Props = {
 	post?: Post;
@@ -26,6 +27,13 @@ export const PostCard = (props: Props) => {
 				return `/posts/${props.post.slug}` as Route<string>;
 		}
 	})();
+
+	const tagNames = props.post.tags.map((tagSlug) => {
+		const tag = tags.find((t) => t.slug === tagSlug);
+		return tag ? tag.name : tagSlug;
+	});
+
+	const mergedTags = [...tagNames, ...(props.post.otherTags || [])];
 
 	return (
 		<article
@@ -172,7 +180,7 @@ export const PostCard = (props: Props) => {
 						},
 					})}
 				>
-					{props.post.tags.map((tag) => (
+					{mergedTags.map((tag) => (
 						<Tag key={tag} color="gold" className={css({ margin: 0 })}>
 							# {tag}
 						</Tag>

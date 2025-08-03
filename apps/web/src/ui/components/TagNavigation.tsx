@@ -17,8 +17,8 @@ export const TagNavigation = () => {
 				<div className={tagsList}>
 					{tags.map((tag) => (
 						<Link
-							key={tag.name}
-							href={`/posts/tags/${encodeURIComponent(tag.name)}`}
+							key={tag.slug}
+							href={`/posts/tags/${tag.slug}`}
 						>
 							<Tag
 								color="gold"

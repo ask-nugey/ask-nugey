@@ -67,7 +67,8 @@ export const PageHomeView = async (props: PageHomeProps) => {
 			description: "",
 			createdAt: new Date(data.created_at),
 			updatedAt: data.updated_at && new Date(data.updated_at),
-			tags: data.tags.map((tag) => tag.name),
+			tags: [],
+			otherTags: data.tags.map((tag) => tag.name),
 			slug: data.url,
 			host: "qiita",
 		});
