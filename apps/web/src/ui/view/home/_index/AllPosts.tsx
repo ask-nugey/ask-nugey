@@ -1,5 +1,5 @@
 import { css } from "@/lib/styled-system/css";
-import type { Post } from "@/src/types/post";
+import type { Post } from "@/src/models/post";
 import { PostCard } from "@/src/ui/components/PostCard";
 
 type Props = {

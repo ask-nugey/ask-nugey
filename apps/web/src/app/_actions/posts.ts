@@ -1,7 +1,8 @@
 "use server";
 
 import postSlugs from "@/src/generated/postSlugs.json";
-import type { Post, PostMeta } from "@/src/types/post";
+import type { Post, PostMeta } from "@/src/models/post";
+import type { TagSlug } from "@/src/models/tag";
 
 const getPostMeta = async (slug: string) => {
 	try {
@@ -29,4 +30,15 @@ export const getAllPosts = async () => {
 		})
 	);
 	return posts;
+};
+
+export const getPostsByTag = async (tagSlug: TagSlug) => {
+	const posts = await getAllPosts();
+
+	const filteredPosts = posts.filter((post) => {
+		const hasTag = post?.tags?.some((postTag) => postTag === tagSlug);
+		return hasTag;
+	});
+
+	return filteredPosts;
 };

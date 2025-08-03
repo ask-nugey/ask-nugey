@@ -2,9 +2,11 @@ import { HomeFilled, QuestionCircleFilled } from "@ant-design/icons";
 import { Button, Tag } from "antd";
 import { format } from "date-fns";
 import dynamic from "next/dynamic";
+import Link from "next/link";
 
 import { css } from "@/lib/styled-system/css";
-import type { Post } from "@/src/types/post";
+import type { Post } from "@/src/models/post";
+import { tags } from "@/src/models/tag";
 import { CommentCard } from "@/src/ui/components/CommentCard";
 import { GoogleAd } from "@/src/ui/components/GoogleAd";
 import { Loading } from "@/src/ui/components/Loading";
@@ -68,6 +70,10 @@ export const PostDetailView = (props: Props) => {
 		}
 	);
 
+	// TagSlugベースのタグとotherTagsを統合
+	const validTagSlugs = props.post.tags || [];
+	const otherTags = props.post.otherTags || [];
+
 	return (
 		<article
 			className={css({
@@ -113,8 +119,40 @@ export const PostDetailView = (props: Props) => {
 						marginBottom: 4,
 					})}
 				>
-					{props.post.tags.map((tag) => (
-						<Tag key={tag} color="gold">
+					{/* 有効なTagSlugを表示 */}
+					{validTagSlugs.map((tagSlug) => {
+						const tagData = tags.find(t => t.slug === tagSlug);
+						return (
+							<Link
+								key={tagSlug}
+								href={`/posts/tags/${tagSlug}`}
+							>
+								<Tag
+									color="gold"
+									className={css({
+										borderColor: "primary.400",
+										_hover: {
+											color: "white",
+											backgroundColor: "primary.500",
+											borderColor: "primary.500",
+										},
+									})}
+								>
+									# {tagData?.name || tagSlug}
+								</Tag>
+							</Link>
+						);
+					})}
+					{/* otherTags（リンクなし）を表示 */}
+					{otherTags.map((tag) => (
+						<Tag
+							key={tag}
+							color="gold"
+							className={css({
+								borderColor: "white",
+								backgroundColor: "white",
+							})}
+						>
 							# {tag}
 						</Tag>
 					))}

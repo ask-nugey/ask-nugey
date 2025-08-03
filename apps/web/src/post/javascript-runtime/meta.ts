@@ -1,4 +1,4 @@
-import type { PostMeta } from "@/src/types/post";
+import type { PostMeta } from "@/src/models/post";
 
 export const meta: PostMeta = {
 	title: "JavaScriptランタイム（実行環境）について（図解）",
