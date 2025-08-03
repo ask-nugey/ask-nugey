@@ -4,7 +4,8 @@ import Link from "next/link";
 import { css } from "@/lib/styled-system/css";
 import { getAllPosts } from "@/src/app/_actions/posts";
 import type { PageHomeProps } from "@/src/app/page";
-import type { Post } from "@/src/types/post";
+import type { Post } from "@/src/models/post";
+import { TagNavigation } from "@/src/ui/components/TagNavigation";
 import { AllPosts } from "@/src/ui/view/home/_index/AllPosts";
 import { ThemePosts } from "@/src/ui/view/home/_index/ThemePosts";
 
@@ -66,7 +67,8 @@ export const PageHomeView = async (props: PageHomeProps) => {
 			description: "",
 			createdAt: new Date(data.created_at),
 			updatedAt: data.updated_at && new Date(data.updated_at),
-			tags: data.tags.map((tag) => tag.name),
+			tags: [],
+			otherTags: data.tags.map((tag) => tag.name),
 			slug: data.url,
 			host: "qiita",
 		});
@@ -364,7 +366,18 @@ export const PageHomeView = async (props: PageHomeProps) => {
 				})}
 			>
 				{(!props.searchParams.tab || props.searchParams.tab === "all") && (
-					<AllPosts posts={sortedPostsByNewest} />
+					// タグナビ
+					<>
+						<div
+							className={css({
+								marginTop: 8,
+								marginBottom: 6,
+							})}
+						>
+							<TagNavigation />
+						</div>
+						<AllPosts posts={sortedPostsByNewest} />
+					</>
 				)}
 
 				{props.searchParams.tab === "theme" && (

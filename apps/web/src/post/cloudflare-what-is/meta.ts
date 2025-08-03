@@ -1,4 +1,4 @@
-import type { PostMeta } from "@/src/types/post";
+import type { PostMeta } from "@/src/models/post";
 
 export const meta: PostMeta = {
 	title: "Cloudflare （クラウドフレア）とは",
@@ -6,5 +6,5 @@ export const meta: PostMeta = {
 		"Cloudflareは無料プランでCDNを利用できる他、セキュリティ対策、ドメイン取得まで幅広く対応している。",
 	createdAt: new Date("2024-01-22"),
 	// updatedAt: new Date("2024-01-01"),
-	tags: ["Cloudflare"],
+	tags: ["cloudflare"],
 };

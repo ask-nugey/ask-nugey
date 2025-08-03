@@ -1,8 +1,8 @@
 import Link from "next/link";
 
 import { css } from "@/lib/styled-system/css";
+import type { Post } from "@/src/models/post";
 import { type ArticleNode, themes } from "@/src/sitemap/contents";
-import type { Post } from "@/src/types/post";
 
 type Props = {
 	posts: Post[];
