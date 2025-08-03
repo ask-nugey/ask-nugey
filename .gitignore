@@ -54,3 +54,7 @@ styled-system-studio
 
 # moon
 .moon/cache
+
+# IDE/Editor configurations
+.serena
+.mcp.json
