@@ -6,5 +6,5 @@ export const meta: PostMeta = {
 		"moonrepoとはモノレポ（monorepo）ツールですが、moonrepoの解説をデモ「learn-moonrepo」とともにしています。",
 	createdAt: new Date("2024-11-07"),
 	// updatedAt: new Date("2024-01-01"),
-	tags: ["モノレポ", "moonrepo"],
+	tags: ["monorepo", "moonrepo"],
 };

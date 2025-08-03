@@ -5,5 +5,6 @@ export const meta: PostMeta = {
 	description:
 		"Ask Nugeyの技術仕様、アーキテクチャ、セットアップ手順などの包括的なドキュメント",
 	createdAt: new Date("2025-04-02"),
-	tags: ["ドキュメント", "Next.js", "TypeScript", "技術スタック"],
+	tags: ["nextjs", "typescript", "tech-stack"],
+	otherTags: ["ドキュメント"],
 };

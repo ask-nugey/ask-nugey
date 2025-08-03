@@ -5,5 +5,6 @@ export const meta: PostMeta = {
 	description:
 		"MDXファイル内でMermaid図を表示するためのmdx-mermaidライブラリの導入方法と使用例を解説",
 	createdAt: new Date("2025-06-15"),
-	tags: ["MDX", "Mermaid", "React", "Documentation"],
+	tags: ["react"],
+	otherTags: ["MDX", "Mermaid", "Documentation"],
 };

@@ -2,6 +2,7 @@
 
 import postSlugs from "@/src/generated/postSlugs.json";
 import type { Post, PostMeta } from "@/src/models/post";
+import type { TagSlug } from "@/src/models/tag";
 
 const getPostMeta = async (slug: string) => {
 	try {
@@ -31,24 +32,13 @@ export const getAllPosts = async () => {
 	return posts;
 };
 
-// export const getAllTags = async () => {
-// 	const posts = await getAllPosts();
-// 	const tagsSet = new Set<string>();
-
-// 	for (const post of posts) {
-// 		if (post?.tags) {
-// 			for (const tag of post.tags) {
-// 				tagsSet.add(String(tag));
-// 			}
-// 		}
-// 	}
-
-// 	return Array.from(tagsSet).sort();
-// };
-
-export const getPostsByTag = async (tag: string) => {
+export const getPostsByTag = async (tagSlug: TagSlug) => {
 	const posts = await getAllPosts();
-	return posts.filter((post) =>
-		post?.tags?.some((postTag) => String(postTag) === tag)
-	);
+
+	const filteredPosts = posts.filter((post) => {
+		const hasTag = post?.tags?.some((postTag) => postTag === tagSlug);
+		return hasTag;
+	});
+
+	return filteredPosts;
 };

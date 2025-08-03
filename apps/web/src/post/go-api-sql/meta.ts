@@ -6,5 +6,5 @@ export const meta: PostMeta = {
 		"Go言語(golang)とDBを使用して、Docker上でCRUD（作成、読み取り、更新、削除）機能を持つAPIサーバーを構築",
 	createdAt: new Date("2024-02-03"),
 	// updatedAt: new Date("2024-01-01"),
-	tags: ["Go"],
+	tags: ["go"],
 };

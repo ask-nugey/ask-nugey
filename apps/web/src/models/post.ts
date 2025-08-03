@@ -1,11 +1,12 @@
-import type { TagName } from "@/src/models/tag";
+import type { TagSlug } from "@/src/models/tag";
 
 export type Post = {
 	title: string;
 	description: string;
 	createdAt: Date;
 	updatedAt?: Date;
-	tags: TagName[] | string[];
+	tags: TagSlug[];
+	otherTags?: string[];
 	slug: string;
 	host?: "zenn" | "qiita" | "note";
 };

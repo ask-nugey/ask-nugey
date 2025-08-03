@@ -6,7 +6,7 @@ import Link from "next/link";
 
 import { css } from "@/lib/styled-system/css";
 import type { Post } from "@/src/models/post";
-import { type TagName, tags } from "@/src/models/tag";
+import { tags } from "@/src/models/tag";
 import { CommentCard } from "@/src/ui/components/CommentCard";
 import { GoogleAd } from "@/src/ui/components/GoogleAd";
 import { Loading } from "@/src/ui/components/Loading";
@@ -70,17 +70,9 @@ export const PostDetailView = (props: Props) => {
 		}
 	);
 
-	// タグを有効・無効で分ける
-	const validTagNames = tags.map((t) => t.name);
-	const validTags = props.post.tags.filter((tag) =>
-		validTagNames.includes(String(tag) as TagName)
-	);
-	const invalidTags = props.post.tags.filter(
-		(tag) => !validTagNames.includes(String(tag) as TagName)
-	);
-
-	// 有効なタグを最初に、無効なタグを後に配置
-	const arrangedTags = [...validTags, ...invalidTags];
+	// TagSlugベースのタグとotherTagsを統合
+	const validTagSlugs = props.post.tags || [];
+	const otherTags = props.post.otherTags || [];
 
 	return (
 		<article
@@ -127,47 +119,43 @@ export const PostDetailView = (props: Props) => {
 						marginBottom: 4,
 					})}
 				>
-					{arrangedTags.map((tag) => {
-						const tagString = String(tag);
-						const isValidTagName = validTagNames.includes(tagString as TagName);
-
-						// 有効なタグはリンクを付与
-						if (isValidTagName) {
-							return (
-								<Link
-									key={tag}
-									href={`/posts/tags/${encodeURIComponent(tagString)}`}
-								>
-									<Tag
-										color="gold"
-										className={css({
-											borderColor: "primary.400",
-											_hover: {
-												color: "white",
-												backgroundColor: "primary.500",
-												borderColor: "primary.500",
-											},
-										})}
-									>
-										# {tag}
-									</Tag>
-								</Link>
-							);
-						}
-
+					{/* 有効なTagSlugを表示 */}
+					{validTagSlugs.map((tagSlug) => {
+						const tagData = tags.find(t => t.slug === tagSlug);
 						return (
-							<Tag
-								key={tag}
-								color="gold"
-								className={css({
-									borderColor: "white",
-									backgroundColor: "white",
-								})}
+							<Link
+								key={tagSlug}
+								href={`/posts/tags/${tagSlug}`}
 							>
-								# {tag}
-							</Tag>
+								<Tag
+									color="gold"
+									className={css({
+										borderColor: "primary.400",
+										_hover: {
+											color: "white",
+											backgroundColor: "primary.500",
+											borderColor: "primary.500",
+										},
+									})}
+								>
+									# {tagData?.name || tagSlug}
+								</Tag>
+							</Link>
 						);
 					})}
+					{/* otherTags（リンクなし）を表示 */}
+					{otherTags.map((tag) => (
+						<Tag
+							key={tag}
+							color="gold"
+							className={css({
+								borderColor: "white",
+								backgroundColor: "white",
+							})}
+						>
+							# {tag}
+						</Tag>
+					))}
 				</div>
 			</header>
 			<div

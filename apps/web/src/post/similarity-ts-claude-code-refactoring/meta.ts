@@ -5,5 +5,5 @@ export const meta: PostMeta = {
 	description:
 		"similarity-tsを使ってコードベース内の重複コードを検出し、Claude Codeで効率的にリファクタリングする方法を解説",
 	createdAt: new Date("2025-07-05"),
-	tags: ["TypeScript", "Claude Code", "AI"],
+	tags: ["typescript", "claude-code", "ai"],
 };

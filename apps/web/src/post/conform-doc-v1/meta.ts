@@ -6,5 +6,6 @@ export const meta: PostMeta = {
 		"reactのserver actionsに対応したConformについてまとめたドキュメント",
 	createdAt: new Date("2025-02-09"),
 	// updatedAt: new Date("2025-01-01"),
-	tags: ["Conform"],
+	tags: [],
+	otherTags: ["Conform"],
 };

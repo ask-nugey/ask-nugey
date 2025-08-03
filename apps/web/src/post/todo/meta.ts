@@ -5,5 +5,5 @@ export const meta: PostMeta = {
 	description: "ヌギーがやることや書く予定の記事などのTODOリスト",
 	createdAt: new Date("2024-01-24"),
 	updatedAt: new Date("2024-01-25"),
-	tags: ["ヌギー"],
+	tags: ["nugey"],
 };
