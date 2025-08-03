@@ -13,3 +13,44 @@ fileGroups:
     - "*.yaml"
     - "tsconfig.json"
     - "biome.json"
+
+tasks:
+  docs-generate:
+    description: "TypeDocでAPIドキュメントを生成"
+    command: "bun"
+    args: ["typedoc", "--options", "typedoc.json"]
+    inputs:
+      - "@group(sources)"
+      - "@group(configs)"
+      - "README.md"
+    options:
+      runFromWorkspaceRoot: true
+
+  docs-serve:
+    description: "生成されたドキュメントをHTTPサーバーで表示"
+    command: "bun"
+    args: ["x", "http-server", "docs/api", "-p", "8080", "-o"]
+    deps:
+      - "docs-generate"
+    options:
+      persistent: true
+      runFromWorkspaceRoot: true
+
+  docusaurus-dev:
+    description: "Docusaurusで開発サーバーを起動"
+    command: "bun"
+    args: ["start"]
+    options:
+      persistent: true
+      runFromWorkspaceRoot: false
+      runDepsInParallel: false
+    platform: "node"
+    local: true
+
+  docusaurus-build:
+    description: "Docusaurusをビルド"
+    command: "bun"
+    args: ["run", "build"]
+    options:
+      runFromWorkspaceRoot: false
+    platform: "node"

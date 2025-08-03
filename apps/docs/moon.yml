@@ -1,0 +1,44 @@
+$schema: "https://moonrepo.dev/schemas/project.json"
+
+project:
+  name: "Documentation Site"
+  description: "API documentation site using Docusaurus and TypeDoc"
+
+type: "tool"
+language: "node"
+stack: "frontend"
+tags:
+  - "docs"
+  - "docusaurus"
+  - "typescript"
+
+# dependsOn:
+  # - "web"
+
+tasks:
+  dev:
+    description: "Docusaurus開発サーバーを起動"
+    command: "bun"
+    args: ["start", "--port", "3001"]
+    options:
+      persistent: true
+      cache: false
+      runInCI: false
+    local: true
+
+  build:
+    description: "Docusaurusサイトをビルド"
+    command: "bun"
+    args: ["run", "build"]
+    outputs:
+      - "build"
+
+  serve:
+    description: "ビルド済みサイトをサーブ"
+    command: "bun"
+    args: ["run", "serve"]
+    deps:
+      - "build"
+    options:
+      persistent: true
+      cache: false

@@ -1,0 +1,11 @@
+{
+  "extends": "@docusaurus/tsconfig",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "outDir": "../../.moon/cache/types/apps/docs"
+  },
+  "exclude": [
+    ".docusaurus",
+    "build"
+  ]
+}

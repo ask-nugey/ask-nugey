@@ -1,0 +1,8 @@
+{
+	"locales": ["js"],
+	"outDir": "./docs/docusaurus/api",
+	"sidebar": "./docs/docusaurus",
+	"jsdoc": "./docs/jsdoc.json",
+	"bulma": false,
+	"prefix": "api/"
+}

@@ -1,0 +1,40 @@
+{
+	"$schema": "https://typedoc.org/schema.json",
+	"entryPoints": ["apps/web/src"],
+	"entryPointStrategy": "expand",
+	"out": "apps/docs/docs",
+	"plugin": ["typedoc-plugin-markdown"],
+	"theme": "markdown",
+	"readme": "README.md",
+	"excludePrivate": true,
+	"excludeProtected": true,
+	"excludeExternals": true,
+	"excludeNotDocumented": true,
+	"includeVersion": true,
+	"sort": ["source-order"],
+	"kindSortOrder": [
+		"Function",
+		"Class",
+		"Interface",
+		"TypeAlias",
+		"Variable",
+		"Enum"
+	],
+	"categorizeByGroup": true,
+	"categoryOrder": ["Components", "Views", "Utils", "Types", "Constants"],
+	"exclude": [
+		"**/node_modules/**",
+		"**/dist/**",
+		"**/*.test.ts",
+		"**/*.spec.ts",
+		"**/lib/styled-system/**"
+	],
+	"tsconfig": "apps/web/tsconfig.json",
+	"skipErrorChecking": true,
+	"validation": {
+		"notExported": false,
+		"invalidLink": true,
+		"notDocumented": true
+	},
+	"commentStyle": "JSDoc"
+}

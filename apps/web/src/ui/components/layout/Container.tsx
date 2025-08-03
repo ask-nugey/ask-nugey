@@ -3,6 +3,9 @@ import type { PropsWithChildren } from "react";
 import { css } from "@/lib/styled-system/css";
 import type { SystemStyleObject } from "@/lib/styled-system/types";
 
+/**
+ * レイアウト用のコンテナーコンポーネントのProps
+ */
 type Props = {
 	wrapperStyles?: SystemStyleObject;
 	contentStyles?: SystemStyleObject;

@@ -24,10 +24,7 @@
 			],
 			"@/lib/*": [
 				"apps/*/src"
-			],
-			// "@packages/*": [
-			// 	"packages/*/src"
-			// ]
+			]
 		}
 	},
 	"exclude": [
@@ -39,6 +36,9 @@
 		"**/*.test.ts"
 	],
 	"references": [
+		{
+			"path": "apps/docs"
+		},
 		{
 			"path": "apps/web"
 		}
