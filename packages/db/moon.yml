@@ -1,0 +1,170 @@
+project:
+  name: "Database Package"
+  description: "データベース関連の共有ライブラリ"
+
+type: "library"
+language: "node"
+stack: "backend"
+tags:
+  - "typescript"
+  - "database"
+  - "backend"
+  - "library"
+
+tasks:
+  dev:
+    description: "データベースライブラリを監視ビルド"
+    command: "pnpm"
+    args: ["tsc", "--watch", "--project", "tsconfig.json"]
+    inputs:
+      - "src/**/*.{ts,tsx}"
+      - "tsconfig.json"
+    options:
+      persistent: true
+      cache: false
+      runInCI: false
+
+  build:
+    description: "データベースライブラリをビルド"
+    command: "pnpm"
+    args:
+      - "tsc"
+      - "--project"
+      - "./tsconfig.build.json"
+    inputs:
+      - "src/**/*.{ts,tsx}"
+      - "tsconfig.json"
+    outputs:
+      - "dist"
+
+  db-generate:
+    description: "データベースマイグレーションファイルを生成"
+    command: "pnpm run db:generate"
+    inputs:
+      - "src/schema/**/*.ts"
+      - "drizzle.config.ts"
+
+  db-studio:
+    description: "Drizzle Studioを起動してデータベースを管理"
+    command: "pnpm run db:studio"
+    inputs:
+      - "src/schema/**/*.ts"
+      - "drizzle.config.ts"
+    options:
+      persistent: true
+      cache: false
+      runInCI: false
+
+  # ローカル環境
+  db-local-setup:
+    description: "ローカルデータベースの初期セットアップ"
+    command: "pnpm run db:local:setup"
+    outputs:
+      - "local.db"
+      - ".env.local"
+    options:
+      cache: false
+
+  db-local-migrate:
+    description: "ローカル環境でマイグレーションを実行"
+    command: "pnpm run db:local:migrate"
+    inputs:
+      - "migrations/**/*.sql"
+      - "drizzle.config.ts"
+
+  db-local-studio:
+    description: "ローカル環境でDrizzle Studioを起動"
+    command: "pnpm run db:local:studio"
+    inputs:
+      - "src/schema/**/*.ts"
+      - "drizzle.config.ts"
+    options:
+      persistent: true
+      cache: false
+      runInCI: false
+
+  # 開発環境
+  db-dev-migrate:
+    description: "開発環境でマイグレーションを実行"
+    command: "pnpm run db:dev:migrate"
+    inputs:
+      - "migrations/**/*.sql"
+      - "drizzle.config.ts"
+
+  db-dev-studio:
+    description: "開発環境でDrizzle Studioを起動"
+    command: "pnpm run db:dev:studio"
+    inputs:
+      - "src/schema/**/*.ts"
+      - "drizzle.config.ts"
+    options:
+      persistent: true
+      cache: false
+      runInCI: false
+
+  # 本番環境
+  db-prod-migrate:
+    description: "本番環境でマイグレーションを実行"
+    command: "pnpm run db:prod:migrate"
+    inputs:
+      - "migrations/**/*.sql"
+      - "drizzle.config.ts"
+
+  # シード（テストデータ投入）
+  db-seed:
+    description: "テストデータを投入"
+    command: "pnpm run db:seed"
+    inputs:
+      - "src/seed/**/*.ts"
+      - "src/schema/**/*.ts"
+
+  db-seed-reset:
+    description: "データベースをリセットしてテストデータを投入"
+    command: "pnpm run db:seed:reset"
+    inputs:
+      - "src/seed/**/*.ts"
+      - "src/schema/**/*.ts"
+
+  db-local-seed:
+    description: "ローカル環境にテストデータを投入"
+    command: "pnpm run db:local:seed"
+    inputs:
+      - "src/seed/**/*.ts"
+      - "src/schema/**/*.ts"
+    deps:
+      - "db-local-migrate"
+
+  db-local-seed-reset:
+    description: "ローカル環境でデータベースをリセットしてテストデータを投入"
+    command: "pnpm run db:local:seed:reset"
+    inputs:
+      - "src/seed/**/*.ts"
+      - "src/schema/**/*.ts"
+    deps:
+      - "db-local-migrate"
+
+  db-dev-seed:
+    description: "開発環境にテストデータを投入"
+    command: "pnpm run db:dev:seed"
+    inputs:
+      - "src/seed/**/*.ts"
+      - "src/schema/**/*.ts"
+    deps:
+      - "db-dev-migrate"
+
+  db-dev-seed-reset:
+    description: "開発環境でデータベースをリセットしてテストデータを投入"
+    command: "pnpm run db:dev:seed:reset"
+    inputs:
+      - "src/seed/**/*.ts"
+      - "src/schema/**/*.ts"
+    deps:
+      - "db-dev-migrate"
+
+  # ドキュメント生成
+  docs-generate:
+    description: "データベースドキュメントを生成"
+    command: "pnpm run docs:generate"
+    inputs:
+      - "local.db"
+      - ".tbls.yml"

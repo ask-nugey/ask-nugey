@@ -1,0 +1,508 @@
+# tbls.yml - 設定リファレンス
+# tblsのすべての設定オプションとその説明
+
+# ========================================
+# 基本設定
+# ========================================
+
+# データベース名を指定
+# ドキュメントのタイトルとして使用されます
+name: mydatabase
+
+# データベースの説明
+# ドキュメントの冒頭に表示されます
+desc: これは私のデータベースです
+
+# DSN (Data Source Name) - データベース接続文字列
+# 環境変数を使用可能: ${MYSQL_USER}, ${MYSQL_PASSWORD}など
+# パスワードに特殊文字(#, <など)が含まれる場合はURLエンコードが必要
+# 相対パスの場合は 〇〇:./path/to/dbname.db のように記述
+dsn: postgres://dbuser:dbpass@localhost:5432/dbname
+# dsn: mysql://dbuser:dbpass@hostname:3306/dbname
+# dsn: sqlite:///path/to/dbname.db
+# dsn: bigquery://project-id/dataset-id?creds=/path/to/credentials.json
+# dsn: spanner://project-id/instance-id/dbname?creds=/path/to/credentials.json
+# dsn: redshift://dbuser:dbpass@hostname:5432/dbname
+# dsn: mssql://DbUser:SQLServer-DbPassw0rd@hostname:1433/testdb
+# dsn: dynamodb://us-west-2
+# dsn: snowflake://user:password@myaccount/mydb/myschema
+# dsn: mongodb://mongoadmin:secret@localhost:27017/test?sampleSize=20
+# dsn: clickhouse://dbuser:dbpass@hostname:9000/dbname
+# dsn: json://path/to/schema.json
+# dsn: https://hostname/path/to/schema.json
+# dsn: github://owner/repo/path/to/schema.json
+
+# HTTPデータソースの詳細設定
+# dsn:
+#   url: https://hostname/path/to/testdb.json
+#   headers:
+#     Authorization: token GITHUB_OAUTH_TOKEN
+
+# ドキュメントの出力パス
+# デフォルト: dbdoc
+docPath: doc/schema
+
+# スキーマデータ(schema.json)の出力を無効化
+# デフォルト: false
+disableOutputSchema: false
+
+# 必要なtblsのバージョン制約
+# セマンティックバージョニングに基づく
+requiredVersion: '>= 1.42, < 2'
+
+# ========================================
+# ラベル設定
+# ========================================
+
+# データベース全体のラベル
+labels:
+  - production
+  - cmdb
+  - analytics
+
+# ========================================
+# ドキュメント形式設定
+# ========================================
+
+format:
+  # Markdownテーブルのカラム幅を調整
+  # デフォルト: false
+  adjust: true
+
+  # テーブルリストとカラムの順序をソート
+  # デフォルト: false
+  sort: false
+
+  # テーブル行に連番を表示
+  # デフォルト: false
+  number: false
+
+  # インデックスページで各テーブルコメントの最初の段落のみ表示
+  # デフォルト: false
+  showOnlyFirstParagraph: true
+
+  # 値のないテーブルカラムを非表示
+  # デフォルト: false
+  # ブール値または配列で指定可能
+  hideColumnsWithoutValues: true
+  # hideColumnsWithoutValues: ["Parents", "Children", "Indexes"]
+
+# ========================================
+# ER図設定
+# ========================================
+
+er:
+  # ER図の生成をスキップ
+  # デフォルト: false
+  skip: false
+
+  # ER図の画像形式
+  # 選択肢: png, jpg, svg, mermaid
+  # デフォルト: svg
+  format: svg
+
+  # ER図にテーブル/カラムコメントを追加
+  # デフォルト: false
+  comment: true
+
+  # ER図からリレーション定義を非表示
+  # デフォルト: false
+  hideDef: false
+
+  # ER図に表示するカラムの設定
+  showColumnTypes:
+    # 関連カラムを表示
+    related: true
+    # 主キーカラムを表示
+    primary: true
+
+  # リレーションを表示するテーブル間の距離
+  # デフォルト: 1
+  distance: 2
+
+  # ER図(png/jpg)のフォント
+  # フォント名、フォントファイルパス、またはキーワード
+  # デフォルト: "" (システムデフォルト)
+  font: M+
+
+# ========================================
+# フィルター設定
+# ========================================
+
+# 対象テーブルをフィルタリング
+# ワイルドカード(*)使用可能
+include:
+  - public.*
+  - users
+  - posts
+  - some_prefix_*
+
+# 除外するテーブル
+exclude:
+  - some_prefix_logs
+  - tmp_*
+  - CamelizeTable
+
+# リントから除外するテーブル
+lintExclude:
+  - migration_history
+  - schema_migrations
+
+# ========================================
+# リント設定
+# ========================================
+
+lint:
+  # テーブルコメントを必須にする
+  requireTableComment:
+    enabled: true
+    # すべてコメント付きまたはすべてコメントなし
+    allOrNothing: false
+    # 除外するテーブル
+    exclude:
+      - logs
+      - tmp_tables
+
+  # カラムコメントを必須にする
+  requireColumnComment:
+    enabled: true
+    allOrNothing: true
+    # 除外するカラム
+    exclude:
+      - id
+      - created_at
+      - updated_at
+      - deleted_at
+    # 除外するテーブル
+    excludeTables:
+      - logs
+      - comment_stars
+
+  # インデックスコメントを必須にする
+  requireIndexComment:
+    enabled: true
+    allOrNothing: false
+    # 除外するインデックス
+    exclude:
+      - PRIMARY
+      - user_id_idx
+    # 除外するテーブル
+    excludeTables:
+      - logs
+
+  # 制約コメントを必須にする
+  requireConstraintComment:
+    enabled: true
+    allOrNothing: false
+    # 除外する制約
+    exclude:
+      - unique_user_name
+    # 除外するテーブル
+    excludeTables:
+      - logs
+
+  # トリガーコメントを必須にする
+  requireTriggerComment:
+    enabled: true
+    allOrNothing: false
+    # 除外するトリガー
+    exclude:
+      - update_count
+    # 除外するテーブル
+    excludeTables:
+      - logs
+
+  # テーブルラベルを必須にする
+  requireTableLabels:
+    enabled: true
+    allOrNothing: false
+    # 除外するテーブル
+    exclude:
+      - logs
+      - tmp_tables
+
+  # リレーションを持たないテーブルを検出
+  unrelatedTable:
+    enabled: true
+    # すべて関連ありまたはすべて関連なし
+    allOrNothing: false
+    # 除外するテーブル
+    exclude:
+      - logs
+      - master_data
+
+  # 最大カラム数をチェック
+  columnCount:
+    enabled: true
+    max: 20
+    # 除外するテーブル
+    exclude:
+      - user_options
+      - large_table
+
+  # 必須カラムをチェック
+  requireColumns:
+    enabled: true
+    columns:
+      - name: id
+        exclude:
+          - views
+      - name: created_at
+        exclude:
+          - logs
+          - CamelizeTable
+      - name: updated_at
+        exclude:
+          - logs
+          - master_tables
+
+  # 重複リレーションをチェック
+  duplicateRelations:
+    enabled: true
+
+  # 外部キーカラムにインデックスがあるかチェック
+  requireForeignKeyIndex:
+    enabled: true
+    exclude:
+      - comments.user_id
+      - posts.category_id
+
+  # BigQueryスタイルのラベルかチェック
+  # https://cloud.google.com/resource-manager/docs/creating-managing-labels#requirements
+  labelStyleBigQuery:
+    enabled: true
+    exclude:
+      - schema_migrations
+
+  # テーブルが少なくとも1つのビューポイントに含まれているかチェック
+  requireViewpoints:
+    enabled: true
+    exclude:
+      - schema_migrations
+      - tmp_tables
+
+# ========================================
+# コメント設定
+# ========================================
+
+comments:
+  # テーブル1の設定
+  - table: users
+    # テーブルコメント
+    tableComment: ユーザー情報を管理するテーブル
+    # カラムコメント
+    columnComments:
+      id: ユーザーID (自動採番)
+      email: メールアドレス（ログインID）例：user@example.com
+      username: ユーザー名（表示名）
+      password: パスワード（ハッシュ化済み）
+      created_at: 作成日時
+      updated_at: 更新日時
+    # テーブルラベル
+    labels:
+      - privacy-data
+      - pii
+      - backup:daily
+    # カラムラベル
+    columnLabels:
+      email:
+        - secure
+        - encrypted
+      password:
+        - encrypted
+        - sensitive
+    # インデックスコメント
+    indexComments:
+      users_email_idx: メールアドレス検索用インデックス
+      users_username_idx: ユーザー名検索用インデックス
+    # 制約コメント
+    constraintComments:
+      users_id_pk: プライマリキー
+      users_email_unique: メールアドレスの一意制約
+    # トリガーコメント
+    triggerComments:
+      update_users_updated: users更新時にupdated_atを自動更新
+
+  # テーブル2の設定
+  - table: posts
+    tableComment: ブログ投稿を管理するテーブル
+    columnComments:
+      id: 投稿ID
+      user_id: 投稿者のユーザーID
+      title: 投稿タイトル
+      content: 投稿内容
+      status: 公開ステータス (draft/published/archived)
+      published_at: 公開日時
+      created_at: 作成日時
+      updated_at: 更新日時
+
+  # ビューテーブルの設定
+  - table: post_comments_view
+    tableComment: 投稿とコメントを結合したビュー
+    columnComments:
+      post_id: posts.id
+      post_title: posts.title
+      comment_id: comments.id
+      comment_text: comments.text
+      comment_user: users.username
+
+# ========================================
+# リレーション設定
+# ========================================
+
+relations:
+  # 基本的なリレーション定義
+  - table: posts
+    columns:
+      - user_id
+    parentTable: users
+    parentColumns:
+      - id
+    # リレーション定義の説明
+    # デフォルト: "Additional Relation"
+    def: posts->users (投稿者)
+    # カーディナリティ
+    cardinality: zero or more
+    parentCardinality: one
+    # 既存のリレーションを上書き
+    override: false
+
+  # 複合キーのリレーション
+  - table: order_items
+    columns:
+      - order_id
+      - product_id
+    parentTable: orders
+    parentColumns:
+      - id
+      - product_id
+    def: order_items->orders
+
+  # ビューのリレーション
+  - table: user_posts_summary
+    columns:
+      - user_id
+    parentTable: users
+    parentColumns:
+      - id
+    def: user_posts_summary->users
+
+# 仮想リレーションの自動検出
+detectVirtualRelations:
+  enabled: true
+  # 戦略の選択
+  # default: some_table.user_id -> users.id
+  # singularTableName: some_table.user_id -> user.id
+  # identical: some_table.user_id -> users.user_id
+  # identicalSingularTableName: some_table.user_id -> user.user_id
+  strategy: default
+
+# ========================================
+# ビューポイント設定
+# ========================================
+
+viewpoints:
+  # ビューポイント1
+  - name: ユーザー管理システム
+    desc: ユーザー認証と権限管理に関するテーブル群
+    tables:
+      - users
+      - user_roles
+      - roles
+      - permissions
+      - role_permissions
+    # ビューポイント内のグループ
+    groups:
+      - name: 認証
+        desc: 認証に関するテーブル
+        tables:
+          - users
+          - user_sessions
+          - password_resets
+      - name: 権限管理
+        desc: ロールと権限に関するテーブル
+        tables:
+          - roles
+          - permissions
+          - role_permissions
+          - user_roles
+
+  # ビューポイント2
+  - name: コンテンツ管理
+    desc: ブログ投稿とコメント機能
+    tables:
+      - posts
+      - comments
+      - categories
+      - tags
+      - post_tags
+    groups:
+      - name: 投稿
+        desc: ブログ投稿関連
+        tables:
+          - posts
+          - categories
+          - post_categories
+      - name: インタラクション
+        desc: ユーザーインタラクション
+        tables:
+          - comments
+          - likes
+          - bookmarks
+
+# ========================================
+# 辞書設定（日本語化）
+# ========================================
+
+dict:
+  # ドキュメントのセクションタイトル
+  Tables: テーブル一覧
+  Description: 概要
+  Columns: カラム一覧
+  Indexes: インデックス一覧
+  Constraints: 制約一覧
+  Triggers: トリガー一覧
+  Relations: ER図
+  Viewpoints: ビューポイント
+
+  # テーブルヘッダー
+  Name: 名前
+  Comment: コメント
+  Type: 型
+  Default: デフォルト値
+  Nullable: NULL許可
+  Children: 子テーブル
+  Parents: 親テーブル
+  Definition: 定義
+  Table Definition: テーブル定義
+
+  # その他の用語
+  Extra Definition: 追加定義
+  Labels: ラベル
+  Referenced Tables: 参照テーブル
+  Referenced By: 被参照
+
+# ========================================
+# カスタムテンプレート設定
+# ========================================
+
+templates:
+  # Dot形式のテンプレート
+  dot:
+    schema: templates/dot/schema.dot.tmpl
+    table: templates/dot/table.dot.tmpl
+
+  # PlantUML形式のテンプレート
+  puml:
+    schema: templates/puml/schema.puml.tmpl
+    table: templates/puml/table.puml.tmpl
+
+  # Markdown形式のテンプレート
+  md:
+    index: templates/md/index.md.tmpl
+    table: templates/md/table.md.tmpl
+
+  # Mermaid形式のテンプレート
+  mermaid:
+    schema: templates/mermaid/schema.mmd.tmpl
+    table: templates/mermaid/table.mmd.tmpl

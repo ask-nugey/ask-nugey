@@ -3,7 +3,6 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import type { PropsWithChildren } from "react";
 
-import AntdRegistry from "@/lib/nextjs-registry/AntdRegistry";
 import { siteConfig } from "@/src/constants";
 import { ThemeProvider } from "@/src/styles/AntdThemeProvider";
 import { GoogleAdScript } from "@/src/ui/components/GoogleAdSenseScript";
@@ -58,7 +57,7 @@ export const metadata: Metadata = {
 	},
 };
 
-const providers = [AntdRegistry, ThemeProvider, BaseLayout];
+const providers = [ThemeProvider, BaseLayout];
 
 export default function RootLayout({ children }: PropsWithChildren) {
 	return (

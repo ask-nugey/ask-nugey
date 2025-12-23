@@ -1,0 +1,56 @@
+{
+	"name": "@packages/db",
+	"version": "1.0.0",
+	"type": "module",
+	"main": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"exports": {
+		".": {
+			"import": {
+				"@ask-nugey/source": "./src/index.ts",
+				"types": "./dist/index.d.ts",
+				"default": "./dist/index.js"
+			},
+			"require": {
+				"@ask-nugey/source": "./src/index.ts",
+				"types": "./dist/index.d.ts",
+				"default": "./dist/index.js"
+			}
+		},
+		"./package.json": "./package.json"
+	},
+
+	"scripts": {
+		"build": "tsc",
+		"db:generate": "drizzle-kit generate",
+		"db:studio": "drizzle-kit studio",
+		"--- db local ---": "",
+		"db:local:setup": "./scripts/setup.sh",
+		"db:local:migrate": "NODE_ENV=local drizzle-kit migrate",
+		"db:local:studio": "NODE_ENV=local drizzle-kit studio",
+		"--- db dev ---": "",
+		"db:dev:migrate": "NODE_ENV=development drizzle-kit migrate",
+		"db:dev:studio": "NODE_ENV=development drizzle-kit studio",
+		"--- db prod ---": "",
+		"db:prod:migrate": "NODE_ENV=production drizzle-kit migrate",
+		"--- db seed ---": "",
+		"db:seed": "tsx src/seed/index.ts",
+		"db:seed:reset": "tsx src/seed/index.ts --reset",
+		"db:local:seed": "NODE_ENV=local tsx src/seed/index.ts",
+		"db:local:seed:reset": "NODE_ENV=local tsx src/seed/index.ts --reset",
+		"db:dev:seed": "NODE_ENV=development tsx src/seed/index.ts",
+		"db:dev:seed:reset": "NODE_ENV=development tsx src/seed/index.ts --reset",
+		"--- docs ---": "",
+		"docs:generate": "tbls doc --force"
+	},
+	"dependencies": {
+		"@libsql/client": "0.15.11",
+		"drizzle-orm": "0.44.4"
+	},
+	"devDependencies": {
+		"dotenv": "^16.4.5",
+		"drizzle-kit": "0.31.4",
+		"drizzle-seed": "^0.3.1",
+		"tsx": "^4.20.4"
+	}
+}

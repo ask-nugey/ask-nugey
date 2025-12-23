@@ -1,0 +1,45 @@
+{
+	"name": "@apps/api",
+	"type": "module",
+	"version": "1.7.5",
+	"private": true,
+	"scripts": {
+		"dev": "tsx watch --conditions @ask-nugey/source src/main.ts",
+		"dev:worker": "wrangler dev",
+		"build:worker": "wrangler build",
+		"deploy:worker": "wrangler deploy",
+		"deploy-dry:worker": "wrangler deploy --dry-run",
+		"cf-typegen": "wrangler types --env-interface Env env.d.ts"
+	},
+	"dependencies": {
+		"@apps/ai-agent": "workspace:*",
+		"@hono/node-server": "^1.18.2",
+		"@orpc/client": "^1.7.5",
+		"@orpc/contract": "^1.7.5",
+		"@orpc/json-schema": "^1.7.5",
+		"@orpc/openapi": "^1.7.5",
+		"@orpc/server": "^1.7.5",
+		"@orpc/tanstack-query": "^1.7.5",
+		"@orpc/zod": "^1.7.5",
+		"@packages/api-contract": "workspace:*",
+		"@packages/db": "workspace:*",
+		"@packages/orpc-client": "workspace:*",
+		"@tanstack/react-query": "^5.83.0",
+		"@types/dotenv": "^8.2.3",
+		"@types/node": "^24.1.0",
+		"dotenv": "^17.2.3",
+		"drizzle-orm": "0.44.4",
+		"hono": "^4.9.1",
+		"tsx": "^4.20.3",
+		"typescript": "^5.8.3",
+		"zod": "^4.0.10"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^2",
+		"@cloudflare/workers-types": "^4.20250813.0",
+		"@types/node": "^22",
+		"tsx": "^4",
+		"typescript": "^5",
+		"wrangler": "^4.29.1"
+	}
+}

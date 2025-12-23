@@ -1,28 +1,23 @@
 {
-	"name": "moon-ts",
+	"name": "ask-nugey",
 	"version": "1.0.0",
 	"private": true,
-	"description": "TypeScript monorepo template using moon and bun",
+	"description": "Ask Nugey is a web app that allows you to ask questions and get answers.",
 	"type": "module",
 	"engines": {
 		"node": "22.1.0",
-		"bun": ">=1.0.0"
+		"pnpm": ">=9.0.0"
 	},
-	"workspaces": ["apps/*", "packages/*"],
+	"dependencies": {
+		"api": "^6.1.3",
+		"dayjs": "^1.11.19",
+		"dotenv": "^17.2.1"
+	},
 	"devDependencies": {
 		"@biomejs/biome": "^2.1.2",
 		"@moonrepo/cli": "^1.38.6",
 		"@types/node": "^22.1.0",
+		"tsx": "^4.20.4",
 		"typescript": "^5"
-	},
-	"scripts": {
-		"build": "moon run :build",
-		"dev": "moon run :dev",
-		"test": "moon run :test",
-		"check": "moon run :check",
-		"format": "moon run :format",
-		"lint": "moon run :lint",
-		"typecheck": "moon run :typecheck",
-		"clean": "moon clean"
 	}
 }

@@ -1,0 +1,87 @@
+# https://moonrepo.dev/docs/config/tasks
+$schema: "https://moonrepo.dev/schemas/tasks.json"
+
+# 全タスクが暗黙的に監視するファイルを定義
+# ここで指定されたファイルが変更されると、キャッシュが無効化されてタスクが再実行される
+implicitInputs:
+  - 'package.json'
+
+fileGroups:
+  # Application specific files
+  app: []
+  sources:
+    - "src/**/*.{ts,tsx,js,jsx}"
+  tests:
+    - "**/*.test.{ts,tsx}"
+    - "**/*.spec.{ts,tsx}"
+  configs:
+    - "*.json"
+    - "*.yml"
+    - "*.yaml"
+    - '*.config.*'
+    - 'tsconfig.json'
+    - 'tsconfig.*.json'
+    - "biome.json"
+  assets:
+    - 'assets/**/*'
+    - 'images/**/*'
+    - 'static/**/*'
+    - '**/*.{scss,css}'
+    - '**/*.{md,mdx}'
+
+tasks:
+  format:
+    description: "フォーマットをチェック"
+    command: "pnpm"
+    args: ["biome", "format"]
+    inputs:
+      - '@group(app)'
+      - '@globs(sources)'
+      - '@globs(tests)'
+      - '@globs(configs)'
+      - '**/*.{md,mdx}'
+
+  format-write:
+    description: "フォーマットを実行"
+    command: "pnpm"
+    args: ["biome", "format", "--write"]
+    inputs:
+      - '@group(app)'
+      - '@globs(sources)'
+      - '@globs(tests)'
+      - '@globs(configs)'
+      - '**/*.{md,mdx}'
+    local: true
+
+  check:
+    description: "フォーマット、リントをチェック"
+    command: "pnpm"
+    args: ["biome", "check"]
+    inputs:
+      - '@group(app)'
+      - '@globs(sources)'
+      - '@globs(tests)'
+      - '@globs(configs)'
+      - '**/*.{md,mdx}'
+
+  fix:
+    description: "フォーマット、リントを実行"
+    command: "pnpm"
+    args: ["biome", "check", "--write"]
+    inputs:
+      - '@group(app)'
+      - '@globs(sources)'
+      - '@globs(tests)'
+      - '@globs(configs)'
+      - '**/*.{md,mdx}'
+    local: true
+
+  # https://moonrepo.dev/docs/guides/examples/typescript
+  typecheck:
+    description: "型チェックを実行"
+    command: "pnpm"
+    args: ["tsc", "--noEmit"]
+    inputs:
+      - '@group(app)'
+      - '@globs(sources)'
+      - '@globs(tests)'

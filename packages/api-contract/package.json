@@ -1,0 +1,34 @@
+{
+	"name": "@packages/api-contract",
+	"version": "1.0.0",
+	"type": "module",
+	"main": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"exports": {
+		".": {
+			"import": {
+				"@ask-nugey/source": "./src/index.ts",
+				"types": "./dist/index.d.ts",
+				"default": "./dist/index.js"
+			},
+			"require": {
+				"@ask-nugey/source": "./src/index.ts",
+				"types": "./dist/index.d.ts",
+				"default": "./dist/index.js"
+			}
+		},
+		"./package.json": "./package.json"
+	},
+
+	"dependencies": {
+		"@apps/ai-agent": "workspace:*",
+		"@packages/db": "workspace:*",
+		"@orpc/contract": "^1.7.5",
+		"@orpc/zod": "^1.7.5",
+		"zod": "^4.0.10"
+	},
+	"devDependencies": {
+		"@types/node": "^22",
+		"typescript": "^5"
+	}
+}

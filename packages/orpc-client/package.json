@@ -1,0 +1,33 @@
+{
+	"name": "@packages/orpc-client",
+	"version": "1.0.0",
+	"type": "module",
+	"main": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"exports": {
+		".": {
+			"import": {
+				"@ask-nugey/source": "./src/index.ts",
+				"types": "./dist/index.d.ts",
+				"default": "./dist/index.js"
+			},
+			"require": {
+				"@ask-nugey/source": "./src/index.ts",
+				"types": "./dist/index.d.ts",
+				"default": "./dist/index.js"
+			}
+		},
+		"./package.json": "./package.json"
+	},
+
+	"dependencies": {
+		"@packages/api-contract": "workspace:*",
+		"@orpc/client": "^1.7.5",
+		"@orpc/contract": "^1.7.5",
+		"@orpc/tanstack-query": "^1.7.9"
+	},
+	"devDependencies": {
+		"@types/node": "^22",
+		"typescript": "^5"
+	}
+}

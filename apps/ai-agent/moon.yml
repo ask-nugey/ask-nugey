@@ -1,0 +1,52 @@
+project:
+  name: "AI Agent"
+  description: "Mastra AI統合エージェント"
+
+type: "application"
+language: "node"
+stack: "backend"
+tags:
+  - "typescript"
+  - "ai"
+  - "mastra"
+  - "agent"
+
+tasks:
+  dev:
+    description: "開発サーバーを起動"
+    command: "pnpm"
+    args: ["mastra", "dev"]
+    inputs:
+      - "src/**/*.{ts,tsx}"
+    options:
+      persistent: true
+      cache: false
+      runInCI: false
+
+  start:
+    description: "本番サーバーを起動"
+    command: "pnpm"
+    args: ["mastra", "start"]
+    inputs:
+      - "src/**/*.{ts,tsx}"
+
+  build:
+    description: "プロダクション用ビルド"
+    command: "pnpm"
+    args: ["mastra", "build"]
+    inputs:
+      - "src/**/*.{ts,tsx}"
+      - "tsconfig.json"
+
+  tsc:
+    description: "TypeScript型ファイル生成"
+    command: "pnpm"
+    args:
+      - "tsc"
+      - "--project"
+      - "./tsconfig.build.json"
+    inputs:
+      - "src/**/*.{ts,tsx}"
+      - "tsconfig.json"
+    outputs:
+      - "dist"

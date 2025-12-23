@@ -1,0 +1,41 @@
+project:
+  name: "API Contract"
+  description: "API契約とスキーマ定義の共有パッケージ"
+
+type: "library"
+language: "node"
+stack: "backend"
+tags:
+  - "typescript"
+  - "api"
+  - "contract"
+  - "schema"
+
+tasks:
+  dev:
+    description: "API契約ライブラリを監視ビルド"
+    command: "pnpm"
+    args: ["tsc", "--watch", "--project", "tsconfig.json"]
+    inputs:
+      - "src/**/*.{ts,tsx}"
+      - "tsconfig.json"
+    options:
+      persistent: true
+      cache: false
+      runInCI: false
+
+  build:
+    description: "API契約ライブラリをビルド"
+    command: "pnpm"
+    args:
+      - "tsc"
+      - "--project"
+      - "./tsconfig.build.json"
+    inputs:
+      - "src/**/*.{ts,tsx}"
+      - "tsconfig.json"
+    deps:
+      - "ai-agent:build"
+      - "db:build"
+    outputs:
+      - "dist"

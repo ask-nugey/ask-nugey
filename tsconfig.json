@@ -1,46 +1,26 @@
 {
+	"extends": "./tsconfig.base.json",
 	"compilerOptions": {
-		"target": "ES2022",
-		"module": "ESNext",
-		"lib": [
-			"ES2022"
-		],
-		"moduleResolution": "bundler",
-		"resolveJsonModule": true,
-		"strict": true,
-		"skipLibCheck": true,
-		"esModuleInterop": true,
-		"allowSyntheticDefaultImports": true,
-		"forceConsistentCasingInFileNames": true,
-		"isolatedModules": true,
-		"declaration": true,
-		"declarationMap": true,
-		"sourceMap": true,
-		"noEmit": true,
-		"baseUrl": ".",
-		"paths": {
-			"@/src/*": [
-				"apps/*/src"
-			],
-			"@/lib/*": [
-				"apps/*/src"
-			],
-			// "@packages/*": [
-			// 	"packages/*/src"
-			// ]
-		}
+		"composite": false
 	},
-	"exclude": [
-		"node_modules",
-		"dist",
-		"build",
-		".moon",
-		"**/*.spec.ts",
-		"**/*.test.ts"
-	],
 	"references": [
 		{
+			"path": "apps/ai-agent"
+		},
+		{
+			"path": "apps/api"
+		},
+		{
 			"path": "apps/web"
+		},
+		{
+			"path": "packages/api-contract"
+		},
+		{
+			"path": "packages/db"
+		},
+		{
+			"path": "packages/orpc-client"
 		}
 	]
 }
