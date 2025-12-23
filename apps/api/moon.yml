@@ -40,7 +40,7 @@ tasks:
 
   # start:
   #   description: "本番サーバーを起動"
-  #   command: "bun"
+  #   command: "pnpm"
   #   args: ["tsx", "src/main.ts"]
   #   inputs:
   #     - "src/**/*.{ts,tsx}"

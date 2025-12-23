@@ -6,7 +6,7 @@
 
 ```bash
 # 📝 開発開始
-bun install               # 依存関係インストール
+pnpm install               # 依存関係インストール
 moon run web:dev          # 開発サーバー起動
 
 # ✨ コード品質管理（日常使用）
@@ -32,7 +32,7 @@ moon-ts/
 └── biome.json         # コード品質設定
 ```
 
-**技術スタック**: Moon + TypeScript + Biome + Bun
+**技術スタック**: Moon + TypeScript + Biome + pnpm
 
 > 🏗️ 詳細なアーキテクチャは[アーキテクチャガイド](./architecture.md)をご覧ください
 

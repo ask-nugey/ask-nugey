@@ -35,7 +35,6 @@
 		"zod": "^4.0.10"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "^2",
 		"@cloudflare/workers-types": "^4.20250813.0",
 		"@types/node": "^22",
 		"tsx": "^4",

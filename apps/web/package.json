@@ -5,7 +5,7 @@
 	"type": "module",
 	"composite": true,
 	"scripts": {
-		"NOTE: opennextjs-cloudflare が bun run build を実行するため設定": "-",
+		"NOTE: opennextjs-cloudflare が pnpm run build を実行するため設定": "-",
 		"build": "next build"
 	},
 	"dependencies": {

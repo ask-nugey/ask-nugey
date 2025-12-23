@@ -12,7 +12,7 @@ TypeScriptベースのモノレポ構成で、複数のアプリケーション�
 
 ```bash
 # 基本的な流れ
-bun install          # 依存関係インストール
+pnpm install          # 依存関係インストール
 moon run web:dev     # 開発サーバー起動
 moon run :fix        # コード品質管理
 ```

@@ -7,11 +7,11 @@ Drizzle ORM + LibSQL/Tursoを使用したデータベースパッケージ
 ### ローカル環境
 ```bash
 # 初回セットアップ
-bun run db:local:setup
+pnpm run db:local:setup
 
 # または手動で
 echo "NODE_ENV=local\nDATABASE_URL=file:./local.db" > .env.local
-bun run db:local:migrate
+pnpm run db:local:migrate
 ```
 
 ### ドキュメント生成用のコマンドインストール
@@ -69,8 +69,8 @@ moon run db:db-dev-seed-reset
 ### 直接実行
 ```bash
 # 環境変数で実行
-NODE_ENV=local bun run db:local:seed
-NODE_ENV=local bun run db:local:seed:reset
+NODE_ENV=local pnpm run db:local:seed
+NODE_ENV=local pnpm run db:local:seed:reset
 
 # リセットオプション付き
 tsx src/seed/index.ts --reset

@@ -112,11 +112,11 @@ moon task-graph
 
 ```bash
 # 依存関係のインストール
-bun install
+pnpm install
 
 # パッケージの追加
-bun i --filter web [パッケージ名]        # webプロジェクトに追加
-bun i --filter shared [パッケージ名]     # sharedプロジェクトに追加
+pnpm i --filter web [パッケージ名]        # webプロジェクトに追加
+pnpm i --filter shared [パッケージ名]     # sharedプロジェクトに追加
 ```
 
 ### キャッシュ管理

@@ -5,7 +5,7 @@ Mastra AIフレームワークを使用したAIエージェントアプリケー
 ## セットアップ
 
 ```bash
-bun install
+pnpm install
 ```
 
 ## 開発

@@ -325,7 +325,7 @@ export const Button: React.FC<ButtonProps> = ({
 
 ```bash
 # 他のアプリケーションの依存関係に追加
-bun add --filter web @packages/ui-components
+pnpm add --filter web @packages/ui-components
 ```
 
 ```typescript
@@ -344,7 +344,7 @@ const app = () => {
 
 ```bash
 # ワークスペース全体の依存関係を更新
-bun install
+pnpm install
 ```
 
 ### 2. ビルドテスト

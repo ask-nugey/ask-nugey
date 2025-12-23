@@ -11,7 +11,7 @@ moonrepoの設定ファイルについて詳しく説明します。
 | `.moon/workspace.yml` | Moon全体設定       |
 | `.moon/tasks.yml`     | 共通タスク定義     |
 | `biome.json`          | コード品質設定     |
-| `package.json`        | bunワークスペース  |
+| `package.json`        | ワークスペース     |
 | `tsconfig.json`       | TypeScript基本設定 |
 
 ### プロジェクトレベル

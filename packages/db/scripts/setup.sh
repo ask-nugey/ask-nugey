@@ -30,9 +30,9 @@ fi
 
 # マイグレーション実行
 echo "🚀 マイグレーションを実行しています..."
-bun run db:local:migrate
+pnpm run db:local:migrate
 
 echo "✅ 手動セットアップが完了しました！"
 echo ""
 echo "次のコマンドでDrizzle Studioを起動できます:"
-echo "  bun run db:local:studio"
+echo "  pnpm run db:local:studio"
