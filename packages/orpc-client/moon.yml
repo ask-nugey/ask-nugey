@@ -1,0 +1,43 @@
+project:
+  name: "oRPC Client"
+  description: "oRPCクライアント設定とユーティリティの共有パッケージ"
+
+type: "library"
+language: "node"
+stack: "frontend"
+tags:
+  - "typescript"
+  - "orpc"
+  - "client"
+  - "api"
+
+tasks:
+  dev:
+    description: "oRPCクライアントライブラリを監視ビルド"
+    command: "pnpm"
+    args: ["tsc", "--watch"]
+    inputs:
+      - "src/**/*.{ts,tsx}"
+      - "tsconfig.json"
+    deps:
+      - "api-contract:build"
+    options:
+      persistent: true
+      cache: false
+      runInCI: false
+
+  build:
+    description: "oRPCクライアントライブラリをビルド"
+    command: "pnpm"
+    args:
+      - "tsc"
+      - "--project"
+      - "./tsconfig.build.json"
+    inputs:
+      - "src/**/*.{ts,tsx}"
+      - "tsconfig.json"
+    deps:
+      - "api-contract:build"
+    options:
+      persistent: false
+      cache: false

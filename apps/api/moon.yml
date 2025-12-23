@@ -1,0 +1,106 @@
+project:
+  name: "API Server"
+  description: "oRPCベースのAPIサーバー"
+
+type: "application"
+language: "node"
+stack: "backend"
+tags:
+  - "typescript"
+  - "api"
+  - "orpc"
+  - "server"
+
+tasks:
+  dev:
+    description: "開発サーバーを起動（Node）"
+    command: "pnpm dev"
+    inputs:
+      - "src/**/*.{ts,tsx}"
+      - "packages/api-contract/**"
+    deps:
+      - "cf-typegen"
+    options:
+      persistent: true
+      cache: false
+      runInCI: false
+
+  dev-worker:
+    description: "開発サーバーを起動（Cloudflare Worker）"
+    command: "pnpm dev:worker"
+    inputs:
+      - "src/**/*.{ts,tsx}"
+      - "packages/api-contract/**"
+    deps:
+      - "cf-typegen"
+    options:
+      persistent: true
+      cache: false
+      runInCI: false
+
+  # start:
+  #   description: "本番サーバーを起動"
+  #   command: "bun"
+  #   args: ["tsx", "src/main.ts"]
+  #   inputs:
+  #     - "src/**/*.{ts,tsx}"
+  #   deps:
+  #     - "api-contract:build"
+
+  build:
+    description: "プロダクション用ビルド（Cloudflare Worker）"
+    command: "pnpm build:worker"
+    inputs:
+      - "src/**/*.{ts,tsx}"
+      - "tsconfig.json"
+    deps:
+      - "ai-agent:tsc"
+      - "api-contract:build"
+
+  tsc:
+    description: "プロダクション用ビルド"
+    command: "pnpm"
+    args:
+      - "tsc"
+      - "--project"
+      - "./tsconfig.build.json"
+    inputs:
+      - "src/**/*.{ts,tsx}"
+      - "tsconfig.json"
+    outputs:
+      - "dist"
+
+  deploy:
+    description: "デプロイ"
+    command: 'pnpm deploy:worker'
+    local: true
+
+  deploy-dry:
+    description: "デプロイ（ドライラン）"
+    command: 'pnpm deploy-dry:worker'
+    local: true
+
+  cf-typegen:
+    description: "Cloudflare Types の生成"
+    command: 'pnpm cf-typegen'
+    local: true
+
+  playground:
+    description: "プレイグラウンドクライアントを実行"
+    command: "pnpm"
+    args: ["tsx", "src/playground-client.ts"]
+    inputs:
+      - "src/**/*.{ts,tsx}"
+    deps:
+      - "api-contract:build"
+
+  mock:
+    description: "モックサーバーを実行"
+    command: "pnpm"
+    args:
+      - "tsx"
+      - "--conditions"
+      - "@ask-nugey/source"
+      - "src/mocks/server.ts"
+    inputs:
+      - "src/mocks/**/*.{ts,tsx}"

@@ -8,7 +8,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **Moon**: モノレポ管理とタスク実行
 - **TypeScript**: 型安全な開発環境
 - **Biome**: 高速なlinter/formatter
-- **Bun**: 効率的なパッケージマネージャー
+- **pnpm**: 効率的なパッケージマネージャー
 
 ## アーキテクチャ
 @docs/architecture.md を参照
@@ -24,7 +24,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - `moon run web:dev` - 開発サーバー起動
 - `moon run :fix` - 自動修正
 - `moon run :build` - 全体ビルド
-- `bun install` - 依存関係インストール
+- `pnpm install` - 依存関係インストール
 
 ## 重要な設定原則
 

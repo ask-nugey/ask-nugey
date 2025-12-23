@@ -1,0 +1,86 @@
+# データソース設定（デフォルト: ローカル環境）
+dsn: "sqlite:./local.db"
+
+# データベース名
+name: ask_nugey_db
+
+# データベース説明
+desc: Ask Nugeyのデータベース
+
+# 出力設定
+docPath: "./docs/db"
+
+# フォーマット設定
+format:
+  adjust: true
+  sort: true
+  number: false
+  showOnlyFirstParagraph: true
+  hideColumnsWithoutValues: false
+
+# 除外設定
+exclude:
+  - "sqlite_*"
+  - "_*"
+
+# ER図生成
+er:
+  format: mermaid
+  comment: true
+  distance: 1
+  showColumnTypes:
+    # 関連カラムを表示
+    related: true
+    # 主キーカラムを表示
+    primary: true
+
+# テーブルコメント設定
+comments:
+
+# viewpoint
+viewpoints:
+
+# 仮想リレーション自動検出
+detectVirtualRelations:
+  enabled: true
+  strategy: default
+
+# リント設定
+lint:
+  requireTableComment:
+    enabled: false
+  requireColumnComment:
+    enabled: false
+    exclude:
+      - id
+      - created_at
+      - updated_at
+
+# 日本語辞書設定
+dict:
+  # ドキュメントのセクションタイトル
+  Tables: テーブル一覧
+  Description: 概要
+  Columns: カラム一覧
+  Indexes: インデックス一覧
+  Constraints: 制約一覧
+  Triggers: トリガー一覧
+  Relations: ER図
+  Viewpoints: ビューポイント
+
+  # テーブルヘッダー
+  Name: 名前
+  Comment: コメント
+  Type: 型
+  Default: デフォルト値
+  Nullable: NULL許可
+  Children: 子テーブル
+  Parents: 親テーブル
+  Definition: 定義
+  Table Definition: テーブル定義
+
+  # その他の用語
+  Extra Definition: 追加定義
+  Labels: ラベル
+  Referenced Tables: 参照テーブル
+  Referenced By: 被参照

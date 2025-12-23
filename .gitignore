@@ -15,6 +15,7 @@
 
 # production
 /build
+dist
 
 # misc
 .DS_Store
@@ -28,6 +29,10 @@ yarn-error.log*
 # local env files
 .env
 .env*.local
+.env.dev
+.env.prod
+.dev.vars
+.dev.vars*.local
 
 # vercel
 .vercel
@@ -58,3 +63,10 @@ styled-system-studio
 # IDE/Editor configurations
 .serena
 .mcp.json
+
+# Database files
+*.db
+*.db-journal
+*.sqlite
+*.sqlite3
+packages/db/.drizzle/

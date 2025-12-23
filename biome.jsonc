@@ -1,5 +1,5 @@
 {
-	"$schema": "https://biomejs.dev/schemas/2.1.2/schema.json",
+	"$schema": "https://biomejs.dev/schemas/2.3.9/schema.json",
 	"assist": { "actions": { "source": { "organizeImports": "on" } } },
 	"vcs": {
 		"enabled": false,
@@ -20,7 +20,8 @@
 				"noBannedTypes": "info" // 非推奨の型（String、Numberなど）の使用を警告
 			},
 			"correctness": {
-				"noUnusedImports": "error" // 未使用のimport文を禁止
+				"noUnusedImports": "error", // 未使用のimport文を禁止
+				"useUniqueElementIds": "info" // 要素に一意のIDを使用することを強制
 			},
 			"style": {
 				"noUselessElse": "info", // 不要なelse文の使用を警告
@@ -64,14 +65,22 @@
 		"ignoreUnknown": false,
 		"includes": [
 			"**",
-			"!**/.next/**",
-			"!**/node_modules/**",
-			"!**/build/**",
-			"!**/dist/**",
-			"!**/.turbo/**",
-			"!**/coverage/**",
+			"!**/.next",
+			"!**/node_modules",
+			"!**/build",
+			"!**/dist",
+			"!**/.turbo",
+			"!**/coverage",
 			"!**/*.min.js",
-			"!**/*.generated.*"
+			"!**/*.generated.*",
+			"!**/generated",
+			"!**/env.d.ts",
+			"!**/cloudflare-env.d.ts",
+			"!**/*.css",
+			"!**/*.scss",
+			"!**/*.sass",
+			"!**/migrations",
+			"!packages/db/docs"
 		]
 	}
 }

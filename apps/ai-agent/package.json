@@ -1,0 +1,38 @@
+{
+	"name": "@apps/ai-agent",
+	"version": "1.0.0",
+	"type": "module",
+	"description": "",
+	"keywords": [],
+	"author": "",
+	"main": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"exports": {
+		".": {
+			"import": {
+				"@ask-nugey/source": "./src/index.ts",
+				"types": "./dist/index.d.ts",
+				"default": "./dist/index.js"
+			},
+			"require": {
+				"@ask-nugey/source": "./src/index.ts",
+				"types": "./dist/index.d.ts",
+				"default": "./dist/index.js"
+			}
+		},
+		"./package.json": "./package.json"
+	},
+
+	"dependencies": {
+		"@ai-sdk/google": "^1.2.22",
+		"@mastra/core": "^0.13.1",
+		"@mastra/libsql": "^0.13.1",
+		"@mastra/loggers": "^0.10.5",
+		"@mastra/memory": "^0.12.0",
+		"@packages/db": "workspace:*",
+		"zod": "^3.25.76"
+	},
+	"devDependencies": {
+		"mastra": "0.10.21"
+	}
+}

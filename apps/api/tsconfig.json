@@ -1,0 +1,11 @@
+{
+	"extends": "../../tsconfig.base.json",
+	"compilerOptions": {
+		"paths": {
+			"@apps/api/*": ["./src/*"]
+		},
+		"outDir": "../../.moon/cache/types/apps/api"
+	},
+	"include": ["src/**/*", "env.d.ts"],
+	"exclude": ["node_modules"]
+}

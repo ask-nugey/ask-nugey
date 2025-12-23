@@ -1,0 +1,31 @@
+{
+	"compilerOptions": {
+		// important stuff
+		"outDir": "${configDir}/dist",
+		"composite": true,
+		"incremental": true,
+		"declaration": true,
+		"declarationMap": true,
+		"customConditions": ["@ask-nugey/source"],
+
+		// basics
+		"lib": ["ESNext", "DOM"],
+		"target": "ESNext",
+		"module": "ESNext",
+		"moduleDetection": "force",
+		"strict": true,
+		"allowJs": true,
+		"esModuleInterop": true,
+		"moduleResolution": "bundler",
+		"skipLibCheck": true,
+		"jsx": "preserve"
+	},
+	"exclude": [
+		"${configDir}/dist",
+		"${configDir}/node_modules",
+		"${configDir}/build",
+		"${configDir}/.moon",
+		"**/*.spec.ts",
+		"**/*.test.ts"
+	]
+}

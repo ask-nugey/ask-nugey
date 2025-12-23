@@ -1,6 +1,9 @@
-import { defineCloudflareConfig } from '@opennextjs/cloudflare';
-import kvIncrementalCache from '@opennextjs/cloudflare/overrides/incremental-cache/kv-incremental-cache';
+import { defineCloudflareConfig } from "@opennextjs/cloudflare";
+import kvIncrementalCache from "@opennextjs/cloudflare/overrides/incremental-cache/kv-incremental-cache";
 
-export default defineCloudflareConfig({
-	incrementalCache: kvIncrementalCache,
-});
+const config: ReturnType<typeof defineCloudflareConfig> =
+	defineCloudflareConfig({
+		incrementalCache: kvIncrementalCache,
+	});
+
+export default config;

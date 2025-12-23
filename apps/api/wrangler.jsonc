@@ -1,0 +1,31 @@
+{
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "ask-nugey-api",
+	"main": "src/worker.ts",
+	"compatibility_date": "2025-07-01",
+	"compatibility_flags": [
+		"nodejs_compat",
+		"nodejs_compat_populate_process_env"
+	],
+	"dev": {
+		"port": 3001
+	},
+	"routes": [
+		{
+			"pattern": "api.ask-nugey.com",
+			"zone_name": "ask-nugey.com",
+			"custom_domain": true
+		}
+	],
+	"minify": true,
+	"vars": {
+		"NODE_ENV": "production",
+		"API_URL": "https://api.ask-nugey.com",
+		"CORS_ORIGINS": "https://ask-nugey.com"
+	},
+	"observability": {
+		"logs": {
+			"enabled": true
+		}
+	}
+}
