@@ -159,8 +159,8 @@ importers:
         specifier: ^1.5.1
         version: 1.10.0
       '@next/mdx':
-        specifier: 15.3.1
-        version: 15.3.1(@mdx-js/loader@3.1.1)(@mdx-js/react@3.1.1(@types/react@18.3.20)(react@18.3.1))
+        specifier: 15.5.9
+        version: 15.5.9(@mdx-js/loader@3.1.1)(@mdx-js/react@3.1.1(@types/react@18.3.20)(react@18.3.1))
       '@orpc/client':
         specifier: ^1.7.5
         version: 1.12.3(@opentelemetry/api@1.9.0)
@@ -2521,8 +2521,8 @@ packages:
   '@next/env@14.2.28':
     resolution: {integrity: sha512-PAmWhJfJQlP+kxZwCjrVd9QnR5x0R3u0mTXTiZDgSd4h5LdXmjxCCWbN9kq6hkZBOax8Rm3xDW5HagWyJuT37g==}
 
-  '@next/mdx@15.3.1':
-    resolution: {integrity: sha512-dnpuJRfqqCPFfLDy2hIej41JAl424zk1JOgRd7jjWu2aTeX6oi0gXdcnMAK4lhf7Xl9zSkL2stzDc1YtlB1xyg==}
+  '@next/mdx@15.5.9':
+    resolution: {integrity: sha512-qG9GUKUMpnyD5vU+wNGFNsVDxuSdmYDaCEsScPNPIiplzfNSS7VZk1G2yQ2tgXz6KjFncdaqJPuDehFqFy/gjQ==}
     peerDependencies:
       '@mdx-js/loader': '>=0.15.0'
       '@mdx-js/react': '>=0.15.0'
@@ -12001,7 +12001,7 @@ snapshots:
 
   '@next/env@14.2.28': {}
 
-  '@next/mdx@15.3.1(@mdx-js/loader@3.1.1)(@mdx-js/react@3.1.1(@types/react@18.3.20)(react@18.3.1))':
+  '@next/mdx@15.5.9(@mdx-js/loader@3.1.1)(@mdx-js/react@3.1.1(@types/react@18.3.20)(react@18.3.1))':
     dependencies:
       source-map: 0.7.6
     optionalDependencies:
